@@ -9,4 +9,12 @@ public class UsuariosController {
     public UsuariosController(UsuariosService usuariosService){
         this.usuariosService = usuariosService;
     }
+
+
+}
+
+class UsuariosDto{
+    private String descricao;
+    public String getDescricao() { return descricao; }
+    public void setDescricao(String descricao) { this.descricao = descricao; }
 }

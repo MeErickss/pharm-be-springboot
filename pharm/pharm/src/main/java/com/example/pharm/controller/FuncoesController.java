@@ -9,3 +9,9 @@ public class FuncoesController {
         this.funcoesService = funcoesService;
     }
 }
+
+class FuncoesDto{
+    private String descricao;
+    public String getDescricao() { return descricao; }
+    public void setDescricao(String descricao) { this.descricao = descricao; }
+}

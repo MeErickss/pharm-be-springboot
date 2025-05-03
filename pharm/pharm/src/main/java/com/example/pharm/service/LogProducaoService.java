@@ -10,6 +10,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 @Service
 @Transactional
@@ -46,5 +47,15 @@ public class LogProducaoService {
         l.setUser(user);
         l.setDataHora(timeStamp);
         logProducaoRepository.save(l);
+    }
+
+    public List<LogProducao> listAll(){
+        return logProducaoRepository.findAll();
+    }
+
+    public LogProducao listId(Long id){
+        return logProducaoRepository.findById(id).orElseThrow(()->
+                new RuntimeException("Status '" + id + "' não encontrado")
+        );
     }
 }

@@ -10,3 +10,9 @@ public class GrandezasController {
         this.grandezasService = grandezasService;
     }
 }
+
+class GrandezasDto{
+    private String descricao;
+    public String getDescricao() { return descricao; }
+    public void setDescricao(String descricao) { this.descricao = descricao; }
+}

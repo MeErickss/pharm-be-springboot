@@ -1,8 +1,6 @@
 package com.example.pharm.service;
 
-import com.example.pharm.model.LogAlarmes;
-import com.example.pharm.model.Status;
-import com.example.pharm.model.Usuarios;
+import com.example.pharm.model.*;
 import com.example.pharm.repository.LogAlarmesRepostiory;
 import com.example.pharm.repository.StatusRepository;
 import com.example.pharm.repository.UsuariosRepository;
@@ -10,6 +8,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 @Service
 @Transactional
@@ -46,5 +45,15 @@ public class LogAlarmesService {
         l.setUser(user);
         l.setDataHora(timeStamp);
         logAlarmesRepostiory.save(l);
+    }
+
+    public List<LogAlarmes> listAll(){
+        return logAlarmesRepostiory.findAll();
+    }
+
+        public LogAlarmes listId(Long id){
+        return logAlarmesRepostiory.findById(id).orElseThrow(()->
+                new RuntimeException("Status '" + id + "' não encontrado")
+        );
     }
 }

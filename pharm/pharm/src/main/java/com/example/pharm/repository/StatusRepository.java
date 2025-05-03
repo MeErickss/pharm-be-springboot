@@ -18,4 +18,6 @@ public interface StatusRepository extends JpaRepository<Status, Long> {
     Page<Status> findByDescricaoContainingIgnoreCase(String descricao, Pageable pageable);
 
     boolean existsByDescricao(String decricao);
+
+
 }

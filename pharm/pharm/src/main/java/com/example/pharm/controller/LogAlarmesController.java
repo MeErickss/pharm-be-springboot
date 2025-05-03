@@ -9,4 +9,11 @@ public class LogAlarmesController {
     public LogAlarmesController(LogAlarmesService logAlarmesService){
         this.logAlarmesService = logAlarmesService;
     }
+
+}
+
+class LogAlarmesDto{
+    private String descricao;
+    public String getDescricao() { return descricao; }
+    public void setDescricao(String descricao) { this.descricao = descricao; }
 }

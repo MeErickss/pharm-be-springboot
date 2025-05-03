@@ -1,9 +1,6 @@
 package com.example.pharm.service;
 
-import com.example.pharm.model.LogAlarmes;
-import com.example.pharm.model.LogArmazenamento;
-import com.example.pharm.model.Status;
-import com.example.pharm.model.Usuarios;
+import com.example.pharm.model.*;
 import com.example.pharm.repository.LogAlarmesRepostiory;
 import com.example.pharm.repository.LogArmazenamentoRepository;
 import com.example.pharm.repository.StatusRepository;
@@ -12,6 +9,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 @Service
 @Transactional
@@ -48,5 +46,15 @@ public class LogArmazenamentoService {
         l.setUser(user);
         l.setDatahora(timeStamp);
         logArmazenamentoRepository.save(l);
+    }
+
+    public List<LogArmazenamento> listAll(){
+        return logArmazenamentoRepository.findAll();
+    }
+
+    public LogArmazenamento listId(Long id){
+        return logArmazenamentoRepository.findById(id).orElseThrow(()->
+                new RuntimeException("Status '" + id + "' não encontrado")
+        );
     }
 }

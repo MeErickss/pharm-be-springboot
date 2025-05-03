@@ -7,6 +7,8 @@ import com.example.pharm.repository.UnidadesRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class UnidadesService {
@@ -34,5 +36,15 @@ public class UnidadesService {
         u.setAbreviacao(abreviacao);
         u.setStatus(status);
         unidadesRepository.save(u);
+    }
+
+    public List<Unidades> listAll(){
+        return unidadesRepository.findAll();
+    }
+
+    public Unidades listId(Long id){
+        return unidadesRepository.findById(id).orElseThrow(()->
+                new RuntimeException("Status '" + id + "' não encontrado")
+        );
     }
 }

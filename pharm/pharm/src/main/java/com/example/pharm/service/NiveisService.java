@@ -7,6 +7,8 @@ import com.example.pharm.repository.StatusRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class NiveisService {
@@ -33,4 +35,13 @@ public class NiveisService {
         niveisRepository.save(n);
     }
 
+    public List<Niveis> listAll(){
+        return niveisRepository.findAll();
+    }
+
+    public Niveis listId(Long id){
+        return niveisRepository.findById(id).orElseThrow(()->
+                new RuntimeException("Status '" + id + "' não encontrado")
+        );
+    }
 }

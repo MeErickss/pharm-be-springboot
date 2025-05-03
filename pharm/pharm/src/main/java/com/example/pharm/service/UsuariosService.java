@@ -9,6 +9,8 @@ import com.example.pharm.repository.UsuariosRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class UsuariosService {
@@ -53,5 +55,15 @@ public class UsuariosService {
         u.setStatus(status);
 
         usuariosRepository.save(u);
+    }
+
+    public List<Usuarios> listAll(){
+        return usuariosRepository.findAll();
+    }
+
+    public Usuarios listId(Long id){
+        return usuariosRepository.findById(id).orElseThrow(()->
+                new RuntimeException("Status '" + id + "' não encontrado")
+        );
     }
 }

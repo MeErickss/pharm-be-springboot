@@ -1,11 +1,14 @@
 package com.example.pharm.service;
 
 import com.example.pharm.model.Funcoes;
+import com.example.pharm.model.LogProducao;
 import com.example.pharm.model.Status;
 import com.example.pharm.repository.FuncoesRepository;
 import com.example.pharm.repository.StatusRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @Transactional
@@ -36,5 +39,15 @@ public class FuncoesService {
         f.setNome(nome);
         f.setStatus(status);
         funcoesRepository.save(f);  // agora faz INSERT puro e preenche status_descricao com "ATIVO"
+    }
+
+    public List<Funcoes> listAll(){
+        return funcoesRepository.findAll();
+    }
+
+    public Funcoes listId(Long id){
+        return funcoesRepository.findById(id).orElseThrow(()->
+                new RuntimeException("Status '" + id + "' não encontrado")
+        );
     }
 }

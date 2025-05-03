@@ -5,6 +5,8 @@ import com.example.pharm.repository.*;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class ParametrosService {
@@ -98,5 +100,16 @@ public class ParametrosService {
         }
         p.getUnidades().add(u);
         parametrosRepository.save(p);
+
+    }
+
+    public List<Parametros> listAll(){
+        return parametrosRepository.findAll();
+    }
+
+    public Parametros listId(Long id){
+        return parametrosRepository.findById(id).orElseThrow(()->
+                new RuntimeException("Status '" + id + "' não encontrado")
+        );
     }
 }

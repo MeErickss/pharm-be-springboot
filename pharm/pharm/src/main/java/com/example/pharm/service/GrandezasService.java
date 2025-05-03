@@ -1,6 +1,7 @@
 package com.example.pharm.service;
 
 import com.example.pharm.model.Grandeza;
+import com.example.pharm.model.LogProducao;
 import com.example.pharm.model.Status;
 import com.example.pharm.model.Unidades;
 import com.example.pharm.repository.GrandezaRepository;
@@ -75,4 +76,13 @@ public class GrandezasService {
         grandezaRepository.save(g);
     }
 
+    public List<Grandeza> listAll(){
+        return grandezaRepository.findAll();
+    }
+
+    public Grandeza listId(Long id){
+        return grandezaRepository.findById(id).orElseThrow(()->
+                new RuntimeException("Status '" + id + "' não encontrado")
+        );
+    }
 }

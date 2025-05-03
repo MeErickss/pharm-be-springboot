@@ -10,3 +10,9 @@ public class UnidadesController {
         this.unidadesService = unidadesService;
     }
 }
+
+class UnidadesDto{
+    private String descricao;
+    public String getDescricao() { return descricao; }
+    public void setDescricao(String descricao) { this.descricao = descricao; }
+}
