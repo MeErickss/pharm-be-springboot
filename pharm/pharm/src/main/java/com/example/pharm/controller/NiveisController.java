@@ -1,7 +1,14 @@
 package com.example.pharm.controller;
 
-import com.example.pharm.service.FuncoesService;
-import com.example.pharm.service.NiveisService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("api/niveis")
 
 public class NiveisController {
     private final NiveisService niveisService;
@@ -9,10 +16,11 @@ public class NiveisController {
     public NiveisController(NiveisService niveisService){
         this.niveisService = niveisService;
     }
-}
 
-class NiveisDto{
-    private String descricao;
-    public String getDescricao() { return descricao; }
-    public void setDescricao(String descricao) { this.descricao = descricao; }
+    @GetMapping
+    public ResponseEntity<List<Niveis>> listAll() {
+        List<Niveis> todos = niveisService.listAll();
+        return ResponseEntity.ok(todos);
+    }
+
 }

@@ -1,6 +1,11 @@
 package com.example.pharm.model;
 
+import com.example.pharm.model.enumeration.StatusEnum;
 import jakarta.persistence.*;
+import jdk.jshell.Snippet;
+import org.hibernate.engine.spi.Status;
+
+import java.io.ObjectInputFilter;
 import java.util.List;
 
 @Entity
@@ -12,31 +17,27 @@ public class Grandeza {
     private Long id;
 
     @Column(nullable = false)  // Corrigido de @Colunm
-    private String nome;
+    private String descricao;
 
-    @ManyToOne
-    @JoinColumn(name = "status_id", foreignKey = @ForeignKey(
-            name = "fk_status_grandeza",
-            foreignKeyDefinition = "FOREIGN KEY (status_descricao) REFERENCES STATUS(descricao) ON DELETE CASCADE"
-    ))
-    private Status status;
+    @Column(nullable = false)
+    private StatusEnum status;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
-            name = "grandeza_unidades",
+            name = "grandeza_unidade",
             joinColumns = @JoinColumn(name = "id_grandeza"),
-            inverseJoinColumns = @JoinColumn(name = "id_unidades")
+            inverseJoinColumns = @JoinColumn(name = "id_unidade")
     )
-    private List<Unidades> unidades;
+    private List<Unidade> unidade;
 
     @ManyToMany(mappedBy = "grandeza", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private List<Parametros> parametros;
+    private List<Parametro> parametro;
 
     public Grandeza() {} // Construtor vazio obrigatório para o JPA
 
-    public Grandeza(Long id, String nome, Status status) {
+    public Grandeza(Long id, String descricao, StatusEnum status) {
         this.id = id;
-        this.nome = nome;
+        this.descricao = descricao;
         this.status = status;
     }
 
@@ -49,34 +50,34 @@ public class Grandeza {
     }
 
     public String getNome() {
-        return nome;
+        return descricao;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setNome(String descricao) {
+        this.descricao = descricao;
     }
 
-    public Status getStatus() {
+    public StatusEnum getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(StatusEnum status) {
         this.status = status;
     }
 
-    public List<Unidades> getUnidades() {
-        return unidades;
+    public List<Unidade> getUnidades() {
+        return unidade;
     }
 
-    public void setUnidades(List<Unidades> unidades) {
-        this.unidades = unidades;
+    public void setUnidades(List<Unidade> unidades) {
+        this.unidade = unidades;
     }
 
-    public List<Parametros> getParametros() {
-        return parametros;
+    public List<Parametro> getParametros() {
+        return parametro;
     }
 
-    public void setParametros(List<Parametros> parametros) {
-        this.parametros = parametros;
+    public void setParametros(List<Parametro> parametros) {
+        this.parametro = parametros;
     }
 }

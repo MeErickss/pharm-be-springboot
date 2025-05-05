@@ -1,11 +1,10 @@
 package com.example.pharm.service;
 
 import com.example.pharm.model.Grandeza;
-import com.example.pharm.model.LogProducao;
 import com.example.pharm.model.Status;
-import com.example.pharm.model.Unidades;
+import com.example.pharm.model.Unidade;
+import com.example.pharm.model.enumeration.StatusEnum;
 import com.example.pharm.repository.GrandezaRepository;
-import com.example.pharm.repository.StatusRepository;
 import com.example.pharm.repository.UnidadesRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,14 +16,11 @@ import java.util.List;
 public class GrandezasService {
 
     private final GrandezaRepository grandezaRepository;
-    private final StatusRepository statusRepository;
     private final UnidadesRepository unidadesRepository;
 
     public GrandezasService(GrandezaRepository grandezaRepository,
-                            StatusRepository statusRepository,
                             UnidadesRepository unidadesRepository) {
         this.grandezaRepository = grandezaRepository;
-        this.statusRepository = statusRepository;
         this.unidadesRepository = unidadesRepository;
     }
 
@@ -32,20 +28,14 @@ public class GrandezasService {
         return grandezaRepository.count();
     }
 
-    public void criarGrandeza(String nome, List<Long> unidadeIds, String statusDescricao) {
+    public void criarGrandeza(String nome, List<Long> unidadeIds, StatusEnum status) {
         // 1) Idempotência: se já existe, não faz nada
         if (grandezaRepository.existsByNome(nome)) {
             return;
         }
 
-        // 2) Carrega o Status
-        Status status = statusRepository.findByDescricao(statusDescricao)
-                .orElseThrow(() ->
-                        new RuntimeException("Status '" + statusDescricao + "' não encontrado")
-                );
-
         // 3) Carrega as Unidades pela lista de IDs
-        List<Unidades> unidades = unidadesRepository.findAllById(unidadeIds);
+        List<Unidade> unidades = unidadesRepository.findAllById(unidadeIds);
         if (unidades.size() != unidadeIds.size()) {
             throw new RuntimeException("Uma ou mais unidades não foram encontradas: " + unidadeIds);
         }
@@ -67,7 +57,7 @@ public class GrandezasService {
         Grandeza g = grandezaRepository.findById(grandezaId)
                 .orElseThrow(() -> new RuntimeException("Grandeza não encontrada: " + grandezaId));
 
-        List<Unidades> unidades = unidadesRepository.findAllById(unidadeIds);
+        List<Unidade> unidades = unidadesRepository.findAllById(unidadeIds);
         if (unidades.isEmpty()) {
             throw new RuntimeException("Nenhuma unidade válida informada");
         }

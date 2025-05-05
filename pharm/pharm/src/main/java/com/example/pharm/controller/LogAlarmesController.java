@@ -1,8 +1,16 @@
 package com.example.pharm.controller;
 
-import com.example.pharm.service.FuncoesService;
+import com.example.pharm.model.LogAlarme;
 import com.example.pharm.service.LogAlarmesService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
+@RestController
+@RequestMapping("api/logalarmes")
 public class LogAlarmesController {
     private final LogAlarmesService logAlarmesService;
 
@@ -10,10 +18,12 @@ public class LogAlarmesController {
         this.logAlarmesService = logAlarmesService;
     }
 
+
+    @GetMapping
+    public ResponseEntity<List<LogAlarme>> listAll(){
+        List<LogAlarme> todos = logAlarmesService.listAll();
+        return ResponseEntity.ok(todos);
+    }
+
 }
 
-class LogAlarmesDto{
-    private String descricao;
-    public String getDescricao() { return descricao; }
-    public void setDescricao(String descricao) { this.descricao = descricao; }
-}

@@ -2,9 +2,9 @@ package com.example.pharm.service;
 
 import com.example.pharm.model.LogProducao;
 import com.example.pharm.model.Status;
-import com.example.pharm.model.Usuarios;
+import com.example.pharm.model.Usuario;
+import com.example.pharm.model.enumeration.StatusEnum;
 import com.example.pharm.repository.LogProducaoRepository;
-import com.example.pharm.repository.StatusRepository;
 import com.example.pharm.repository.UsuariosRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -15,26 +15,21 @@ import java.util.List;
 @Service
 @Transactional
 public class LogProducaoService {
-    private final StatusRepository statusRepository;
     private final LogProducaoRepository logProducaoRepository;
     private final UsuariosRepository usuariosRepository;
 
-    public LogProducaoService(StatusRepository statusRepository, LogProducaoRepository logProducaoRepository, UsuariosRepository usuariosRepository){
-        this.statusRepository = statusRepository;
+    public LogProducaoService(LogProducaoRepository logProducaoRepository, UsuariosRepository usuariosRepository){
         this.logProducaoRepository = logProducaoRepository;
         this.usuariosRepository = usuariosRepository;
     }
 
     public Long contarLogAlarmes(){
-        return statusRepository.count();
+        return logProducaoRepository.count();
     }
 
-    public void criarLogAlarmes(Long userId, String descricao, String statusDescricao){
-        Status status = statusRepository.findByDescricao(statusDescricao).orElseThrow(()->
-                new RuntimeException("Status '" + statusDescricao + "' não encontrado")
-        );
+    public void criarLogAlarmes(Long userId, String descricao, StatusEnum status){
 
-        Usuarios user = usuariosRepository.findById(userId).orElseThrow(()->
+        Usuario user = usuariosRepository.findById(userId).orElseThrow(()->
                 new RuntimeException("Usuario '" + userId + "' não encontrado")
         );
 

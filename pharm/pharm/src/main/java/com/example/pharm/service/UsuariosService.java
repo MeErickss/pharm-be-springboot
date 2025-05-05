@@ -1,10 +1,8 @@
 package com.example.pharm.service;
 
-import com.example.pharm.model.Niveis;
-import com.example.pharm.model.Status;
-import com.example.pharm.model.Usuarios;
-import com.example.pharm.repository.NiveisRepository;
-import com.example.pharm.repository.StatusRepository;
+import com.example.pharm.model.Usuario;
+import com.example.pharm.model.enumeration.NivelEnum;
+import com.example.pharm.model.enumeration.StatusEnum;
 import com.example.pharm.repository.UsuariosRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,39 +14,23 @@ import java.util.List;
 public class UsuariosService {
 
     private final UsuariosRepository usuariosRepository;
-    private final StatusRepository statusRepository;
-    private final NiveisRepository niveisRepository;
 
-    public UsuariosService(UsuariosRepository usuariosRepository,
-                           StatusRepository statusRepository,
-                           NiveisRepository niveisRepository) {
+    public UsuariosService(UsuariosRepository usuariosRepository) {
         this.usuariosRepository = usuariosRepository;
-        this.statusRepository = statusRepository;
-        this.niveisRepository = niveisRepository;
     }
 
     public long contarUsuarios() {
         return usuariosRepository.count();
     }
 
-    public void criarUsuario(String login, String senha, Long nivelId, String statusDescricao) {
+    public void criarUsuario(String login, String senha, NivelEnum nivel, StatusEnum status) {
         // 1. Verifica se o login já existe
         if (usuariosRepository.existsByLogin(login)) {
             return; // idempotente
         }
 
-        // 2. Busca o Status correto
-        Status status = statusRepository.findByDescricao(statusDescricao)
-                .orElseThrow(() ->
-                        new RuntimeException("Status '" + statusDescricao + "' não encontrado")
-                );
 
-        Niveis nivel = niveisRepository.findById(nivelId).orElseThrow(()->
-                    new RuntimeException("Nivel de acesso:  '" + nivelId + "' não encontrado")
-                );
-
-        // 3. Cria e persiste sem ID manual
-        Usuarios u = new Usuarios();
+        Usuario u = new Usuario();
         u.setLogin(login);
         u.setPassword(senha);
         u.setNivel(nivel);
@@ -57,11 +39,11 @@ public class UsuariosService {
         usuariosRepository.save(u);
     }
 
-    public List<Usuarios> listAll(){
+    public List<Usuario> listAll(){
         return usuariosRepository.findAll();
     }
 
-    public Usuarios listId(Long id){
+    public Usuario listId(Long id){
         return usuariosRepository.findById(id).orElseThrow(()->
                 new RuntimeException("Status '" + id + "' não encontrado")
         );

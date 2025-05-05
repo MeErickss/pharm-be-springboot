@@ -1,6 +1,8 @@
 package com.example.pharm.model;
 
+import com.example.pharm.model.enumeration.StatusEnum;
 import jakarta.persistence.*;
+import org.hibernate.engine.spi.Status;
 
 @Entity
 @Table(name = "log_producao")
@@ -15,7 +17,7 @@ public class LogProducao {
             name = "fk_usuario_logAlarmes",
             foreignKeyDefinition = "FOREIGN KEY (user_id) REFERENCES usuarios(id) ON DELETE CASCADE"
     ))
-    private Usuarios user;
+    private Usuario user;
 
     @Column(nullable = false)
     private String descricao;
@@ -23,16 +25,12 @@ public class LogProducao {
     @Column(nullable = false)
     private String dataHora;
 
-    @ManyToOne
-    @JoinColumn(name = "status_id", foreignKey = @ForeignKey(
-            name = "fk_status_logProducao",
-            foreignKeyDefinition = "FOREIGN KEY (status_descricao) REFERENCES STATUS(descricao) ON DELETE CASCADE"
-    ))
-    private Status status;
+    @Column(nullable = false)
+    private StatusEnum status;
 
     public LogProducao() {} // Construtor padrão obrigatório para o JPA
 
-    public LogProducao(Long id, Usuarios user, String descricao, String dataHora, Status status) {
+    public LogProducao(Long id, Usuario user, String descricao, String dataHora, StatusEnum status) {
         this.id = id;
         this.user = user;
         this.descricao = descricao;
@@ -44,11 +42,11 @@ public class LogProducao {
         return id;
     }
 
-    public Usuarios getUser() {
+    public Usuario getUser() {
         return user;
     }
 
-    public void setUser(Usuarios user) {
+    public void setUser(Usuario user) {
         this.user = user;
     }
 
@@ -68,11 +66,11 @@ public class LogProducao {
         this.dataHora = dataHora;
     }
 
-    public Status getStatus() {
+    public StatusEnum getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(StatusEnum status) {
         this.status = status;
     }
 }

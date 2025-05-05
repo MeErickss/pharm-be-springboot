@@ -1,6 +1,8 @@
 package com.example.pharm.model;
 
+import com.example.pharm.model.enumeration.StatusEnum;
 import jakarta.persistence.*;
+import org.hibernate.engine.spi.Status;
 
 @Entity
 @Table(name = "log_armazenamento")
@@ -15,7 +17,7 @@ public class LogArmazenamento {
             name = "fk_usuario_logAlarmes",
             foreignKeyDefinition = "FOREIGN KEY (user_id) REFERENCES usuarios(id) ON DELETE CASCADE"
     ))
-    private Usuarios user;
+    private Usuario user;
 
     @Column(nullable = false)
     private String descricao;
@@ -23,16 +25,12 @@ public class LogArmazenamento {
     @Column(nullable = false)
     private String datahora;
 
-    @ManyToOne
-    @JoinColumn(name = "status_id", foreignKey = @ForeignKey(
-            name = "fk_status_logArmazenamento",
-            foreignKeyDefinition = "FOREIGN KEY (status_descricao) REFERENCES STATUS(descricao) ON DELETE CASCADE"
-    ))
-    private Status status;
+    @Column(nullable = false)
+    private StatusEnum status;
 
     public LogArmazenamento() {} // Construtor vazio obrigatório para o JPA
 
-    public LogArmazenamento(Long id, Usuarios user, String descricao, String datahora, Status status) {
+    public LogArmazenamento(Long id, Usuario user, String descricao, String datahora, StatusEnum status) {
         this.id = id;
         this.user = user;
         this.descricao = descricao;
@@ -48,11 +46,11 @@ public class LogArmazenamento {
         this.id = id;
     }
 
-    public Usuarios getUser() {
+    public Usuario getUser() {
         return user;
     }
 
-    public void setUser(Usuarios user) {
+    public void setUser(Usuario user) {
         this.user = user;
     }
 
@@ -72,11 +70,11 @@ public class LogArmazenamento {
         this.datahora = datahora;
     }
 
-    public Status getStatus() {
+    public StatusEnum getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(StatusEnum status) {
         this.status = status;
     }
 }

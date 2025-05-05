@@ -1,6 +1,7 @@
 package com.example.pharm.service;
 
 import com.example.pharm.model.*;
+import com.example.pharm.model.enumeration.StatusEnum;
 import com.example.pharm.repository.*;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -12,19 +13,13 @@ import java.util.List;
 public class ParametrosService {
 
     private final ParametrosRepository parametrosRepository;
-    private final StatusRepository statusRepository;
-    private final FuncoesRepository funcoesRepository;
     private final GrandezaRepository grandezaRepository;
     private final UnidadesRepository unidadesRepository;
 
     public ParametrosService(ParametrosRepository parametrosRepository,
-                             StatusRepository statusRepository,
-                             FuncoesRepository funcoesRepository,
                              GrandezaRepository grandezaRepository,
                              UnidadesRepository unidadesRepository) {
         this.parametrosRepository = parametrosRepository;
-        this.statusRepository     = statusRepository;
-        this.funcoesRepository    = funcoesRepository;
         this.grandezaRepository   = grandezaRepository;
         this.unidadesRepository   = unidadesRepository;
     }
@@ -37,17 +32,13 @@ public class ParametrosService {
                                Integer valor,
                                Integer vlMin,
                                Integer vlMax,
-                               String statusDescricao
+                               StatusEnum status
     ) {
 
         if (parametrosRepository.existsByParametro(parametro)) {
             return; // já existe, nada a fazer
         }
-
-        Status status = statusRepository.findByDescricao(statusDescricao)
-                .orElseThrow(() -> new RuntimeException("Status '" + statusDescricao + "' não encontrado"));
-
-        Parametros p = new Parametros();
+        Parametro p = new Parametro();
         p.setParametro(parametro);
         p.setValor(valor);
         p.setVlMin(vlMin);
@@ -59,11 +50,8 @@ public class ParametrosService {
 
     /** Se precisar alterar a única função associada **/
     public void setFuncao(Long parametroId, Long funcaoId) {
-        Parametros p = parametrosRepository.findById(parametroId)
+        Parametro p = parametrosRepository.findById(parametroId)
                 .orElseThrow(() -> new RuntimeException("Parâmetro não encontrado: " + parametroId));
-
-        Funcoes f = funcoesRepository.findById(funcaoId)
-                .orElseThrow(() -> new RuntimeException("Função não encontrada: " + funcaoId));
 
         if (p.getFuncoes() != null){
             p.getFuncoes().clear();
@@ -74,7 +62,7 @@ public class ParametrosService {
 
     /** Mesma lógica para grandeza **/
     public void setGrandeza(Long parametroId, Long grandezaId) {
-        Parametros p = parametrosRepository.findById(parametroId)
+        Parametro p = parametrosRepository.findById(parametroId)
                 .orElseThrow(() -> new RuntimeException("Parâmetro não encontrado: " + parametroId));
 
         Grandeza g = grandezaRepository.findById(grandezaId)
@@ -89,10 +77,10 @@ public class ParametrosService {
 
     /** E para unidade **/
     public void setUnidade(Long parametroId, Long unidadeId) {
-        Parametros p = parametrosRepository.findById(parametroId)
+        Parametro p = parametrosRepository.findById(parametroId)
                 .orElseThrow(() -> new RuntimeException("Parâmetro não encontrado: " + parametroId));
 
-        Unidades u = unidadesRepository.findById(unidadeId)
+        Unidade u = unidadesRepository.findById(unidadeId)
                 .orElseThrow(() -> new RuntimeException("Unidade não encontrada: " + unidadeId));
 
         if (p.getUnidades() != null){
@@ -103,11 +91,11 @@ public class ParametrosService {
 
     }
 
-    public List<Parametros> listAll(){
+    public List<Parametro> listAll(){
         return parametrosRepository.findAll();
     }
 
-    public Parametros listId(Long id){
+    public Parametro listId(Long id){
         return parametrosRepository.findById(id).orElseThrow(()->
                 new RuntimeException("Status '" + id + "' não encontrado")
         );
