@@ -1,6 +1,8 @@
 package com.example.pharm.repository;
 
 import com.example.pharm.model.Grandeza;
+import com.example.pharm.model.LogAlarme;
+import com.example.pharm.model.enumeration.StatusEnum;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,10 +13,9 @@ import java.util.List;
 @Repository
 public interface GrandezaRepository extends JpaRepository<Grandeza, Long> {
 
-    Page<Grandeza> findByNome(String nome, Pageable pageable);
+    Page<Grandeza> findByDescricao(String descricao, Pageable pageable);
 
-    // Busca por status
-    List<Grandeza> findByStatusDescricao(Enum statusDescricao);
+    List<Grandeza> findByStatus(StatusEnum statusEnum);
 
-    boolean existsByNome(String nome);
+    boolean existsByDescricao(String decricao);
 }

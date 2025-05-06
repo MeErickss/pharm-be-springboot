@@ -1,9 +1,8 @@
 package com.example.pharm.controller;
 
-import com.example.pharm.dto.ParametrosDto;
+import com.example.pharm.dto.ParametroDto;
 import com.example.pharm.model.Parametro;
-import com.example.pharm.model.Status;
-import com.example.pharm.service.ParametrosService;
+import com.example.pharm.service.ParametroService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,21 +13,18 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("api/parametros")
+@RequestMapping("api/parametro")
 
-public class ParametrosController {
-    private final ParametrosService parametrosService;
+public class ParametroController {
+    private final ParametroService parametroService;
 
-    public ParametrosController(ParametrosService parametrosService){
-        this.parametrosService = parametrosService;
+    public ParametroController(ParametroService parametroService){
+        this.parametroService = parametroService;
     }
 
     @GetMapping
     public ResponseEntity<List<Parametro>> listAll() {
-        List<Parametro> todos = parametrosService.listAll();
-        List<ParametrosDto> dtos = todos.stream()
-                .map(Parametro::new)
-                .collect(Collectors.toList());
+        List<Parametro> todos = parametroService.listAll();
         return ResponseEntity.ok(todos);
     }
 
@@ -39,7 +35,7 @@ public class ParametrosController {
      */
     @GetMapping("/{id}")
     public ResponseEntity<Parametro> buscarPorId(@PathVariable Long id) {
-        Parametro findId = parametrosService.listId(id);
+        Parametro findId = parametroService.listId(id);
         return ResponseEntity.ok(findId);
     }
 }

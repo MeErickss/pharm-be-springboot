@@ -1,4 +1,4 @@
 package com.example.pharm.dto;
 
-public class UnidadesDto {
+public class FuncaoDto {
 }

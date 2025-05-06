@@ -3,7 +3,7 @@ package com.example.pharm.service;
 import com.example.pharm.model.Usuario;
 import com.example.pharm.model.enumeration.NivelEnum;
 import com.example.pharm.model.enumeration.StatusEnum;
-import com.example.pharm.repository.UsuariosRepository;
+import com.example.pharm.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,22 +11,22 @@ import java.util.List;
 
 @Service
 @Transactional
-public class UsuariosService {
+public class UsuarioService {
 
-    private final UsuariosRepository usuariosRepository;
+    private final UsuarioRepository usuarioRepository;
 
-    public UsuariosService(UsuariosRepository usuariosRepository) {
-        this.usuariosRepository = usuariosRepository;
+    public UsuarioService(UsuarioRepository usuarioRepository) {
+        this.usuarioRepository = usuarioRepository;
     }
 
     public long contarUsuarios() {
-        return usuariosRepository.count();
+        return usuarioRepository.count();
     }
 
     public void criarUsuario(String login, String senha, NivelEnum nivel, StatusEnum status) {
         // 1. Verifica se o login já existe
-        if (usuariosRepository.existsByLogin(login)) {
-            return; // idempotente
+        if (usuarioRepository.existsByLogin(login)) {
+            throw new RuntimeException("Login de usuário já existente!");
         }
 
 
@@ -36,15 +36,15 @@ public class UsuariosService {
         u.setNivel(nivel);
         u.setStatus(status);
 
-        usuariosRepository.save(u);
+        usuarioRepository.save(u);
     }
 
     public List<Usuario> listAll(){
-        return usuariosRepository.findAll();
+        return usuarioRepository.findAll();
     }
 
     public Usuario listId(Long id){
-        return usuariosRepository.findById(id).orElseThrow(()->
+        return usuarioRepository.findById(id).orElseThrow(()->
                 new RuntimeException("Status '" + id + "' não encontrado")
         );
     }

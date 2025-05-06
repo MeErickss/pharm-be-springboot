@@ -2,6 +2,7 @@ package com.example.pharm.model;
 
 import com.example.pharm.model.enumeration.FuncaoEnum;
 import com.example.pharm.model.enumeration.StatusEnum;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import org.hibernate.engine.spi.Status;
 
@@ -33,31 +34,28 @@ public class Parametro {
     @Column(nullable = false)
     private FuncaoEnum funcaoEnum;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(
-            name = "parametro_grandeza",
-            joinColumns = @JoinColumn(name = "id_parametro"),
-            inverseJoinColumns = @JoinColumn(name = "id_grandeza")
-    )
-    private List<Grandeza> grandeza = new ArrayList<>();
+    @ManyToOne(optional = false, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinColumn(name = "id_grandeza", nullable = false)
+    @JsonBackReference(value = "grandeza-parametro")
+    private Grandeza grandeza;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(
-            name = "parametros_unidade",
-            joinColumns = @JoinColumn(name = "id_parametro"),
-            inverseJoinColumns = @JoinColumn(name = "id_unidade")
-    )
-    private List<Unidade> unidades = new ArrayList<>();
+    @ManyToOne(optional = false, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinColumn(name = "id_unidade", nullable = false)
+    @JsonBackReference(value = "unidade-parametro")
+    private Unidade unidade;
 
     public Parametro() {} // Construtor vazio
 
-    public Parametro(Long id, String descricao, Integer valor, Integer vlMin, Integer vlMax, StatusEnum status) {
+    public Parametro(Long id, String descricao, Integer valor, Integer vlMin, Integer vlMax, StatusEnum status, Grandeza grandeza, Unidade unidade, FuncaoEnum funcaoEnum) {
         this.id = id;
         this.descricao = descricao;
         this.valor = valor;
         this.vlMin = vlMin;
         this.vlMax = vlMax;
         this.status = status;
+        this.grandeza = grandeza;
+        this.unidade = unidade;
+        this.funcaoEnum = funcaoEnum;
     }
 
     public Long getId() { return id; }
@@ -70,15 +68,18 @@ public class Parametro {
     public void setStatus(StatusEnum status) { this.status = status; }
 
     public FuncaoEnum getFuncoes() { return funcaoEnum; }
-    public void setFuncoes(FuncaoEnum funcoes) { this.funcaoEnum = funcoes; }
 
-    public List<Grandeza> getGrandeza() { return grandeza; }
-    public void setGrandeza(List<Grandeza> grandeza) { this.grandeza = grandeza; }
+    public void setFuncaoEnum(FuncaoEnum funcaoEnum) {this.funcaoEnum = funcaoEnum;}
 
-    public List<Unidade> getUnidades() { return unidades; }
-    public void setUnidades(List<Unidade> unidades) { this.unidades = unidades; }
+    public FuncaoEnum getFuncaoEnum() {return funcaoEnum;}
 
-    public String getParametro() {
-        return descricao;
-    }
+    public void setGrandeza(Grandeza grandeza) {this.grandeza = grandeza;}
+
+    public Unidade getUnidade() { return unidade; }
+
+    public void setUnidade(Unidade unidade) {this.unidade = unidade;}
+
+    public String getDescricao() {return descricao;}
+
+    public void setDescricao(String descricao) {this.descricao = descricao;}
 }

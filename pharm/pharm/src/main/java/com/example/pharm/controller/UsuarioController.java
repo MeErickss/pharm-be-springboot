@@ -1,7 +1,7 @@
 package com.example.pharm.controller;
 
 import com.example.pharm.model.Usuario;
-import com.example.pharm.service.UsuariosService;
+import com.example.pharm.service.UsuarioService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,17 +10,17 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/usuarios")
-public class UsuariosController {
-    private final UsuariosService usuariosService;
+@RequestMapping("api/usuario")
+public class UsuarioController {
+    private final UsuarioService usuarioService;
 
-    public UsuariosController(UsuariosService usuariosService){
-        this.usuariosService = usuariosService;
+    public UsuarioController(UsuarioService usuarioService){
+        this.usuarioService = usuarioService;
     }
 
     @GetMapping
     public ResponseEntity<List<Usuario>> listAll(){
-        List<Usuario> todos = usuariosService.listAll();
+        List<Usuario> todos = usuarioService.listAll();
         return ResponseEntity.ok(todos);
     }
 

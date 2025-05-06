@@ -1,14 +1,17 @@
 package com.example.pharm.model;
 
 import com.example.pharm.model.enumeration.StatusEnum;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import org.hibernate.engine.spi.Status;
 
 import java.io.ObjectInputFilter;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "unidades")
+@Table(name = "unidade")
 public class Unidade {
 
     @Id
@@ -24,11 +27,15 @@ public class Unidade {
     @Column(nullable = false)
     private StatusEnum status;
 
-    @ManyToMany(mappedBy = "unidades", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private List<Parametro> parametros;
+    @OneToMany(mappedBy = "unidade", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JsonManagedReference(value = "unidade-parametro")
 
-    @ManyToMany(mappedBy = "unidades", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private List<Grandeza> grandezas;
+    private List<Parametro> parametro = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "unidade",  // <— deve bater com o nome do campo em Grandeza
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JsonBackReference(value = "grandeza-unidade")
+    private List<Grandeza> grandeza = new ArrayList<>();
 
     public Unidade() {} // Construtor vazio obrigatório
 
@@ -71,19 +78,18 @@ public class Unidade {
         this.status = status;
     }
 
-    public List<Parametro> getParametros() {
-        return parametros;
+    public List<Parametro> getParametro() {
+        return parametro;
     }
 
-    public void setParametros(List<Parametro> parametros) {
-        this.parametros = parametros;
+    public void setParametro(List<Parametro> parametro) {this.parametro = parametro;}
+
+
+    public List<Grandeza> getGrandeza() {
+        return grandeza;
     }
 
-    public List<Grandeza> getGrandezas() {
-        return grandezas;
-    }
-
-    public void setGrandezas(List<Grandeza> grandezas) {
-        this.grandezas = grandezas;
+    public void setGrandeza(List<Grandeza> grandezas) {
+        this.grandeza = grandeza;
     }
 }

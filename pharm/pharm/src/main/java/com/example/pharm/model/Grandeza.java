@@ -1,11 +1,13 @@
 package com.example.pharm.model;
 
 import com.example.pharm.model.enumeration.StatusEnum;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jdk.jshell.Snippet;
 import org.hibernate.engine.spi.Status;
 
 import java.io.ObjectInputFilter;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -28,10 +30,12 @@ public class Grandeza {
             joinColumns = @JoinColumn(name = "id_grandeza"),
             inverseJoinColumns = @JoinColumn(name = "id_unidade")
     )
-    private List<Unidade> unidade;
+    @JsonManagedReference(value = "grandeza-unidade")
+    private List<Unidade> unidade = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "grandeza", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private List<Parametro> parametro;
+    @JsonManagedReference(value = "grandeza-parametro")
+    @OneToMany(mappedBy = "grandeza", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private List<Parametro> parametro = new ArrayList<>();
 
     public Grandeza() {} // Construtor vazio obrigatório para o JPA
 

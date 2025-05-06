@@ -1,11 +1,12 @@
 package com.example.pharm.service;
 
 import com.example.pharm.model.LogProducao;
-import com.example.pharm.model.Status;
+import com.example.pharm.model.Parametro;
+import com.example.pharm.model.Unidade;
 import com.example.pharm.model.Usuario;
 import com.example.pharm.model.enumeration.StatusEnum;
 import com.example.pharm.repository.LogProducaoRepository;
-import com.example.pharm.repository.UsuariosRepository;
+import com.example.pharm.repository.UsuarioRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -16,21 +17,22 @@ import java.util.List;
 @Transactional
 public class LogProducaoService {
     private final LogProducaoRepository logProducaoRepository;
-    private final UsuariosRepository usuariosRepository;
+    private final UsuarioRepository usuarioRepository;
 
-    public LogProducaoService(LogProducaoRepository logProducaoRepository, UsuariosRepository usuariosRepository){
+    public LogProducaoService(LogProducaoRepository logProducaoRepository, UsuarioRepository usuarioRepository){
         this.logProducaoRepository = logProducaoRepository;
-        this.usuariosRepository = usuariosRepository;
+        this.usuarioRepository = usuarioRepository;
     }
 
-    public Long contarLogAlarmes(){
+    public long contarLogProducao() {
         return logProducaoRepository.count();
     }
 
+
     public void criarLogAlarmes(Long userId, String descricao, StatusEnum status){
 
-        Usuario user = usuariosRepository.findById(userId).orElseThrow(()->
-                new RuntimeException("Usuario '" + userId + "' não encontrado")
+        Usuario user = usuarioRepository.findById(userId).orElseThrow(()->
+                new RuntimeException("Usuario não encontrada!")
         );
 
         String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new java.util.Date());
@@ -50,7 +52,7 @@ public class LogProducaoService {
 
     public LogProducao listId(Long id){
         return logProducaoRepository.findById(id).orElseThrow(()->
-                new RuntimeException("Status '" + id + "' não encontrado")
+                new RuntimeException("LogProducao não encontrada!")
         );
     }
 }

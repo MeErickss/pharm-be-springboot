@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import org.hibernate.engine.spi.Status;
 
 @Entity
-@Table(name = "log_alarmes")
+@Table(name = "log_alarme")
 public class LogAlarme {
 
     @Id

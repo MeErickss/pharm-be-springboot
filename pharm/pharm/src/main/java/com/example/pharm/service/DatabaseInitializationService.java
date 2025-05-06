@@ -1,5 +1,6 @@
 package com.example.pharm.service;
 
+import com.example.pharm.model.enumeration.FuncaoEnum;
 import com.example.pharm.model.enumeration.NivelEnum;
 import com.example.pharm.model.enumeration.StatusEnum;
 import org.springframework.boot.ApplicationArguments;
@@ -13,19 +14,19 @@ import java.util.List;
 @Transactional
 public class DatabaseInitializationService implements ApplicationRunner {
 
-    private final UsuariosService userService;
-    private final GrandezasService grandezasService;
-    private final UnidadesService unidadesService;
-    private final ParametrosService parametrosService;
+    private final UsuarioService userService;
+    private final GrandezaService grandezaService;
+    private final UnidadeService unidadeService;
+    private final ParametroService parametroService;
 
-    public DatabaseInitializationService(UsuariosService userService,
-                                         UnidadesService unidadesService,
-                                         GrandezasService grandezasService,
-                                         ParametrosService parametrosService) {
+    public DatabaseInitializationService(UsuarioService userService,
+                                         UnidadeService unidadeService,
+                                         GrandezaService grandezaService,
+                                         ParametroService parametroService) {
         this.userService = userService;
-        this.unidadesService = unidadesService;
-        this.grandezasService = grandezasService;
-        this.parametrosService = parametrosService;
+        this.unidadeService = unidadeService;
+        this.grandezaService = grandezaService;
+        this.parametroService = parametroService;
     }
 
     @Override
@@ -36,60 +37,45 @@ public class DatabaseInitializationService implements ApplicationRunner {
             userService.criarUsuario("maintenance@gmail.com", "1111", NivelEnum.MANUTENCAO, StatusEnum.ATIVO);
             userService.criarUsuario("operator@gmail.com", "2222", NivelEnum.OPERADOR, StatusEnum.ATIVO);
         }
-        if (unidadesService.contarUnidades() == 0) {
-            unidadesService.criarUnidades("SEGUNDO", "SEG", StatusEnum.ATIVO);
-            unidadesService.criarUnidades("HORA",   "HR",  StatusEnum.ATIVO);
-            unidadesService.criarUnidades("PSI",    "PSI", StatusEnum.ATIVO);
+        if (unidadeService.contarUnidades() == 0) {
+            unidadeService.criarUnidades("SEGUNDO", "SEG", StatusEnum.ATIVO);
+            unidadeService.criarUnidades("HORA",   "HR",  StatusEnum.ATIVO);
+            unidadeService.criarUnidades("PSI",    "PSI", StatusEnum.ATIVO);
         }
 
         // --- Grandezas e suas Unidades ---
-        if (grandezasService.contarGrandezas() == 0) {
+        if (grandezaService.contarGrandeza() == 0) {
             // conforme seus INSERT IGNORE:
             // GRANDEZA 1 = TEMPO  -> Unidade 1 (SEGUNDO)
-            grandezasService.criarGrandeza(
-                    "TEMPO",
-                    List.of(1L),       // lista de IDs das unidades
-                    StatusEnum.ATIVO
-            );
+            grandezaService.criarGrandeza("TEMPO", StatusEnum.ATIVO);
 
             // GRANDEZA 2 = PRESSAO -> Unidade 1 (SEGUNDO) ou 3 (PSI)?
             // No seu SQL você usou unidade 1, então:
-            grandezasService.criarGrandeza(
-                    "PRESSAO",
-                    List.of(1L),
-                    StatusEnum.ATIVO
-            );
+            grandezaService.criarGrandeza("PRESSAO", StatusEnum.ATIVO);
+
+            grandezaService.adicionarUnidades(1L,2L);
+            grandezaService.adicionarUnidades(1L,1L);
+
+            grandezaService.adicionarUnidades(2L,3L);
 
             // --- Parâmetros ---
-            if (parametrosService.contarParametros() == 0) {
-                parametrosService.criarParametro(
+            if (parametroService.contarParametros() == 0) {
+                parametroService.criarParametro(
                         "TEMPO PARA DRENAGEM DO TANQUE DE MISTURA [TQ-100]",
-                        20, 10, 30, StatusEnum.ATIVO
+                        20, 10, 30, StatusEnum.ATIVO, 1L, 2L, FuncaoEnum.PRODUCAO
                 );
-                parametrosService.criarParametro(
+                parametroService.criarParametro(
                         "TEMPO PARA DRENAGEM DO TANQUE DE ADIÇÃO [TQ-200]",
-                        30, 15, 45, StatusEnum.ATIVO
+                        30, 15, 45, StatusEnum.ATIVO, 2L, 1L,FuncaoEnum.PRODUCAO
                 );
-                parametrosService.criarParametro(
+                parametroService.criarParametro(
                         "TEMPO PARA DRENAGEM DO TANQUE TQ-300",
-                        40, 5, 200, StatusEnum.ATIVO
+                        40, 5, 200, StatusEnum.ATIVO, 1L, 1L,FuncaoEnum.PRODUCAO
                 );
-                parametrosService.criarParametro(
+                parametroService.criarParametro(
                         "TEMPO PARA DRENAGEM DO TANQUE TQ-310",
-                        10, 5, 100, StatusEnum.ATIVO
+                        10, 5, 100, StatusEnum.ATIVO, 1L, 2L,FuncaoEnum.ARMAZENAMENTO
                 );
-
-                parametrosService.setFuncao(1L,1L);
-                parametrosService.setUnidade(1L,2L);
-                parametrosService.setGrandeza(1L,1L);
-
-                parametrosService.setFuncao(2L,2L);
-                parametrosService.setUnidade(2L,1L);
-                parametrosService.setGrandeza(2L,2L);
-
-                parametrosService.setFuncao(3L,2L);
-                parametrosService.setUnidade(3L,2L);
-                parametrosService.setGrandeza(3L,1L);
 
             }
         }

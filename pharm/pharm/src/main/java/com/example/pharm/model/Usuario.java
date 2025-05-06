@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 import org.hibernate.engine.spi.Status;
 
 @Entity
-@Table(name = "usuarios")
+@Table(name = "usuario")
 public class Usuario {
 
         @Id
