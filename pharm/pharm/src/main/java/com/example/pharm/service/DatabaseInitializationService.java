@@ -70,7 +70,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
                 );
                 parametroService.criarParametro(
                         "TEMPO PARA DRENAGEM DO TANQUE TQ-300",
-                        40, 5, 200, StatusEnum.ATIVO, 1L, 1L,FuncaoEnum.PRODUCAO
+                        40, 5, 200, StatusEnum.ATIVO, 1L, 1L, FuncaoEnum.PRODUCAO
                 );
                 parametroService.criarParametro(
                         "TEMPO PARA DRENAGEM DO TANQUE TQ-310",

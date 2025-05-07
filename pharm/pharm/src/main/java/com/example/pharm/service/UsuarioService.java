@@ -23,7 +23,7 @@ public class UsuarioService {
         return usuarioRepository.count();
     }
 
-    public void criarUsuario(String login, String senha, NivelEnum nivel, StatusEnum status) {
+    public Usuario criarUsuario(String login, String senha, NivelEnum nivel, StatusEnum status) {
         // 1. Verifica se o login já existe
         if (usuarioRepository.existsByLogin(login)) {
             throw new RuntimeException("Login de usuário já existente!");

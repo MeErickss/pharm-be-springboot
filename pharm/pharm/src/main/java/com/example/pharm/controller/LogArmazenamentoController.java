@@ -1,11 +1,11 @@
 package com.example.pharm.controller;
 
+import com.example.pharm.dto.ParametroDto;
 import com.example.pharm.model.LogArmazenamento;
+import com.example.pharm.model.Parametro;
 import com.example.pharm.service.LogArmazenamentoService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,5 +22,20 @@ public class LogArmazenamentoController {
     public ResponseEntity<List<LogArmazenamento>> listAll(){
         List<LogArmazenamento> todos = logArmazenamentoService.listAll();
         return ResponseEntity.ok(todos);
+    }
+
+    @PostMapping
+    public ResponseEntity<Parametro> criarParametro(@RequestBody ParametroDto dto) {
+        Parametro salvo = parametroService.criarParametro(
+                dto.getDescricao(),
+                dto.getVlmin(),
+                dto.getVlmax(),
+                dto.getValor(),
+                dto.getStatusenum(),
+                dto.getGrandezaId(),
+                dto.getUnidadeId(),
+                dto.getFuncaoenum()
+        );
+        return ResponseEntity.ok(salvo);
     }
 }

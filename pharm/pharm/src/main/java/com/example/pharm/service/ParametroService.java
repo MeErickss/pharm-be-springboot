@@ -30,7 +30,7 @@ public class ParametroService {
         return parametroRepository.count();
     }
 
-    public void criarParametro(String descricao,
+    public Parametro criarParametro(String descricao,
                                Integer valor,
                                Integer vlMin,
                                Integer vlMax,
@@ -62,6 +62,7 @@ public class ParametroService {
         p.setStatus(status);
 
         parametroRepository.save(p);
+        return p;
     }
 
     public List<Parametro> listAll(){
