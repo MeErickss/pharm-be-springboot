@@ -2,27 +2,38 @@ package com.example.pharm.controller;
 
 import com.example.pharm.dto.ParametroDto;
 import com.example.pharm.model.Parametro;
-import com.example.pharm.model.enumeration.FuncaoEnum;
-import com.example.pharm.model.enumeration.StatusEnum;
+import com.example.pharm.model.enumeration.NivelEnum;
 import com.example.pharm.service.ParametroService;
+import com.example.pharm.service.TokenService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("api/parametro")
-
+@CrossOrigin(origins = "http://localhost:5173")
 public class ParametroController {
     private final ParametroService parametroService;
+    private final TokenService tokenService;
 
-    public ParametroController(ParametroService parametroService){
+    public ParametroController(ParametroService parametroService, TokenService tokenService){
         this.parametroService = parametroService;
+        this.tokenService = tokenService;
     }
 
-    @GetMapping
-    public ResponseEntity<List<Parametro>> listAll() {
+    @GetMapping("/parametro")
+    public ResponseEntity<List<Parametro>> listAll(
+            @RequestHeader("Authorization") String authHeader) {
+
+        // espera algo como "Bearer <token>"
+        String token = authHeader.replace("Bearer ", "");
+        Long userId = tokenService.validarToken(token);
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
         List<Parametro> todos = parametroService.listAll();
         return ResponseEntity.ok(todos);
     }
@@ -52,6 +63,22 @@ public class ParametroController {
         );
         return ResponseEntity.ok(salvo);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarParametro(@PathVariable Long id) {
+        parametroService.deletar(id);
+        return ResponseEntity.noContent().build(); // 204 No Content
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Parametro> autualizarParametro(@PathVariable Long id,
+                                                         @RequestBody ParametroDto parametroDto){
+        Parametro atualizado = parametroService.atualizar(id, parametroDto);
+        return ResponseEntity.ok(atualizado);
+    }
+
 }
 
 //curl -X POST "http://localhost:8080/api/parametro" -H "Content-Type: application/json" --data "{\"valor\":50,\"vlmin\":10,\"vlmax\":100,\"statusenum\":\"ATIVO\",\"descricao\":\"Parâmetro de teste\",\"unidadeId\":1,\"funcaoenum\":\"PRODUCAO\",\"grandezaId\":2}"
+//curl -X DELETE http://localhost:8080/api/parametro/1
+//curl -X PUT http://localhost:8080/api/parametro/1 \ -H "Content-Type: application/json" \ -d '{"valor":60,"vlmin":15,"vlmax":110,"statusenum":"INATIVO","descricao":"Atualizado","unidadeId":1,"funcaoenum":"SOMA","grandezaId":2}'

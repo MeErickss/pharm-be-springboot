@@ -18,4 +18,10 @@ public class GrandezaDto {
         this.status = status;
         this.unidadeId = unidadeId;
     }
+
+    public StatusEnum getStatus() {return status;}
+
+    public String getDescricao() {return descricao;}
+
+    public Long getUnidadeId() {return unidadeId;}
 }

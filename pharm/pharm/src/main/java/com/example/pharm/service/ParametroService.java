@@ -1,11 +1,11 @@
 package com.example.pharm.service;
 
+import com.example.pharm.dto.ParametroDto;
 import com.example.pharm.model.*;
 import com.example.pharm.model.enumeration.FuncaoEnum;
 import com.example.pharm.model.enumeration.StatusEnum;
 import com.example.pharm.repository.*;
 import jakarta.transaction.Transactional;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -73,5 +73,21 @@ public class ParametroService {
         return parametroRepository.findById(id).orElseThrow(()->
                 new RuntimeException("Parametro não encontrado!")
         );
+    }
+
+    public Parametro atualizar(Long id, ParametroDto parametroDto){
+        Parametro p = parametroRepository.findById(id).orElseThrow(()->
+                new RuntimeException("Parametro não encontrado")
+        );
+        return parametroRepository.save(p);
+    }
+
+    public String deletar(Long id){
+        try{
+            parametroRepository.deleteById(id);
+            return "Parametro deletado com sucesso";
+        } catch (Exception error){
+            return "Erro ao deletar o parametro";
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.example.pharm.service;
 
+import com.example.pharm.dto.LogAlarmeDto;
 import com.example.pharm.model.*;
 import com.example.pharm.model.enumeration.StatusEnum;
 import com.example.pharm.repository.LogAlarmeRepostiory;
@@ -7,7 +8,6 @@ import com.example.pharm.repository.UsuarioRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 @Service
@@ -26,21 +26,21 @@ public class LogAlarmeService {
     }
 
 
-    public void criarLogAlarmes(Long userId, String descricao, StatusEnum status){
+    public LogAlarme criarLogAlarmes(Long userId, String descricao, StatusEnum status, String dataHora){
 
         Usuario u = usuarioRepository.findById(userId).orElseThrow(()->
                 new RuntimeException("Usuario não encontrada!")
         );;
-
-        String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new java.util.Date());
 
 
         LogAlarme l = new LogAlarme();
         l.setStatus(status);
         l.setDescricao(descricao);
         l.setUser(u);
-        l.setDataHora(timeStamp);
+        l.setDataHora(dataHora);
         logAlarmeRepostiory.save(l);
+
+        return l;
     }
 
     public List<LogAlarme> listAll(){
@@ -51,5 +51,21 @@ public class LogAlarmeService {
         return logAlarmeRepostiory.findById(id).orElseThrow(()->
                 new RuntimeException("Grandeza não encontrada!")
         );
+    }
+
+    public LogAlarme atualizar(Long id, LogAlarmeDto logAlarmeDto){
+        LogAlarme l = logAlarmeRepostiory.findById(id).orElseThrow(()->
+                new RuntimeException("LogAlarmes não encontrado")
+        );
+        return logAlarmeRepostiory.save(l);
+    }
+
+    public String deletar(Long id){
+        try{
+            logAlarmeRepostiory.deleteById(id);
+            return "LogAlarme deletado com sucesso";
+        } catch (Exception error){
+            return "Erro ao deletar o LogAlarme";
+        }
     }
 }

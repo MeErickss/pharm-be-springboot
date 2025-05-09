@@ -8,7 +8,6 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 
 @Service
 @Transactional
@@ -45,12 +44,9 @@ public class DatabaseInitializationService implements ApplicationRunner {
 
         // --- Grandezas e suas Unidades ---
         if (grandezaService.contarGrandeza() == 0) {
-            // conforme seus INSERT IGNORE:
-            // GRANDEZA 1 = TEMPO  -> Unidade 1 (SEGUNDO)
+
             grandezaService.criarGrandeza("TEMPO", StatusEnum.ATIVO);
 
-            // GRANDEZA 2 = PRESSAO -> Unidade 1 (SEGUNDO) ou 3 (PSI)?
-            // No seu SQL você usou unidade 1, então:
             grandezaService.criarGrandeza("PRESSAO", StatusEnum.ATIVO);
 
             grandezaService.adicionarUnidades(1L,2L);

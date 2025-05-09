@@ -1,14 +1,10 @@
 package com.example.pharm.service;
 
-import com.example.pharm.model.Grandeza;
-import com.example.pharm.model.LogArmazenamento;
-import com.example.pharm.model.Parametro;
-import com.example.pharm.model.Unidade;
+import com.example.pharm.dto.GrandezaDto;
+import com.example.pharm.model.*;
 import com.example.pharm.model.enumeration.StatusEnum;
 import com.example.pharm.repository.GrandezaRepository;
 import com.example.pharm.repository.UnidadeRepository;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,7 +28,7 @@ public class GrandezaService {
     }
 
 
-    public void criarGrandeza(String descricao, StatusEnum status) {
+    public Grandeza criarGrandeza(String descricao, StatusEnum status) {
         if (grandezaRepository.existsByDescricao(descricao)) {
             throw new RuntimeException("Grandeza já existente!");
         }
@@ -42,6 +38,7 @@ public class GrandezaService {
         g.setStatus(status);
 
         grandezaRepository.save(g);
+        return g;
     }
 
 
@@ -66,5 +63,21 @@ public class GrandezaService {
         return grandezaRepository.findById(id).orElseThrow(()->
                 new RuntimeException("Status '" + id + "' não encontrado")
         );
+    }
+
+    public Grandeza atualizar(Long id, GrandezaDto grandezaDto){
+        Grandeza g = grandezaRepository.findById(id).orElseThrow(()->
+                new RuntimeException("Grandeza não encontrado")
+        );
+        return grandezaRepository.save(g);
+    }
+
+    public String deletar(Long id){
+        try{
+            grandezaRepository.deleteById(id);
+            return "Grandeza deletada com sucesso";
+        } catch (Exception error){
+            return "Erro ao deletar a Grandeza";
+        }
     }
 }

@@ -17,4 +17,10 @@ public class UnidadeDto {
         this.abreviacao = abreviacao;
         this.status = status;
     }
+
+    public StatusEnum getStatus() {return status;}
+
+    public String getDescricao() {return descricao;}
+
+    public String getAbreviacao() {return abreviacao;}
 }

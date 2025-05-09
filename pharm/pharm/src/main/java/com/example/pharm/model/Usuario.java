@@ -17,7 +17,7 @@ public class Usuario {
         private String login;
 
         @Column(nullable = false)
-        private String password;
+        private String senha;
 
         @Column(nullable = false)
         private NivelEnum nivel;
@@ -29,10 +29,10 @@ public class Usuario {
         // Construtores
         public Usuario() {}
 
-        public Usuario(Long id, String login, String password, StatusEnum status, NivelEnum nivel) {
+        public Usuario(Long id, String login, String senha, StatusEnum status, NivelEnum nivel) {
             this.id = id;
             this.login = login;
-            this.password = password;
+            this.senha = senha;
             this.status = status;
             this.nivel = nivel;
         }
@@ -62,11 +62,11 @@ public class Usuario {
     }
 
     public String getPassword() {
-        return password;
+        return senha;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPassword(String senha) {
+        this.senha = senha;
     }
 
     public NivelEnum getNivel() {

@@ -1,14 +1,13 @@
 package com.example.pharm.service;
 
+import com.example.pharm.dto.LogArmazenamentoDto;
 import com.example.pharm.model.*;
 import com.example.pharm.model.enumeration.StatusEnum;
 import com.example.pharm.repository.LogArmazenamentoRepository;
 import com.example.pharm.repository.UsuarioRepository;
 import jakarta.transaction.Transactional;
-import lombok.extern.java.Log;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 @Service
@@ -27,21 +26,19 @@ public class LogArmazenamentoService {
     }
 
 
-    public void criarLogAlarmes(Long userId, String descricao, StatusEnum status){
+    public LogArmazenamento criarLogArmazenamento(Long userId, String descricao, StatusEnum status, String dataHora){
 
         Usuario user = usuarioRepository.findById(userId).orElseThrow(()->
                 new RuntimeException("Usuario não encontrado!")
         );
 
-        String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new java.util.Date());
-
-
         LogArmazenamento l = new LogArmazenamento();
         l.setStatus(status);
         l.setDescricao(descricao);
         l.setUser(user);
-        l.setDatahora(timeStamp);
+        l.setDatahora(dataHora);
         logArmazenamentoRepository.save(l);
+        return l;
     }
 
     public List<LogArmazenamento> listAll(){
@@ -52,5 +49,21 @@ public class LogArmazenamentoService {
         return logArmazenamentoRepository.findById(id).orElseThrow(()->
                 new RuntimeException("LogArmazenamento não encontrado!")
         );
+    }
+
+    public LogArmazenamento atualizar(Long id, LogArmazenamentoDto logArmazenamentoDto){
+        LogArmazenamento l = logArmazenamentoRepository.findById(id).orElseThrow(()->
+                new RuntimeException("LogArmazenamento não encontrado")
+        );
+        return logArmazenamentoRepository.save(l);
+    }
+
+    public String deletar(Long id){
+        try{
+            logArmazenamentoRepository.deleteById(id);
+            return "LogArmazenamento deletado com sucesso";
+        } catch (Exception error){
+            return "Erro ao deletar o LogArmazenamento";
+        }
     }
 }

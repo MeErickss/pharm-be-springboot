@@ -1,8 +1,7 @@
 package com.example.pharm.service;
 
+import com.example.pharm.dto.LogProducaoDto;
 import com.example.pharm.model.LogProducao;
-import com.example.pharm.model.Parametro;
-import com.example.pharm.model.Unidade;
 import com.example.pharm.model.Usuario;
 import com.example.pharm.model.enumeration.StatusEnum;
 import com.example.pharm.repository.LogProducaoRepository;
@@ -10,7 +9,6 @@ import com.example.pharm.repository.UsuarioRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 @Service
@@ -29,21 +27,20 @@ public class LogProducaoService {
     }
 
 
-    public void criarLogAlarmes(Long userId, String descricao, StatusEnum status){
+    public LogProducao criarLogProducao(Long userId, String descricao, StatusEnum status, String dataHora){
 
         Usuario user = usuarioRepository.findById(userId).orElseThrow(()->
                 new RuntimeException("Usuario não encontrada!")
         );
-
-        String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new java.util.Date());
 
 
         LogProducao l = new LogProducao();
         l.setStatus(status);
         l.setDescricao(descricao);
         l.setUser(user);
-        l.setDataHora(timeStamp);
+        l.setDataHora(dataHora);
         logProducaoRepository.save(l);
+        return l;
     }
 
     public List<LogProducao> listAll(){
@@ -54,5 +51,21 @@ public class LogProducaoService {
         return logProducaoRepository.findById(id).orElseThrow(()->
                 new RuntimeException("LogProducao não encontrada!")
         );
+    }
+
+    public LogProducao atualizar(Long id, LogProducaoDto logProducaoDto){
+        LogProducao l = logProducaoRepository.findById(id).orElseThrow(()->
+                new RuntimeException("LogProducao não encontrado")
+        );
+        return logProducaoRepository.save(l);
+    }
+
+    public String deletar(Long id){
+        try{
+            logProducaoRepository.deleteById(id);
+            return "LogProducao deletado com sucesso";
+        } catch (Exception error){
+            return "Erro ao deletar o LogProducao";
+        }
     }
 }

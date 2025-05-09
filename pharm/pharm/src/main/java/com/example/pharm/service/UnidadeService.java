@@ -1,5 +1,6 @@
 package com.example.pharm.service;
 
+import com.example.pharm.dto.UnidadeDto;
 import com.example.pharm.model.Unidade;
 import com.example.pharm.model.enumeration.StatusEnum;
 import com.example.pharm.repository.UnidadeRepository;
@@ -22,7 +23,7 @@ public class UnidadeService {
         return unidadeRepository.count();
     }
 
-    public void criarUnidades(String descricao, String abreviacao, StatusEnum statusEnum){
+    public Unidade criarUnidades(String descricao, String abreviacao, StatusEnum statusEnum){
         if(unidadeRepository.existsByDescricao(descricao)){
             throw new RuntimeException("Unidade já existente!");
         }
@@ -32,6 +33,7 @@ public class UnidadeService {
         u.setAbreviacao(abreviacao);
         u.setStatus(statusEnum);
         unidadeRepository.save(u);
+        return u;
     }
 
     public List<Unidade> listAll(){
@@ -42,5 +44,21 @@ public class UnidadeService {
         return unidadeRepository.findById(id).orElseThrow(()->
                 new RuntimeException("Unidade não encontrada!")
         );
+    }
+
+    public Unidade atualizar(Long id, UnidadeDto unidadeDto){
+        Unidade u = unidadeRepository.findById(id).orElseThrow(()->
+                new RuntimeException("Unidade não encontrado")
+        );
+        return unidadeRepository.save(u);
+    }
+
+    public String deletar(Long id){
+        try{
+            unidadeRepository.deleteById(id);
+            return "Unidade deletada com sucesso";
+        } catch (Exception error){
+            return "Erro ao deletar a Unidade";
+        }
     }
 }
