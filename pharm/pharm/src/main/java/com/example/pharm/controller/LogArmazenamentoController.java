@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/logarmazenamento")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 public class LogArmazenamentoController {
     private final LogArmazenamentoService logArmazenamentoService;
     private final TokenService tokenService;

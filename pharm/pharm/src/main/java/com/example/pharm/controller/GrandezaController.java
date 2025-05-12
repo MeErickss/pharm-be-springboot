@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/grandeza")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 public class GrandezaController {
     private final GrandezaService grandezaService;
     private final TokenService tokenService;
@@ -23,16 +23,19 @@ public class GrandezaController {
         this.tokenService = tokenService;
     }
 
-    @GetMapping("/grandeza")
+    @GetMapping
     public ResponseEntity<List<Grandeza>> listAll(
-            @RequestHeader("Authorization") String authHeader) {
+            @CookieValue(name = "JWT", required = false) String token) { // Alterado para ler do cookie
 
-        // espera algo como "Bearer <token>"
-        String token = authHeader.replace("Bearer ", "");
+        if (token == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
         Long userId = tokenService.validarToken(token);
         if (userId == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
+
         List<Grandeza> todos = grandezaService.listAll();
         return ResponseEntity.ok(todos);
     }

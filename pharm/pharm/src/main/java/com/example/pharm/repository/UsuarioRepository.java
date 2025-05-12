@@ -19,10 +19,9 @@ import java.util.Optional;
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
-    Page<Usuario> findByLogin(String login, Pageable pageable);
+    Optional<Usuario> findByLogin(String login);
 
     Usuario findByLoginAndSenha(String login, String senha);
-
 
     List<Usuario> findByStatus(StatusEnum statusEnum);
 

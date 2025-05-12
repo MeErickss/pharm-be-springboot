@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/funcao")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 public class FuncaoController {
 
     private final TokenService tokenService;

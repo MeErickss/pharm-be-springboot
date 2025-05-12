@@ -5,17 +5,20 @@ import com.example.pharm.dto.UsuarioDto;
 import com.example.pharm.model.Usuario;
 import com.example.pharm.service.TokenService;
 import com.example.pharm.service.UsuarioService;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Duration;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/api/usuario")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 public class UsuarioController {
 
     private final UsuarioService usuarioService;
@@ -24,10 +27,21 @@ public class UsuarioController {
 
     // 1. End-point de login - gera o token
     @PostMapping("/login")
-    public ResponseEntity<Map<String,String>> login(@RequestBody LoginRequestDto req) {
+    public ResponseEntity<?> login(@RequestBody LoginRequestDto req) {
         String token = usuarioService.autenticarEGerarToken(req.getLogin(), req.getSenha());
-        return ResponseEntity.ok(Collections.singletonMap("token", token));
+        Usuario usuario = usuarioService.findByLogin(req.getLogin()); // Novo método para buscar usuário
+
+        ResponseCookie cookie = ResponseCookie.from("JWT", token)
+                .httpOnly(true)
+                .path("/")
+                .maxAge(Duration.ofHours(2))
+                .build();
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, cookie.toString())
+                .body(Map.of("nivel", usuario.getNivel().toString(), "cookie", cookie.toString()));
     }
+
 
     // 3. CRUD de usuário (se quiser proteger, adicione também o @RequestHeader)
     @GetMapping
@@ -60,3 +74,9 @@ public class UsuarioController {
         return ResponseEntity.noContent().build();
     }
 }
+
+//curl -X POST "http://localhost:8080/api/parametro" -H "Content-Type: application/json" --data "{\"valor\":50,\"vlmin\":10,\"vlmax\":100,\"statusenum\":\"ATIVO\",\"descricao\":\"Parâmetro de teste\",\"unidadeId\":1,\"funcaoenum\":\"PRODUCAO\",\"grandezaId\":2}"
+//curl -X DELETE http://localhost:8080/api/parametro/1
+//curl -X PUT http://localhost:8080/api/parametro/1 \ -H "Content-Type: application/json" \ -d "{"valor":60,"vlmin":15,"vlmax":110,"statusenum":"INATIVO","descricao":"Atualizado","unidadeId":1,"funcaoenum":"SOMA","grandezaId":2}"
+
+//curl.exe -X POST "http://localhost:8080/api/usuario/login" -H "Content-Type: application/json" -d "{\"login\":\"admin@gmail.com\",\"senha\":\"0000\"}"

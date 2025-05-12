@@ -28,6 +28,11 @@ public class UsuarioService {
         return usuarioRepository.count();
     }
 
+    public Usuario findByLogin(String login) {
+        return usuarioRepository.findByLogin(login)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+    }
+
     public Usuario criarUsuario(String login, String senha, NivelEnum nivel, StatusEnum status) {
         // 1. Verifica se o login já existe
         if (usuarioRepository.existsByLogin(login)) {

@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/nivel")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 public class NivelController {
 
     private final TokenService tokenService;
@@ -21,16 +21,19 @@ public class NivelController {
         this.tokenService = tokenService;
     }
 
-    @GetMapping("/nivel")
+    @GetMapping
     public ResponseEntity<List<NivelEnum>> listAll(
-            @RequestHeader("Authorization") String authHeader) {
+            @CookieValue(name = "JWT", required = false) String token) {
 
-        // espera algo como "Bearer <token>"
-        String token = authHeader.replace("Bearer ", "");
+        if (token == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
         Long userId = tokenService.validarToken(token);
         if (userId == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
+
         return ResponseEntity.ok(Arrays.asList(NivelEnum.values()));
     }
 }

@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/logalarme")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 public class LogAlarmeController {
     private final LogAlarmeService logAlarmeService;
     private final TokenService tokenService;
