@@ -2,7 +2,7 @@ package com.example.pharm.controller;
 
 import com.example.pharm.dto.ParametroDto;
 import com.example.pharm.model.Parametro;
-import com.example.pharm.model.enumeration.NivelEnum;
+import com.example.pharm.model.enumeration.FuncaoEnum;
 import com.example.pharm.service.ParametroService;
 import com.example.pharm.service.TokenService;
 import org.springframework.http.HttpStatus;
@@ -26,26 +26,30 @@ public class ParametroController {
 
     @GetMapping
     public ResponseEntity<List<Parametro>> listAll(
-            @CookieValue(name = "JWT", required = false) String token) { // Alterado para ler do cookie
-
-        if (token == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-
-        Long userId = tokenService.validarToken(token);
-        if (userId == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
+            @RequestAttribute("userId") Long userId) {
 
         List<Parametro> todos = parametroService.listAll();
         return ResponseEntity.ok(todos);
     }
 
+    @GetMapping("/funcao")
+    public ResponseEntity<List<Parametro>> listFuncao(
+            @CookieValue(name = "JWT", required = false) String token,
+            @RequestParam("funcao") FuncaoEnum funcaoEnum) {
 
-    /**
-     * Busca um status por ID.
-     * GET http://localhost:8080/api/status/{id}
-     */
+        if (token == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        Long userId = tokenService.validarToken(token);
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        List<Parametro> todos = parametroService.buscarPorFuncao(funcaoEnum);
+        return ResponseEntity.ok(todos);
+    }
+
+
     @GetMapping("/{id}")
     public ResponseEntity<Parametro> buscarPorId(@PathVariable Long id) {
         Parametro findId = parametroService.listId(id);

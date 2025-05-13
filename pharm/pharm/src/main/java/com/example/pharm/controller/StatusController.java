@@ -21,17 +21,19 @@ public class StatusController {
         this.tokenService = tokenService;
     }
 
-    @GetMapping("/status")
+    @GetMapping
     public ResponseEntity<List<StatusEnum>> listAll(
-            @RequestHeader("Authorization") String authHeader) {
+        @CookieValue(name = "JWT", required = false) String token) { // Alterado para ler do cookie
 
-        // espera algo como "Bearer <token>"
-        String token = authHeader.replace("Bearer ", "");
-        Long userId = tokenService.validarToken(token);
-        if (userId == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-        return ResponseEntity.ok(Arrays.asList(StatusEnum.values()));
+            if (token == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            }
+
+            Long userId = tokenService.validarToken(token);
+            if (userId == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            }
+
+            return ResponseEntity.ok(Arrays.asList(StatusEnum.values()));
     }
-
 }

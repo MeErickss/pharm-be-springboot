@@ -34,7 +34,7 @@ public class Grandeza {
     private List<Unidade> unidade = new ArrayList<>();
 
     @JsonManagedReference(value = "grandeza-parametro")
-    @OneToMany(mappedBy = "grandeza", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "grandeza", cascade = CascadeType.REMOVE)
     private List<Parametro> parametro = new ArrayList<>();
 
     public Grandeza() {} // Construtor vazio obrigatório para o JPA

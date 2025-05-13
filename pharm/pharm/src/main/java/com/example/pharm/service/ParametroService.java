@@ -69,6 +69,10 @@ public class ParametroService {
         return parametroRepository.findAll();
     }
 
+    public List<Parametro> buscarPorFuncao(FuncaoEnum funcaoEnum){
+        return parametroRepository.findByFuncaoEnum(funcaoEnum);
+    }
+
     public Parametro listId(Long id){
         return parametroRepository.findById(id).orElseThrow(()->
                 new RuntimeException("Parametro não encontrado!")

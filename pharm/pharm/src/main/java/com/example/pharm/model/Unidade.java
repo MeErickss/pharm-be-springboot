@@ -27,13 +27,13 @@ public class Unidade {
     @Column(nullable = false)
     private StatusEnum status;
 
-    @OneToMany(mappedBy = "unidade", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "unidade", cascade = CascadeType.REMOVE)
     @JsonManagedReference(value = "unidade-parametro")
 
     private List<Parametro> parametro = new ArrayList<>();
 
     @ManyToMany(mappedBy = "unidade",  // <— deve bater com o nome do campo em Grandeza
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+            cascade = CascadeType.REMOVE)
     @JsonBackReference(value = "grandeza-unidade")
     private List<Grandeza> grandeza = new ArrayList<>();
 

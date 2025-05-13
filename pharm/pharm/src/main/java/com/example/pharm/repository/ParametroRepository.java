@@ -2,6 +2,7 @@ package com.example.pharm.repository;
 
 import com.example.pharm.model.LogProducao;
 import com.example.pharm.model.Parametro;
+import com.example.pharm.model.enumeration.FuncaoEnum;
 import com.example.pharm.model.enumeration.StatusEnum;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +17,8 @@ import java.util.List;
 public interface ParametroRepository extends JpaRepository<Parametro, Long> {
 
     Page<Parametro> findByDescricao(String descricao, Pageable pageable);
+
+    List<Parametro> findByFuncaoEnum(FuncaoEnum funcaoEnum);
 
     List<Parametro> findByStatus(StatusEnum statusEnum);
 

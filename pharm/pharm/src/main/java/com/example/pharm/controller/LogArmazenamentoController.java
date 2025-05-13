@@ -3,6 +3,7 @@ package com.example.pharm.controller;
 import com.example.pharm.dto.LogArmazenamentoDto;
 import com.example.pharm.model.LogArmazenamento;
 import com.example.pharm.model.Parametro;
+import com.example.pharm.model.Unidade;
 import com.example.pharm.service.LogArmazenamentoService;
 import com.example.pharm.service.TokenService;
 import org.antlr.v4.runtime.Token;
@@ -24,16 +25,19 @@ public class LogArmazenamentoController {
         this.tokenService = tokenService;
     }
 
-    @GetMapping("/parametro")
+    @GetMapping
     public ResponseEntity<List<LogArmazenamento>> listAll(
-            @RequestHeader("Authorization") String authHeader) {
+            @CookieValue(name = "JWT", required = false) String token) { // Alterado para ler do cookie
 
-        // espera algo como "Bearer <token>"
-        String token = authHeader.replace("Bearer ", "");
+        if (token == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
         Long userId = tokenService.validarToken(token);
         if (userId == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
+
         List<LogArmazenamento> todos = logArmazenamentoService.listAll();
         return ResponseEntity.ok(todos);
     }

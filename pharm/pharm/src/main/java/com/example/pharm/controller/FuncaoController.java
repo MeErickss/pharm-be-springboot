@@ -1,6 +1,7 @@
 package com.example.pharm.controller;
 
 import com.example.pharm.model.Parametro;
+import com.example.pharm.model.Unidade;
 import com.example.pharm.model.enumeration.FuncaoEnum;
 import com.example.pharm.service.TokenService;
 import org.springframework.http.HttpStatus;
@@ -21,16 +22,19 @@ public class FuncaoController {
     this.tokenService = tokenService;
     }
 
-    @GetMapping("/funcao")
+    @GetMapping
     public ResponseEntity<List<FuncaoEnum>> listAll(
-            @RequestHeader("Authorization") String authHeader) {
+            @CookieValue(name = "JWT", required = false) String token) { // Alterado para ler do cookie
 
-        // espera algo como "Bearer <token>"
-        String token = authHeader.replace("Bearer ", "");
+        if (token == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
         Long userId = tokenService.validarToken(token);
         if (userId == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
+
         return ResponseEntity.ok(Arrays.asList(FuncaoEnum.values()));
     }
 }

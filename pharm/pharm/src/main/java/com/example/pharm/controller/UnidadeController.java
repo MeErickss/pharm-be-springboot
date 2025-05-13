@@ -5,6 +5,7 @@ import com.example.pharm.model.Parametro;
 import com.example.pharm.model.Unidade;
 import com.example.pharm.service.TokenService;
 import com.example.pharm.service.UnidadeService;
+import org.hibernate.loader.NonUniqueDiscoveredSqlAliasException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,16 +24,19 @@ public class UnidadeController {
         this.tokenService = tokenService;
     }
 
-    @GetMapping("/parametro")
+    @GetMapping
     public ResponseEntity<List<Unidade>> listAll(
-            @RequestHeader("Authorization") String authHeader) {
+            @CookieValue(name = "JWT", required = false) String token) { // Alterado para ler do cookie
 
-        // espera algo como "Bearer <token>"
-        String token = authHeader.replace("Bearer ", "");
+        if (token == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
         Long userId = tokenService.validarToken(token);
         if (userId == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
+
         List<Unidade> todos = unidadeService.listAll();
         return ResponseEntity.ok(todos);
     }

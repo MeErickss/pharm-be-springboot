@@ -3,6 +3,7 @@ package com.example.pharm.controller;
 import com.example.pharm.dto.LogAlarmeDto;
 import com.example.pharm.model.LogAlarme;
 import com.example.pharm.model.Parametro;
+import com.example.pharm.model.Unidade;
 import com.example.pharm.service.LogAlarmeService;
 import com.example.pharm.service.TokenService;
 import org.springframework.http.HttpStatus;
@@ -24,16 +25,19 @@ public class LogAlarmeController {
     }
 
 
-    @GetMapping("/logalarme")
+    @GetMapping
     public ResponseEntity<List<LogAlarme>> listAll(
-            @RequestHeader("Authorization") String authHeader) {
+            @CookieValue(name = "JWT", required = false) String token) { // Alterado para ler do cookie
 
-        // espera algo como "Bearer <token>"
-        String token = authHeader.replace("Bearer ", "");
+        if (token == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
         Long userId = tokenService.validarToken(token);
         if (userId == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
+
         List<LogAlarme> todos = logAlarmeService.listAll();
         return ResponseEntity.ok(todos);
     }
