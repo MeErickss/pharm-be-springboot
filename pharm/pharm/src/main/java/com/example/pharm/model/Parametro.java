@@ -34,8 +34,9 @@ public class Parametro {
     @Column(nullable = false)
     private FuncaoEnum funcaoEnum;
 
-    @ManyToOne(optional = false, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-    @JoinColumn(name = "id_grandeza", nullable = false)
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "id_grandeza", referencedColumnName = "id", nullable = false,
+            foreignKey = @ForeignKey(name = "fk_parametro_grandeza"))
     @JsonBackReference(value = "grandeza-parametro")
     private Grandeza grandeza;
 
@@ -67,11 +68,9 @@ public class Parametro {
     public void setVlMax(Integer vlMax) { this.vlMax = vlMax; }
     public void setStatus(StatusEnum status) { this.status = status; }
 
-    public FuncaoEnum getFuncoes() { return funcaoEnum; }
+    public void setFuncao(FuncaoEnum funcaoEnum) {this.funcaoEnum = funcaoEnum;}
 
-    public void setFuncaoEnum(FuncaoEnum funcaoEnum) {this.funcaoEnum = funcaoEnum;}
-
-    public FuncaoEnum getFuncaoEnum() {return funcaoEnum;}
+    public FuncaoEnum getFuncao() {return funcaoEnum;}
 
     public void setGrandeza(Grandeza grandeza) {this.grandeza = grandeza;}
 
@@ -82,4 +81,9 @@ public class Parametro {
     public String getDescricao() {return descricao;}
 
     public void setDescricao(String descricao) {this.descricao = descricao;}
+
+    public Grandeza getGrandeza() {return grandeza;}
+    public Integer getValor() {return valor;}
+    public Integer getVlMax() {return vlMax;}
+    public Integer getVlMin() {return vlMin;}
 }

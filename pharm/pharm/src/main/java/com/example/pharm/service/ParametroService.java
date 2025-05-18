@@ -58,7 +58,7 @@ public class ParametroService {
         p.setValor(valor);
         p.setVlMin(vlMin);
         p.setVlMax(vlMax);
-        p.setFuncaoEnum(funcaoEnum);
+        p.setFuncao(funcaoEnum);
         p.setStatus(status);
 
         parametroRepository.save(p);

@@ -25,8 +25,7 @@ public class ParametroController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Parametro>> listAll(
-            @RequestAttribute("userId") Long userId) {
+    public ResponseEntity<List<Parametro>> listAll() {
 
         List<Parametro> todos = parametroService.listAll();
         return ResponseEntity.ok(todos);
@@ -66,7 +65,7 @@ public class ParametroController {
                 dto.getStatusenum(),
                 dto.getGrandezaId(),
                 dto.getUnidadeId(),
-                dto.getFuncaoenum()
+                dto.getFuncao()
         );
         return ResponseEntity.ok(salvo);
     }
