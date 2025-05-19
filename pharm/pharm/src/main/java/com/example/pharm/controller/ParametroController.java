@@ -1,15 +1,16 @@
 package com.example.pharm.controller;
 
 import com.example.pharm.dto.ParametroDto;
+import com.example.pharm.dto.ParametroOutDto;
 import com.example.pharm.model.Parametro;
 import com.example.pharm.model.enumeration.FuncaoEnum;
+import com.example.pharm.repository.ParametroRepository;
 import com.example.pharm.service.ParametroService;
 import com.example.pharm.service.TokenService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -18,17 +19,25 @@ import java.util.List;
 public class ParametroController {
     private final ParametroService parametroService;
     private final TokenService tokenService;
+    private final ParametroRepository parametroRepository;
 
-    public ParametroController(ParametroService parametroService, TokenService tokenService){
+    public ParametroController(ParametroService parametroService, TokenService tokenService, ParametroRepository parametroRepository){
         this.parametroService = parametroService;
         this.tokenService = tokenService;
+        this.parametroRepository = parametroRepository;
     }
 
     @GetMapping
-    public ResponseEntity<List<Parametro>> listAll() {
+    public ResponseEntity<List<ParametroOutDto>> listAll(
+            @CookieValue(name = "JWT", required = false) String token) {
 
-        List<Parametro> todos = parametroService.listAll();
-        return ResponseEntity.ok(todos);
+
+        if (token == null || tokenService.validarToken(token) == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        List<ParametroOutDto> lista = parametroRepository.findAllOut();
+        return ResponseEntity.ok(lista);
     }
 
     @GetMapping("/funcao")
@@ -44,8 +53,8 @@ public class ParametroController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        List<Parametro> todos = parametroService.buscarPorFuncao(funcaoEnum);
-        return ResponseEntity.ok(todos);
+        List<Parametro> lista = parametroRepository.findByFuncaoEnum(funcaoEnum);
+        return ResponseEntity.ok(lista);
     }
 
 
@@ -78,7 +87,7 @@ public class ParametroController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Parametro> autualizarParametro(@PathVariable Long id,
-                                                         @RequestBody ParametroDto parametroDto){
+                                                         @RequestParam ParametroDto parametroDto){
         Parametro atualizado = parametroService.atualizar(id, parametroDto);
         return ResponseEntity.ok(atualizado);
     }

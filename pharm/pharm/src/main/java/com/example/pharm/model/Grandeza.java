@@ -1,6 +1,7 @@
 package com.example.pharm.model;
 
 import com.example.pharm.model.enumeration.StatusEnum;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jdk.jshell.Snippet;
@@ -30,10 +31,10 @@ public class Grandeza {
             joinColumns = @JoinColumn(name = "id_grandeza"),
             inverseJoinColumns = @JoinColumn(name = "id_unidade")
     )
-    @JsonManagedReference(value = "grandeza-unidade")
+    @JsonIgnore
     private List<Unidade> unidade = new ArrayList<>();
 
-    @JsonManagedReference(value = "grandeza-parametro")
+    @JsonIgnore
     @OneToMany(mappedBy = "grandeza", cascade = CascadeType.REMOVE)
     private List<Parametro> parametro = new ArrayList<>();
 

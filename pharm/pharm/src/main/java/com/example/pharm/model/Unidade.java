@@ -2,6 +2,7 @@ package com.example.pharm.model;
 
 import com.example.pharm.model.enumeration.StatusEnum;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import org.hibernate.engine.spi.Status;
@@ -18,7 +19,7 @@ public class Unidade {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false) // Corrigido de @Colunm
+    @Column(nullable = false)
     private String descricao;
 
     @Column(nullable = false)
@@ -28,16 +29,15 @@ public class Unidade {
     private StatusEnum status;
 
     @OneToMany(mappedBy = "unidade", cascade = CascadeType.REMOVE)
-    @JsonManagedReference(value = "unidade-parametro")
-
+    @JsonIgnore
     private List<Parametro> parametro = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "unidade",  // <— deve bater com o nome do campo em Grandeza
+    @ManyToMany(mappedBy = "unidade",
             cascade = CascadeType.REMOVE)
-    @JsonBackReference(value = "grandeza-unidade")
+    @JsonIgnore
     private List<Grandeza> grandeza = new ArrayList<>();
 
-    public Unidade() {} // Construtor vazio obrigatório
+    public Unidade() {}
 
     public Unidade(Long id, String unidade, String abreviacao, StatusEnum status) {
         this.id = id;

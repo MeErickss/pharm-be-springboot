@@ -1,5 +1,6 @@
 package com.example.pharm.service;
 
+import com.example.pharm.dto.LoginRequestDto;
 import com.example.pharm.dto.UsuarioDto;
 import com.example.pharm.model.Usuario;
 import com.example.pharm.model.enumeration.NivelEnum;
@@ -7,10 +8,15 @@ import com.example.pharm.model.enumeration.StatusEnum;
 import com.example.pharm.repository.UsuarioRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Duration;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -90,5 +96,20 @@ public class UsuarioService {
         }
         // gera e retorna token
         return tokenService.criarTokenParaUsuario(u.getId());
+    }
+
+    public ResponseEntity<Map<String, String>> verificaTokenUsuario(LoginRequestDto req){
+        String token = autenticarEGerarToken(req.getLogin(), req.getSenha());
+        Usuario usuario = findByLogin(req.getLogin()); // Novo método para buscar usuário
+
+        ResponseCookie cookie = ResponseCookie.from("JWT", token)
+                .httpOnly(true)
+                .path("/")
+                .maxAge(Duration.ofHours(2))
+                .build();
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, cookie.toString())
+                .body(Map.of("nivel", usuario.getNivel().toString(), "cookie", cookie.toString()));
     }
 }

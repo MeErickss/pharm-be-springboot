@@ -27,20 +27,7 @@ public class UsuarioController {
 
     // 1. End-point de login - gera o token
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequestDto req) {
-        String token = usuarioService.autenticarEGerarToken(req.getLogin(), req.getSenha());
-        Usuario usuario = usuarioService.findByLogin(req.getLogin()); // Novo método para buscar usuário
-
-        ResponseCookie cookie = ResponseCookie.from("JWT", token)
-                .httpOnly(true)
-                .path("/")
-                .maxAge(Duration.ofHours(2))
-                .build();
-
-        return ResponseEntity.ok()
-                .header(HttpHeaders.SET_COOKIE, cookie.toString())
-                .body(Map.of("nivel", usuario.getNivel().toString(), "cookie", cookie.toString()));
-    }
+    public ResponseEntity<?> login(@RequestBody LoginRequestDto req) {return usuarioService.verificaTokenUsuario(req);}
 
 
     // 3. CRUD de usuário (se quiser proteger, adicione também o @RequestHeader)

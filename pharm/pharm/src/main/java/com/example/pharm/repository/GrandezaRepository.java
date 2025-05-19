@@ -17,5 +17,6 @@ public interface GrandezaRepository extends JpaRepository<Grandeza, Long> {
 
     List<Grandeza> findByStatus(StatusEnum statusEnum);
 
+
     boolean existsByDescricao(String decricao);
 }

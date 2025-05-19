@@ -33,8 +33,8 @@ public class DatabaseInitializationService implements ApplicationRunner {
 
         if (userService.contarUsuarios() == 0) {
             userService.criarUsuario("admin@gmail.com", "0000", NivelEnum.ADMIN,StatusEnum.ATIVO);
-            userService.criarUsuario("maintenance@gmail.com", "1111", NivelEnum.MANUTENCAO, StatusEnum.ATIVO);
-            userService.criarUsuario("operator@gmail.com", "2222", NivelEnum.OPERADOR, StatusEnum.ATIVO);
+            userService.criarUsuario("manutencao@gmail.com", "1111", NivelEnum.MANUTENCAO, StatusEnum.ATIVO);
+            userService.criarUsuario("operador@gmail.com", "2222", NivelEnum.OPERADOR, StatusEnum.ATIVO);
         }
         if (unidadeService.contarUnidades() == 0) {
             unidadeService.criarUnidades("SEGUNDO", "SEG", StatusEnum.ATIVO);

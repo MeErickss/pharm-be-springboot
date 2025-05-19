@@ -3,6 +3,7 @@ package com.example.pharm.controller;
 import com.example.pharm.dto.GrandezaDto;
 import com.example.pharm.model.Grandeza;
 import com.example.pharm.model.Parametro;
+import com.example.pharm.model.Unidade;
 import com.example.pharm.service.GrandezaService;
 import com.example.pharm.service.TokenService;
 import org.springframework.http.HttpStatus;

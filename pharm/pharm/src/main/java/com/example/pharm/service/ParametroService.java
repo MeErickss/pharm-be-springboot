@@ -30,6 +30,10 @@ public class ParametroService {
         return parametroRepository.count();
     }
 
+    public List<Parametro> buscarParametrosComGrandezaUnidade(FuncaoEnum funcaoEnum){
+        return parametroRepository.findByFuncaoEnum(funcaoEnum);
+    }
+
     public Parametro criarParametro(String descricao,
                                Integer valor,
                                Integer vlMin,

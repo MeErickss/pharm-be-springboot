@@ -1,6 +1,6 @@
 package com.example.pharm.repository;
 
-import com.example.pharm.model.LogProducao;
+import com.example.pharm.dto.ParametroOutDto;
 import com.example.pharm.model.Parametro;
 import com.example.pharm.model.enumeration.FuncaoEnum;
 import com.example.pharm.model.enumeration.StatusEnum;
@@ -23,14 +23,22 @@ public interface ParametroRepository extends JpaRepository<Parametro, Long> {
     List<Parametro> findByStatus(StatusEnum statusEnum);
 
     // dentro de ParametroRepository
-    @Query(value = "SELECT p.id, p.descricao, p.valor, p.vl_min as vlMin, p.vl_max as vlMax, " +
-            "p.status, p.funcao_enum as funcaoEnum, " +
-            "u.descricao as unidadeDescricao, g.descricao as grandezaDescricao " +
-            "FROM parametro p " +
-            "INNER JOIN unidade u ON p.id_unidade = u.id " +
-            "INNER JOIN grandeza g ON p.id_grandeza = g.id",
-            nativeQuery = true)
-    List<Parametro> findAllParametrosWithUnidadeAndGrandeza();
+    @Query("""
+      SELECT new com.example.pharm.dto.ParametroOutDto(
+        p.id,
+        p.descricao,
+        p.valor,
+        p.vlMin,
+        p.vlMax,
+        p.status,
+        u.descricao,
+        g.descricao
+      )
+      FROM Parametro p
+      JOIN p.unidade u
+      JOIN p.grandeza g
+    """)
+    List<ParametroOutDto> findAllOut();
 
 
     boolean existsByDescricao(String decricao);

@@ -3,6 +3,7 @@ package com.example.pharm.model;
 import com.example.pharm.model.enumeration.FuncaoEnum;
 import com.example.pharm.model.enumeration.StatusEnum;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import org.hibernate.engine.spi.Status;
 
@@ -37,12 +38,12 @@ public class Parametro {
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_grandeza", referencedColumnName = "id", nullable = false,
             foreignKey = @ForeignKey(name = "fk_parametro_grandeza"))
-    @JsonBackReference(value = "grandeza-parametro")
+    @JsonIgnoreProperties("parametros")    // permite serializar aqui
     private Grandeza grandeza;
 
     @ManyToOne(optional = false, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinColumn(name = "id_unidade", nullable = false)
-    @JsonBackReference(value = "unidade-parametro")
+    @JsonIgnoreProperties("parametros")    // permite serializar aqui
     private Unidade unidade;
 
     public Parametro() {} // Construtor vazio

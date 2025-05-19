@@ -3,6 +3,7 @@ package com.example.pharm.controller;
 import com.example.pharm.dto.UnidadeDto;
 import com.example.pharm.model.Parametro;
 import com.example.pharm.model.Unidade;
+import com.example.pharm.repository.UnidadeRepository;
 import com.example.pharm.service.TokenService;
 import com.example.pharm.service.UnidadeService;
 import org.hibernate.loader.NonUniqueDiscoveredSqlAliasException;
@@ -18,10 +19,12 @@ import java.util.List;
 public class UnidadeController {
     private final UnidadeService unidadeService;
     private final TokenService tokenService;
+    private final UnidadeRepository unidadeRepository;
 
-    public UnidadeController(UnidadeService unidadeService, TokenService tokenService){
+    public UnidadeController(UnidadeService unidadeService, TokenService tokenService, UnidadeRepository unidadeRepository){
         this.unidadeService = unidadeService;
         this.tokenService = tokenService;
+        this.unidadeRepository = unidadeRepository;
     }
 
     @GetMapping
@@ -39,6 +42,20 @@ public class UnidadeController {
 
         List<Unidade> todos = unidadeService.listAll();
         return ResponseEntity.ok(todos);
+    }
+
+    @GetMapping("/porgrandeza")
+    public ResponseEntity<List<Unidade>> listarPorGrandeza(
+            @RequestParam("descricao") String descricaoGrandeza,
+            @CookieValue(name = "JWT", required = false) String token
+    ) {
+        if (token == null || tokenService.validarToken(token) == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        List<Unidade> unidades = unidadeRepository
+                .findUnidadesByGrandezaDescricao(descricaoGrandeza);
+        return ResponseEntity.ok(unidades);
     }
 
     @PostMapping
