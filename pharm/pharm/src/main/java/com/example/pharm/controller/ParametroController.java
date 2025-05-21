@@ -29,14 +29,15 @@ public class ParametroController {
 
     @GetMapping
     public ResponseEntity<List<ParametroOutDto>> listAll(
-            @CookieValue(name = "JWT", required = false) String token) {
+            @CookieValue(name = "JWT", required = false) String token,
+            @RequestParam FuncaoEnum funcaoEnum) {
 
 
         if (token == null || tokenService.validarToken(token) == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        List<ParametroOutDto> lista = parametroRepository.findAllOut();
+        List<ParametroOutDto> lista = parametroRepository.findAllOut(funcaoEnum);
         return ResponseEntity.ok(lista);
     }
 

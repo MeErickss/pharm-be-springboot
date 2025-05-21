@@ -37,8 +37,9 @@ public interface ParametroRepository extends JpaRepository<Parametro, Long> {
       FROM Parametro p
       JOIN p.unidade u
       JOIN p.grandeza g
+      WHERE p.funcaoEnum = :funcao
     """)
-    List<ParametroOutDto> findAllOut();
+    List<ParametroOutDto> findAllOut(@Param("funcao") FuncaoEnum funcaoEnum);
 
 
     boolean existsByDescricao(String decricao);
