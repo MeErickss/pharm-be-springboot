@@ -1,12 +1,15 @@
 package com.example.pharm.service;
 
 import com.example.pharm.dto.LogProducaoDto;
+import com.example.pharm.model.LogAlarme;
 import com.example.pharm.model.LogProducao;
 import com.example.pharm.model.Usuario;
 import com.example.pharm.model.enumeration.StatusEnum;
 import com.example.pharm.repository.LogProducaoRepository;
 import com.example.pharm.repository.UsuarioRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -43,10 +46,9 @@ public class LogProducaoService {
         return l;
     }
 
-    public List<LogProducao> listAll(){
-        return logProducaoRepository.findAll();
+    public Page<LogProducao> listAll(Pageable pageable) {
+        return logProducaoRepository.findAll(pageable);
     }
-
     public LogProducao listId(Long id){
         return logProducaoRepository.findById(id).orElseThrow(()->
                 new RuntimeException("LogProducao não encontrada!")

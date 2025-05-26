@@ -6,6 +6,8 @@ import com.example.pharm.model.enumeration.StatusEnum;
 import com.example.pharm.repository.LogArmazenamentoRepository;
 import com.example.pharm.repository.UsuarioRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -41,8 +43,8 @@ public class LogArmazenamentoService {
         return l;
     }
 
-    public List<LogArmazenamento> listAll(){
-        return logArmazenamentoRepository.findAll();
+    public Page<LogArmazenamento> listAll(Pageable pageable) {
+        return logArmazenamentoRepository.findAll(pageable);
     }
 
     public LogArmazenamento listId(Long id){

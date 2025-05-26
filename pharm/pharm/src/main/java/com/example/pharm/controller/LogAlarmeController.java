@@ -6,6 +6,10 @@ import com.example.pharm.model.Parametro;
 import com.example.pharm.model.Unidade;
 import com.example.pharm.service.LogAlarmeService;
 import com.example.pharm.service.TokenService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,9 +30,11 @@ public class LogAlarmeController {
 
 
     @GetMapping
-    public ResponseEntity<List<LogAlarme>> listAll(
-            @CookieValue(name = "JWT", required = false) String token) { // Alterado para ler do cookie
-
+    public ResponseEntity<Page<LogAlarme>> listAll(
+            @CookieValue(name = "JWT", required = false) String token,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
         if (token == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
@@ -38,9 +44,12 @@ public class LogAlarmeController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        List<LogAlarme> todos = logAlarmeService.listAll();
-        return ResponseEntity.ok(todos);
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+        Page<LogAlarme> pageResult = logAlarmeService.listAll(pageable);
+
+        return ResponseEntity.ok(pageResult);
     }
+
 
     @PostMapping
     public ResponseEntity<LogAlarme> criarLogAlarme(@RequestBody LogAlarmeDto dto) {

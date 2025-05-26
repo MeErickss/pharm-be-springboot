@@ -1,12 +1,17 @@
 package com.example.pharm.controller;
 
 import com.example.pharm.dto.LogArmazenamentoDto;
+import com.example.pharm.model.LogAlarme;
 import com.example.pharm.model.LogArmazenamento;
 import com.example.pharm.model.Parametro;
 import com.example.pharm.model.Unidade;
 import com.example.pharm.service.LogArmazenamentoService;
 import com.example.pharm.service.TokenService;
 import org.antlr.v4.runtime.Token;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,8 +31,10 @@ public class LogArmazenamentoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<LogArmazenamento>> listAll(
-            @CookieValue(name = "JWT", required = false) String token) { // Alterado para ler do cookie
+    public ResponseEntity<Page<LogArmazenamento>> listAll(
+            @CookieValue(name = "JWT", required = false) String token,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) { // Alterado para ler do cookie
 
         if (token == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -38,8 +45,10 @@ public class LogArmazenamentoController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        List<LogArmazenamento> todos = logArmazenamentoService.listAll();
-        return ResponseEntity.ok(todos);
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+        Page<LogArmazenamento> pageResult = logArmazenamentoService.listAll(pageable);
+
+        return ResponseEntity.ok(pageResult);
     }
 
     @PostMapping
