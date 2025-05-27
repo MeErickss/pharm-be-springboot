@@ -23,14 +23,14 @@ public class ParametroOutDto {
             String unidade,
             String grandeza
     ) {
-        this.id         = id;
-        this.descricao  = descricao;
-        this.valor      = valor;
-        this.vlMin      = vlMin;
-        this.vlMax      = vlMax;
-        this.status     = status;
-        this.unidade    = unidade;
-        this.grandeza   = grandeza;
+        this.id = id;
+        this.descricao = descricao;
+        this.valor = valor;
+        this.vlMin = vlMin;
+        this.vlMax = vlMax;
+        this.status = status;
+        this.unidade = unidade;
+        this.grandeza = grandeza;
     }
 
     // getters

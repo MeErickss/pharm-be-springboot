@@ -14,9 +14,9 @@ public class ParametroDto {
     private Integer vlmax;
     private StatusEnum statusenum;
     private String descricao;
-    private Long unidadeId;
+    private String unidade;
     private FuncaoEnum funcao;
-    private Long grandezaId;
+    private String grandeza;
 
     // Construtor vazio é essencial
     public ParametroDto() {}
@@ -24,15 +24,15 @@ public class ParametroDto {
     // (Opcional) construtor completo
     public ParametroDto(Long id,Integer valor, Integer vlmin, Integer vlmax,
                         StatusEnum statusenum, String descricao,
-                        Long unidadeId, FuncaoEnum funcao, Long grandezaId) {
+                        String unidade, FuncaoEnum funcao, String grandeza) {
         this.valor = valor;
         this.vlmin = vlmin;
         this.vlmax = vlmax;
         this.statusenum = statusenum;
         this.descricao = descricao;
-        this.unidadeId = unidadeId;
+        this.unidade = unidade;
         this.funcao = funcao;
-        this.grandezaId = grandezaId;
+        this.grandeza = grandeza;
         this.id = id;
     }
 
@@ -49,10 +49,10 @@ public class ParametroDto {
     public void setStatusenum(StatusEnum statusenum) { this.statusenum = statusenum; }
     public String getDescricao() { return descricao; }
     public void setDescricao(String descricao) { this.descricao = descricao; }
-    public Long getUnidadeId() { return unidadeId; }
-    public void setUnidadeId(Long unidadeId) { this.unidadeId = unidadeId; }
+    public String getUnidade() { return unidade; }
+    public void setUnidadeId(String unidade) { this.unidade = unidade; }
     public FuncaoEnum getFuncao() { return funcao; }
     public void setFuncao(FuncaoEnum funcao) { this.funcao = funcao; }
-    public Long getGrandezaId() { return grandezaId; }
-    public void setGrandezaId(Long grandezaId) { this.grandezaId = grandezaId; }
+    public String getGrandeza() { return grandeza; }
+    public void setGrandezaId(String grandeza) { this.grandeza = grandeza; }
 }

@@ -54,11 +54,9 @@ public class Grandeza {
         this.id = id;
     }
 
-    public String getNome() {
-        return descricao;
-    }
+    public String getDescricao() {return descricao;}
 
-    public void setNome(String descricao) {
+    public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
 

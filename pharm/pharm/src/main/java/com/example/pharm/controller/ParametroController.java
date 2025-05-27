@@ -66,18 +66,9 @@ public class ParametroController {
     }
 
     @PostMapping
-    public ResponseEntity<Parametro> criarParametro(@RequestBody ParametroDto dto) {
-        Parametro salvo = parametroService.criarParametro(
-                dto.getDescricao(),
-                dto.getVlmin(),
-                dto.getVlmax(),
-                dto.getValor(),
-                dto.getStatusenum(),
-                dto.getGrandezaId(),
-                dto.getUnidadeId(),
-                dto.getFuncao()
-        );
-        return ResponseEntity.ok(salvo);
+    public ResponseEntity<ParametroOutDto> criarParametro(@RequestBody ParametroDto dto) {
+        ParametroOutDto out = parametroService.insertParametro(dto);
+        return ResponseEntity.ok(out);
     }
 
     @DeleteMapping("/{id}")

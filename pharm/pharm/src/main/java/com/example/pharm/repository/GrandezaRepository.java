@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 public interface GrandezaRepository extends JpaRepository<Grandeza, Long> {
 
-    Page<Grandeza> findByDescricao(String descricao, Pageable pageable);
+    Grandeza findByDescricao(String descricao);
 
     List<Grandeza> findByStatus(StatusEnum statusEnum);
 

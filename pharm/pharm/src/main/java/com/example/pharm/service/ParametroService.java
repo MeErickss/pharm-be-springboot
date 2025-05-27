@@ -1,10 +1,12 @@
 package com.example.pharm.service;
 
 import com.example.pharm.dto.ParametroDto;
+import com.example.pharm.dto.ParametroOutDto;
 import com.example.pharm.model.*;
 import com.example.pharm.model.enumeration.FuncaoEnum;
 import com.example.pharm.model.enumeration.StatusEnum;
 import com.example.pharm.repository.*;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -67,6 +69,46 @@ public class ParametroService {
 
         parametroRepository.save(p);
         return p;
+    }
+
+    public ParametroOutDto insertParametro(ParametroDto dto) {
+        // 1) busca as entidades já persistidas pelo campo 'descricao'
+        Grandeza grandeza = grandezaRepository
+                .findByDescricao(dto.getGrandeza())
+                .orElseThrow(() ->
+                        new EntityNotFoundException("Grandeza não encontrada: " + dto.getGrandeza())
+                );
+
+        Unidade unidade = unidadeRepository
+                .findByDescricao(dto.getUnidade())
+                .orElseThrow(() ->
+                        new EntityNotFoundException("Unidade não encontrada: " + dto.getUnidade())
+                );
+
+        // 2) monta e salva o Parametro
+        Parametro p = new Parametro();
+        p.setDescricao(dto.getDescricao());
+        p.setValor(dto.getValor());
+        p.setVlMin(dto.getVlmin());
+        p.setVlMax(dto.getVlmax());
+        p.setStatus(dto.getStatusenum());
+        p.setFuncao(dto.getFuncao());
+        p.setGrandeza(grandeza);   // associa a entidade recuperada
+        p.setUnidade(unidade);
+
+        Parametro salvo = parametroRepository.save(p);
+
+        // 3) retorna o OutDto (não esqueça de incluir id e texto)
+        return new ParametroOutDto(
+                salvo.getId(),
+                salvo.getDescricao(),
+                salvo.getValor(),
+                salvo.getVlMin(),
+                salvo.getVlMax(),
+                salvo.getStatus(),
+                unidade.getUnidade(),
+                grandeza.getDescricao()
+        );
     }
 
     public List<Parametro> listAll(){

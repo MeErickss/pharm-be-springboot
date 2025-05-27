@@ -34,7 +34,7 @@ public class GrandezaService {
         }
 
         Grandeza g = new Grandeza();
-        g.setNome(descricao);
+        g.setDescricao(descricao);
         g.setStatus(status);
 
         grandezaRepository.save(g);

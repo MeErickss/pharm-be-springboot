@@ -15,7 +15,7 @@ import java.util.List;
 @Repository
 public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
 
-    Page<Unidade> findByDescricao(String descricao, Pageable pageable);
+    Unidade findByDescricao(String descricao);
 
     List<Unidade> findByStatus(StatusEnum statusEnum);
 
