@@ -63,7 +63,6 @@ public class Parametro {
     public Long getId() { return id; }
     public StatusEnum getStatus() { return status; }
 
-    public void setParametro(String descricao) { this.descricao = descricao; }
     public void setValor(Integer valor) { this.valor = valor; }
     public void setVlMin(Integer vlMin) { this.vlMin = vlMin; }
     public void setVlMax(Integer vlMax) { this.vlMax = vlMax; }

@@ -9,11 +9,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface GrandezaRepository extends JpaRepository<Grandeza, Long> {
 
-    Grandeza findByDescricao(String descricao);
+    Optional<Grandeza> findByDescricao(String descricao);
 
     List<Grandeza> findByStatus(StatusEnum statusEnum);
 

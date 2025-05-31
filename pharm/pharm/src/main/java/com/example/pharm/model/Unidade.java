@@ -3,6 +3,7 @@ package com.example.pharm.model;
 import com.example.pharm.model.enumeration.StatusEnum;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import org.hibernate.engine.spi.Status;
@@ -32,10 +33,10 @@ public class Unidade {
     @JsonIgnore
     private List<Parametro> parametro = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "unidade",
-            cascade = CascadeType.REMOVE)
-    @JsonIgnore
-    private List<Grandeza> grandeza = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "id_grandeza", nullable = false)
+    @JsonBackReference  // evita loop na serialização
+    private Grandeza grandeza;
 
     public Unidade() {}
 
@@ -62,9 +63,7 @@ public class Unidade {
         this.descricao = descricao;
     }
 
-    public String getAbreviacao() {
-        return abreviacao;
-    }
+    public String getAbreviacao() {return abreviacao;}
 
     public void setAbreviacao(String abreviacao) {
         this.abreviacao = abreviacao;
@@ -85,11 +84,9 @@ public class Unidade {
     public void setParametro(List<Parametro> parametro) {this.parametro = parametro;}
 
 
-    public List<Grandeza> getGrandeza() {
+    public Grandeza getGrandeza() {
         return grandeza;
     }
 
-    public void setGrandeza(List<Grandeza> grandezas) {
-        this.grandeza = grandeza;
-    }
+    public void setGrandeza(Grandeza grandeza) {this.grandeza = grandeza;}
 }

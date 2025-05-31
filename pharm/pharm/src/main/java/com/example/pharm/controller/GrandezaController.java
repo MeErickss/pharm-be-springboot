@@ -56,10 +56,9 @@ public class GrandezaController {
         return ResponseEntity.noContent().build(); // 204 No Content
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Grandeza> autualizarGrandeza(@PathVariable Long id,
-                                                             @RequestBody GrandezaDto grandezaDto){
-        Grandeza atualizado = grandezaService.atualizar(id, grandezaDto);
+    @PutMapping
+    public ResponseEntity<Grandeza> autualizarGrandeza(@RequestBody GrandezaDto grandezaDto){
+        Grandeza atualizado = grandezaService.atualizarGrandeza(grandezaDto);
         return ResponseEntity.ok(atualizado);
     }
 }

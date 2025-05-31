@@ -41,23 +41,6 @@ public class ParametroController {
         return ResponseEntity.ok(lista);
     }
 
-    @GetMapping("/funcao")
-    public ResponseEntity<List<Parametro>> listFuncao(
-            @CookieValue(name = "JWT", required = false) String token,
-            @RequestParam("funcao") FuncaoEnum funcaoEnum) {
-
-        if (token == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-        Long userId = tokenService.validarToken(token);
-        if (userId == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-
-        List<Parametro> lista = parametroRepository.findByFuncaoEnum(funcaoEnum);
-        return ResponseEntity.ok(lista);
-    }
-
 
     @GetMapping("/{id}")
     public ResponseEntity<Parametro> buscarPorId(@PathVariable Long id) {
@@ -66,9 +49,9 @@ public class ParametroController {
     }
 
     @PostMapping
-    public ResponseEntity<ParametroOutDto> criarParametro(@RequestBody ParametroDto dto) {
-        ParametroOutDto out = parametroService.insertParametro(dto);
-        return ResponseEntity.ok(out);
+    public ResponseEntity<ParametroOutDto> inserirParametro(@RequestBody ParametroDto dto) {
+        parametroService.insertParametro(dto);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
@@ -77,10 +60,9 @@ public class ParametroController {
         return ResponseEntity.noContent().build(); // 204 No Content
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Parametro> autualizarParametro(@PathVariable Long id,
-                                                         @RequestParam ParametroDto parametroDto){
-        Parametro atualizado = parametroService.atualizar(id, parametroDto);
+    @PutMapping
+    public ResponseEntity<Parametro> autualizarParametro(@RequestBody ParametroDto parametroDto){
+        Parametro atualizado = parametroService.atualizarParametro(parametroDto);
         return ResponseEntity.ok(atualizado);
     }
 

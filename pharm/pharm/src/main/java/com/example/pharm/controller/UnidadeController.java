@@ -1,6 +1,7 @@
 package com.example.pharm.controller;
 
 import com.example.pharm.dto.UnidadeDto;
+import com.example.pharm.dto.UnidadeOutDto;
 import com.example.pharm.model.Parametro;
 import com.example.pharm.model.Unidade;
 import com.example.pharm.repository.UnidadeRepository;
@@ -28,7 +29,7 @@ public class UnidadeController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Unidade>> listAll(
+    public ResponseEntity<List<UnidadeOutDto>> listAll(
             @CookieValue(name = "JWT", required = false) String token) { // Alterado para ler do cookie
 
         if (token == null) {
@@ -40,7 +41,7 @@ public class UnidadeController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        List<Unidade> todos = unidadeService.listAll();
+        List<UnidadeOutDto> todos = unidadeRepository.findAllOut();
         return ResponseEntity.ok(todos);
     }
 
@@ -60,12 +61,8 @@ public class UnidadeController {
 
     @PostMapping
     public ResponseEntity<Unidade> criarUnidade(@RequestBody UnidadeDto dto) {
-        Unidade salvo = unidadeService.criarUnidades(
-                dto.getDescricao(),
-                dto.getAbreviacao(),
-                dto.getStatus()
-        );
-        return ResponseEntity.ok(salvo);
+        unidadeService.insertUnidades(dto);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
@@ -74,10 +71,9 @@ public class UnidadeController {
         return ResponseEntity.noContent().build(); // 204 No Content
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Unidade> autualizarUnidade(@PathVariable Long id,
-                                                         @RequestBody UnidadeDto unidadeDto){
-        Unidade atualizado = unidadeService.atualizar(id, unidadeDto);
+    @PutMapping
+    public ResponseEntity<Unidade> atualizarUnidade(@RequestBody UnidadeDto unidadeDto){
+        Unidade atualizado = unidadeService.atualizarUnidade(unidadeDto);
         return ResponseEntity.ok(atualizado);
     }
 }

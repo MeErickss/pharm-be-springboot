@@ -14,9 +14,9 @@ public class ParametroDto {
     private Integer vlmax;
     private StatusEnum statusenum;
     private String descricao;
-    private String unidade;
+    private String unidadeDesc;
     private FuncaoEnum funcao;
-    private String grandeza;
+    private String grandezaDesc;
 
     // Construtor vazio é essencial
     public ParametroDto() {}
@@ -24,15 +24,15 @@ public class ParametroDto {
     // (Opcional) construtor completo
     public ParametroDto(Long id,Integer valor, Integer vlmin, Integer vlmax,
                         StatusEnum statusenum, String descricao,
-                        String unidade, FuncaoEnum funcao, String grandeza) {
+                        String unidadeDesc, FuncaoEnum funcao, String grandezaDesc) {
         this.valor = valor;
         this.vlmin = vlmin;
         this.vlmax = vlmax;
         this.statusenum = statusenum;
         this.descricao = descricao;
-        this.unidade = unidade;
+        this.unidadeDesc = unidadeDesc;
         this.funcao = funcao;
-        this.grandeza = grandeza;
+        this.grandezaDesc = grandezaDesc;
         this.id = id;
     }
 
@@ -49,10 +49,10 @@ public class ParametroDto {
     public void setStatusenum(StatusEnum statusenum) { this.statusenum = statusenum; }
     public String getDescricao() { return descricao; }
     public void setDescricao(String descricao) { this.descricao = descricao; }
-    public String getUnidade() { return unidade; }
-    public void setUnidadeId(String unidade) { this.unidade = unidade; }
+    public String getUnidadeDesc() { return unidadeDesc; }
+    public void setUnidadeDesc(String unidadeDesc) { this.unidadeDesc = unidadeDesc; }
     public FuncaoEnum getFuncao() { return funcao; }
     public void setFuncao(FuncaoEnum funcao) { this.funcao = funcao; }
-    public String getGrandeza() { return grandeza; }
-    public void setGrandezaId(String grandeza) { this.grandeza = grandeza; }
+    public String getGrandezaDesc() { return grandezaDesc; }
+    public void setGrandezaDesc(String grandezaDesc) { this.grandezaDesc = grandezaDesc; }
 }

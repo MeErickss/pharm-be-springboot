@@ -1,5 +1,6 @@
 package com.example.pharm.repository;
 
+import com.example.pharm.dto.UnidadeOutDto;
 import com.example.pharm.model.Unidade;
 import com.example.pharm.model.Usuario;
 import com.example.pharm.model.enumeration.StatusEnum;
@@ -27,6 +28,19 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
        WHERE g.descricao = :descricaoGrandeza
     """)
     List<Unidade> findUnidadesByGrandezaDescricao(@Param("descricaoGrandeza") String descricaoGrandeza);
+
+    @Query("""
+      SELECT new com.example.pharm.dto.UnidadeOutDto(
+        u.id,
+        u.descricao,
+        u.abreviacao,
+        u.status,
+        g.descricao
+      )
+      FROM Unidade u
+      JOIN u.grandeza g
+    """)
+    List<UnidadeOutDto> findAllOut();
 
 
     boolean existsByDescricao(String decricao);

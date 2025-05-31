@@ -32,11 +32,8 @@ public class ParametroService {
         return parametroRepository.count();
     }
 
-    public List<Parametro> buscarParametrosComGrandezaUnidade(FuncaoEnum funcaoEnum){
-        return parametroRepository.findByFuncaoEnum(funcaoEnum);
-    }
 
-    public Parametro criarParametro(String descricao,
+    public void criarParametro(String descricao,
                                Integer valor,
                                Integer vlMin,
                                Integer vlMax,
@@ -68,22 +65,15 @@ public class ParametroService {
         p.setStatus(status);
 
         parametroRepository.save(p);
-        return p;
     }
 
-    public ParametroOutDto insertParametro(ParametroDto dto) {
-        // 1) busca as entidades já persistidas pelo campo 'descricao'
+    public void insertParametro(ParametroDto dto) {
         Grandeza grandeza = grandezaRepository
-                .findByDescricao(dto.getGrandeza())
-                .orElseThrow(() ->
-                        new EntityNotFoundException("Grandeza não encontrada: " + dto.getGrandeza())
-                );
+                .findByDescricao(dto.getGrandezaDesc()).orElseThrow(()->
+                        new RuntimeException("Parametro não encontrado"));
 
         Unidade unidade = unidadeRepository
-                .findByDescricao(dto.getUnidade())
-                .orElseThrow(() ->
-                        new EntityNotFoundException("Unidade não encontrada: " + dto.getUnidade())
-                );
+                .findByDescricao(dto.getUnidadeDesc());
 
         // 2) monta e salva o Parametro
         Parametro p = new Parametro();
@@ -96,28 +86,13 @@ public class ParametroService {
         p.setGrandeza(grandeza);   // associa a entidade recuperada
         p.setUnidade(unidade);
 
-        Parametro salvo = parametroRepository.save(p);
-
-        // 3) retorna o OutDto (não esqueça de incluir id e texto)
-        return new ParametroOutDto(
-                salvo.getId(),
-                salvo.getDescricao(),
-                salvo.getValor(),
-                salvo.getVlMin(),
-                salvo.getVlMax(),
-                salvo.getStatus(),
-                unidade.getUnidade(),
-                grandeza.getDescricao()
-        );
+        parametroRepository.save(p);
     }
 
     public List<Parametro> listAll(){
         return parametroRepository.findAll();
     }
 
-    public List<Parametro> buscarPorFuncao(FuncaoEnum funcaoEnum){
-        return parametroRepository.findByFuncaoEnum(funcaoEnum);
-    }
 
     public Parametro listId(Long id){
         return parametroRepository.findById(id).orElseThrow(()->
@@ -125,10 +100,26 @@ public class ParametroService {
         );
     }
 
-    public Parametro atualizar(Long id, ParametroDto parametroDto){
-        Parametro p = parametroRepository.findById(id).orElseThrow(()->
+    public Parametro atualizarParametro(ParametroDto parametroDto){
+        Parametro p = parametroRepository.findById(parametroDto.getId()).orElseThrow(()->
                 new RuntimeException("Parametro não encontrado")
         );
+
+        Grandeza grandeza = grandezaRepository
+                .findByDescricao(parametroDto.getGrandezaDesc()).orElseThrow(()->
+                        new RuntimeException("Parametro não encontrado"));
+
+        Unidade unidade = unidadeRepository
+                .findByDescricao(parametroDto.getUnidadeDesc());
+
+        p.setStatus(parametroDto.getStatusenum());
+        p.setFuncao(parametroDto.getFuncao());
+        p.setValor(parametroDto.getValor());
+        p.setVlMax(parametroDto.getVlmax());
+        p.setVlMin(parametroDto.getVlmin());
+        p.setDescricao(parametroDto.getDescricao());
+        p.setUnidade(unidade);
+        p.setGrandeza(grandeza);
         return parametroRepository.save(p);
     }
 

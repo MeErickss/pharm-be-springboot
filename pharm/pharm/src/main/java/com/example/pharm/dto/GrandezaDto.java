@@ -9,15 +9,19 @@ import java.util.List;
 
 public class GrandezaDto {
 
+    private Long id;
     private String descricao;
     private StatusEnum status;
     private Long unidadeId;
 
-    public GrandezaDto(String descricao, StatusEnum status, Long unidadeId){
+    public GrandezaDto(Long id, String descricao, StatusEnum status, Long unidadeId){
+        this.id = id;
         this.descricao = descricao;
         this.status = status;
         this.unidadeId = unidadeId;
     }
+
+    public Long getId() {return id;}
 
     public StatusEnum getStatus() {return status;}
 

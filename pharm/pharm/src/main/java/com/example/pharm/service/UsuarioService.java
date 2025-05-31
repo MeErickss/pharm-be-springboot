@@ -66,10 +66,16 @@ public class UsuarioService {
         );
     }
 
-    public Usuario atualizar(Long id, UsuarioDto usuarioDto){
-        Usuario u = usuarioRepository.findById(id).orElseThrow(()->
+    public Usuario atualizarUsuario(UsuarioDto usuarioDto){
+        Usuario u = usuarioRepository.findById(usuarioDto.getId()).orElseThrow(()->
                 new RuntimeException("Usuario não encontrado")
         );
+
+        u.setLogin(usuarioDto.getLogin());
+        u.setStatus(usuarioDto.getStatus());
+        u.setPassword(usuarioDto.getPassword());
+        u.setNivel(usuarioDto.getNivel());
+
         return usuarioRepository.save(u);
     }
 

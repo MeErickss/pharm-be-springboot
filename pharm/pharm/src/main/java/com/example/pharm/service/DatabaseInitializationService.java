@@ -57,38 +57,34 @@ public class DatabaseInitializationService implements ApplicationRunner {
             userService.criarUsuario("operador@gmail.com", "2222", NivelEnum.OPERADOR, StatusEnum.ATIVO);
         }
 
-        if (unidadeService.contarUnidades() == 0) {
-            unidadeService.criarUnidades("SEGUNDO", "SEG", StatusEnum.ATIVO);
-            unidadeService.criarUnidades("HORA", "HR", StatusEnum.ATIVO);
-            unidadeService.criarUnidades("PSI", "PSI", StatusEnum.ATIVO);
-        }
-
         if (grandezaService.contarGrandeza() == 0) {
             grandezaService.criarGrandeza("TEMPO", StatusEnum.ATIVO);
             grandezaService.criarGrandeza("PRESSAO", StatusEnum.ATIVO);
+        }
 
-            grandezaService.adicionarUnidades(1L, 2L);
-            grandezaService.adicionarUnidades(1L, 1L);
-            grandezaService.adicionarUnidades(2L, 3L);
+        if (unidadeService.contarUnidades() == 0) {
+            unidadeService.criarUnidades("SEGUNDO", "SEG", StatusEnum.ATIVO, 1L);
+            unidadeService.criarUnidades("HORA", "HR", StatusEnum.ATIVO,1L);
+            unidadeService.criarUnidades("PSI", "PSI", StatusEnum.ATIVO, 2L);
+        }
 
-            if (parametroService.contarParametros() == 0) {
-                parametroService.criarParametro(
-                        "TEMPO PARA DRENAGEM DO TANQUE DE MISTURA [TQ-100]",
-                        20, 10, 30, StatusEnum.ATIVO, 1L, 2L, FuncaoEnum.PRODUCAO
-                );
-                parametroService.criarParametro(
-                        "TEMPO PARA DRENAGEM DO TANQUE DE ADIÇÃO [TQ-200]",
-                        30, 15, 45, StatusEnum.ATIVO, 2L, 1L, FuncaoEnum.PRODUCAO
-                );
-                parametroService.criarParametro(
-                        "TEMPO PARA DRENAGEM DO TANQUE TQ-300",
-                        40, 5, 200, StatusEnum.ATIVO, 1L, 1L, FuncaoEnum.PRODUCAO
-                );
-                parametroService.criarParametro(
-                        "TEMPO PARA DRENAGEM DO TANQUE TQ-310",
-                        10, 5, 100, StatusEnum.ATIVO, 2L, 3L, FuncaoEnum.ARMAZENAMENTO
-                );
-            }
+        if (parametroService.contarParametros() == 0) {
+            parametroService.criarParametro(
+                    "TEMPO PARA DRENAGEM DO TANQUE DE MISTURA [TQ-100]",
+                    20, 10, 30, StatusEnum.ATIVO, 1L, 2L, FuncaoEnum.PRODUCAO
+            );
+            parametroService.criarParametro(
+                    "TEMPO PARA DRENAGEM DO TANQUE DE ADIÇÃO [TQ-200]",
+                    30, 15, 45, StatusEnum.ATIVO, 2L, 1L, FuncaoEnum.PRODUCAO
+            );
+            parametroService.criarParametro(
+                    "TEMPO PARA DRENAGEM DO TANQUE TQ-300",
+                    40, 5, 200, StatusEnum.ATIVO, 1L, 1L, FuncaoEnum.PRODUCAO
+            );
+            parametroService.criarParametro(
+                    "TEMPO PARA DRENAGEM DO TANQUE TQ-310",
+                    10, 5, 100, StatusEnum.ATIVO, 2L, 3L, FuncaoEnum.ARMAZENAMENTO
+            );
         }
 
         // -------- Inserir 100 Logs de Produção --------

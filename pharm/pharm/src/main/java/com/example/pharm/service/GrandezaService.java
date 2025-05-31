@@ -42,19 +42,6 @@ public class GrandezaService {
     }
 
 
-    public void adicionarUnidades(Long grandezaId, Long unidadeIds) {
-        Grandeza g = grandezaRepository.findById(grandezaId).orElseThrow(()->
-                new RuntimeException("Grandeza não encontrada!")
-        );
-
-        Unidade u = unidadeRepository.findById(unidadeIds).orElseThrow(()->
-                new RuntimeException("Unidade não encontrada!")
-        );
-
-        g.getUnidades().add(u);
-        grandezaRepository.save(g);
-    }
-
     public List<Grandeza> listAll(){
         return grandezaRepository.findAll();
     }
@@ -65,8 +52,8 @@ public class GrandezaService {
         );
     }
 
-    public Grandeza atualizar(Long id, GrandezaDto grandezaDto){
-        Grandeza g = grandezaRepository.findById(id).orElseThrow(()->
+    public Grandeza atualizarGrandeza(GrandezaDto grandezaDto){
+        Grandeza g = grandezaRepository.findById(grandezaDto.getId()).orElseThrow(()->
                 new RuntimeException("Grandeza não encontrado")
         );
         return grandezaRepository.save(g);
