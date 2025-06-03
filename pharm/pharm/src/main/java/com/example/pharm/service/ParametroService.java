@@ -38,18 +38,18 @@ public class ParametroService {
                                Integer vlMin,
                                Integer vlMax,
                                StatusEnum status,
-                               Long grandezaId,
                                Long unidadeId,
                                FuncaoEnum funcaoEnum
     ) {
 
-        Grandeza g = grandezaRepository.findById(grandezaId).orElseThrow(()->
-                new RuntimeException("Grandeza não encontrada!")
-        );
-
         Unidade u = unidadeRepository.findById(unidadeId).orElseThrow(()->
                 new RuntimeException("Unidade não encontrada!")
         );
+
+        Grandeza g = u.getGrandeza();
+        if (g == null) {
+            throw new RuntimeException("A unidade não tem grandeza associada! idUnidade=" + unidadeId);
+        }
 
         if (parametroRepository.existsByDescricao(descricao)) {
             throw new RuntimeException("Parametro já existente!");

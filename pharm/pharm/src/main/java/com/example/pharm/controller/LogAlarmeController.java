@@ -53,14 +53,10 @@ public class LogAlarmeController {
 
     @PostMapping
     public ResponseEntity<LogAlarme> criarLogAlarme(@RequestBody LogAlarmeDto dto) {
-        LogAlarme salvo = logAlarmeService.criarLogAlarmes(
-                dto.getUser(),
-                dto.getDescricao(),
-                dto.getStatus(),
-                dto.getDataHora()
-        );
-        return ResponseEntity.ok(salvo);
+        logAlarmeService.insertLogAlarmes(dto);
+        return ResponseEntity.noContent().build(); // 204 No Content
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarLogAlarme(@PathVariable Long id){
         logAlarmeService.deletar(id);

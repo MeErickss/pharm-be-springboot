@@ -71,19 +71,19 @@ public class DatabaseInitializationService implements ApplicationRunner {
         if (parametroService.contarParametros() == 0) {
             parametroService.criarParametro(
                     "TEMPO PARA DRENAGEM DO TANQUE DE MISTURA [TQ-100]",
-                    20, 10, 30, StatusEnum.ATIVO, 1L, 2L, FuncaoEnum.PRODUCAO
+                    20, 10, 30, StatusEnum.ATIVO, 1L, FuncaoEnum.PRODUCAO
             );
             parametroService.criarParametro(
                     "TEMPO PARA DRENAGEM DO TANQUE DE ADIÇÃO [TQ-200]",
-                    30, 15, 45, StatusEnum.ATIVO, 2L, 1L, FuncaoEnum.PRODUCAO
+                    30, 15, 45, StatusEnum.ATIVO, 1L, FuncaoEnum.PRODUCAO
             );
             parametroService.criarParametro(
-                    "TEMPO PARA DRENAGEM DO TANQUE TQ-300",
-                    40, 5, 200, StatusEnum.ATIVO, 1L, 1L, FuncaoEnum.PRODUCAO
+                    "TEMPO PARA DRENAGEM DO TANQUE [TQ-300]",
+                    40, 5, 200, StatusEnum.ATIVO, 2L, FuncaoEnum.PRODUCAO
             );
             parametroService.criarParametro(
-                    "TEMPO PARA DRENAGEM DO TANQUE TQ-310",
-                    10, 5, 100, StatusEnum.ATIVO, 2L, 3L, FuncaoEnum.ARMAZENAMENTO
+                    "TEMPO PARA DRENAGEM DO TANQUE [TQ-310]",
+                    10, 5, 100, StatusEnum.ATIVO, 3L, FuncaoEnum.ARMAZENAMENTO
             );
         }
 

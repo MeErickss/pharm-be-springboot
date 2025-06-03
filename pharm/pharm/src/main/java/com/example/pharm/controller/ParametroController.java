@@ -4,7 +4,10 @@ import com.example.pharm.dto.ParametroDto;
 import com.example.pharm.dto.ParametroOutDto;
 import com.example.pharm.model.Parametro;
 import com.example.pharm.model.enumeration.FuncaoEnum;
+import com.example.pharm.repository.LogProducaoRepository;
 import com.example.pharm.repository.ParametroRepository;
+import com.example.pharm.service.LogArmazenamentoService;
+import com.example.pharm.service.LogProducaoService;
 import com.example.pharm.service.ParametroService;
 import com.example.pharm.service.TokenService;
 import org.springframework.http.HttpStatus;
@@ -20,11 +23,21 @@ public class ParametroController {
     private final ParametroService parametroService;
     private final TokenService tokenService;
     private final ParametroRepository parametroRepository;
+    private final LogProducaoService logProducaoService;
+    private final LogArmazenamentoService logArmazenamentoService;
 
-    public ParametroController(ParametroService parametroService, TokenService tokenService, ParametroRepository parametroRepository){
+
+    public ParametroController(ParametroService parametroService,
+                               TokenService tokenService,
+                               ParametroRepository parametroRepository,
+                               LogProducaoRepository logProducaoRepository,
+                               LogProducaoService logProducaoService,
+                               LogArmazenamentoService logArmazenamentoService){
         this.parametroService = parametroService;
         this.tokenService = tokenService;
         this.parametroRepository = parametroRepository;
+        this.logProducaoService = logProducaoService;
+        this.logArmazenamentoService = logArmazenamentoService;
     }
 
     @GetMapping
@@ -49,8 +62,16 @@ public class ParametroController {
     }
 
     @PostMapping
-    public ResponseEntity<ParametroOutDto> inserirParametro(@RequestBody ParametroDto dto) {
+    public ResponseEntity<ParametroOutDto> inserirParametro(@RequestBody ParametroDto dto,
+                                                            @RequestParam String userLogin) {
         parametroService.insertParametro(dto);
+        if(dto.getFuncao() == FuncaoEnum.PRODUCAO){
+            logProducaoService.insertLogProducao(dto, userLogin);
+
+        } else {
+            logArmazenamentoService.insertLogArmazenamento(dto, userLogin);
+        }
+
         return ResponseEntity.noContent().build();
     }
 

@@ -10,7 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.time.Instant;
 
 @Service
 @Transactional
@@ -28,21 +28,36 @@ public class LogAlarmeService {
     }
 
 
-    public LogAlarme criarLogAlarmes(Long userId, String descricao, StatusEnum status, String dataHora){
+    public void criarLogAlarmes(LogAlarmeDto dto){
 
-        Usuario u = usuarioRepository.findById(userId).orElseThrow(()->
+        Usuario u = usuarioRepository.findByLogin(dto.getUser()).orElseThrow(()->
                 new RuntimeException("Usuario não encontrada!")
-        );;
+        );
 
+        Instant time = Instant.now();
 
         LogAlarme l = new LogAlarme();
-        l.setStatus(status);
-        l.setDescricao(descricao);
+        l.setStatus(dto.getStatus());
+        l.setDescricao(dto.getDescricao());
         l.setUser(u);
-        l.setDataHora(dataHora);
+        l.setDataHora(String.valueOf(time));
         logAlarmeRepostiory.save(l);
+    }
 
-        return l;
+    public void insertLogAlarmes(LogAlarmeDto dto){
+
+        Usuario u = usuarioRepository.findByLogin(dto.getUser()).orElseThrow(()->
+                new RuntimeException("Usuario não encontrado!"+dto.getDescricao() +""+ dto.getUser())
+        );
+
+        Instant time = Instant.now();
+
+        LogAlarme l = new LogAlarme();
+        l.setStatus(StatusEnum.ATIVO);
+        l.setDescricao(dto.getDescricao());
+        l.setUser(u);
+        l.setDataHora(String.valueOf(time));
+        logAlarmeRepostiory.save(l);
     }
 
     public Page<LogAlarme> listAll(Pageable pageable) {

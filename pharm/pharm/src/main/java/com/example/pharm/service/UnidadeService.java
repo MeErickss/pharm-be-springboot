@@ -73,12 +73,18 @@ public class UnidadeService {
 
     public Unidade atualizarUnidade(UnidadeDto unidadeDto){
         Unidade u = unidadeRepository.findById(unidadeDto.getId()).orElseThrow(()->
-                new RuntimeException("Unidade não encontrado")
+                new RuntimeException("Unidade não encontrada!")
         );
 
+        Grandeza g = grandezaRepository.findByDescricao(unidadeDto.getGrandeza()).orElseThrow(()->
+                new RuntimeException("Grandeza não encontrada!")
+        );
+
+        u.setUnidade(unidadeDto.getUnidade());
         u.setAbreviacao(unidadeDto.getAbreviacao());
         u.setUnidade(unidadeDto.getUnidade());
         u.setStatus(unidadeDto.getStatus());
+        u.setGrandeza(g);
         return unidadeRepository.save(u);
     }
 

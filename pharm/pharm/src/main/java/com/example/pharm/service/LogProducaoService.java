@@ -1,6 +1,7 @@
 package com.example.pharm.service;
 
 import com.example.pharm.dto.LogProducaoDto;
+import com.example.pharm.dto.ParametroDto;
 import com.example.pharm.model.LogAlarme;
 import com.example.pharm.model.LogProducao;
 import com.example.pharm.model.Usuario;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 
 @Service
@@ -44,6 +46,22 @@ public class LogProducaoService {
         l.setDataHora(dataHora);
         logProducaoRepository.save(l);
         return l;
+    }
+
+    public void insertLogProducao(ParametroDto dto, String userLogin){
+
+        Usuario user = usuarioRepository.findByLogin(userLogin).orElseThrow(()->
+                new RuntimeException("Usuario não encontrada!")
+        );
+
+        Instant time = Instant.now();
+
+        LogProducao l = new LogProducao();
+        l.setStatus(StatusEnum.ATIVO);
+        l.setDescricao(dto.getDescricao());
+        l.setUser(user);
+        l.setDataHora(String.valueOf(time));
+        logProducaoRepository.save(l);
     }
 
     public Page<LogProducao> listAll(Pageable pageable) {
