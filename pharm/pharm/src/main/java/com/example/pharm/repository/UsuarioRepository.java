@@ -21,8 +21,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
     Optional<Usuario> findByLogin(String login);
 
-    Usuario findByLoginAndSenha(String login, String senha);
-
     List<Usuario> findByStatus(StatusEnum statusEnum);
 
     boolean existsByLogin(String login);

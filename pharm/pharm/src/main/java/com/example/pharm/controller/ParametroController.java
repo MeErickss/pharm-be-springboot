@@ -82,9 +82,9 @@ public class ParametroController {
     }
 
     @PutMapping
-    public ResponseEntity<Parametro> autualizarParametro(@RequestBody ParametroDto parametroDto){
-        Parametro atualizado = parametroService.atualizarParametro(parametroDto);
-        return ResponseEntity.ok(atualizado);
+    public ResponseEntity<Void> autualizarParametro(@RequestBody ParametroDto parametroDto){
+        parametroService.atualizarParametro(parametroDto);
+        return ResponseEntity.noContent().build(); // 204 No Content
     }
 
 }

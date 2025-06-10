@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,10 +25,12 @@ public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
     private final TokenService tokenService;
+    private final PasswordEncoder passwordEncoder;
 
-    public UsuarioService(UsuarioRepository usuarioRepository, TokenService tokenService) {
+    public UsuarioService(UsuarioRepository usuarioRepository, TokenService tokenService, PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
         this.tokenService = tokenService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public long contarUsuarios() {
@@ -45,10 +48,12 @@ public class UsuarioService {
             throw new RuntimeException("Login de usuário já existente!");
         }
 
+        String senhaHasheada = passwordEncoder.encode(senha);
+
 
         Usuario u = new Usuario();
         u.setLogin(login);
-        u.setPassword(senha);
+        u.setPassword(senhaHasheada);
         u.setNivel(nivel);
         u.setStatus(status);
 
@@ -90,7 +95,9 @@ public class UsuarioService {
 
     public String autenticarEGerarToken(String login, String senha) {
         // usa sua query customizada
-        Usuario u = usuarioRepository.findByLoginAndSenha(login, senha);
+        Usuario u = usuarioRepository.findByLogin(login).orElseThrow(()->
+                new RuntimeException("Login não encontrado")
+        );
 
         // se não encontrar, retorna null → tratamos como credenciais inválidas
         if (u == null) {
@@ -100,7 +107,9 @@ public class UsuarioService {
         if (u.getStatus() != StatusEnum.ATIVO) {
             throw new RuntimeException("Usuário inativo");
         }
-        // gera e retorna token
+        if (!passwordEncoder.matches(senha, u.getPassword())){
+            throw new RuntimeException("Senha incorreta");
+        }
         return tokenService.criarTokenParaUsuario(u.getId());
     }
 
