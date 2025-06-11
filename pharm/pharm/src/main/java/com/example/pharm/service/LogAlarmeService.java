@@ -11,6 +11,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -51,13 +53,16 @@ public class LogAlarmeService {
                 new RuntimeException("Usuario não encontrado!")
         );
 
-        Timestamp time = new Timestamp(System.currentTimeMillis());
+        LocalDate hoje = LocalDate.now();
+
+        String strHoje = hoje.format(DateTimeFormatter.ISO_LOCAL_DATE);
+
 
         LogAlarme l = new LogAlarme();
         l.setUser(u);
         l.setStatus(StatusEnum.ATIVO);
         l.setDescricao(logAlarmeDto.getDescricao());
-        l.setDataHora(String.valueOf(time));
+        l.setDataHora(strHoje);
         logAlarmeRepostiory.save(l);
     }
 

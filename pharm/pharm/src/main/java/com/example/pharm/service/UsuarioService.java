@@ -25,10 +25,12 @@ public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
     private final TokenService tokenService;
+    private final PasswordEncoder passwordEncoder;
 
-    public UsuarioService(UsuarioRepository usuarioRepository, TokenService tokenService) {
+    public UsuarioService(UsuarioRepository usuarioRepository, TokenService tokenService, PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
         this.tokenService = tokenService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public long contarUsuarios() {
@@ -41,20 +43,21 @@ public class UsuarioService {
     }
 
     public Usuario criarUsuario(String login, String senha, NivelEnum nivel, StatusEnum status) {
-        // 1. Verifica se o login já existe
         if (usuarioRepository.existsByLogin(login)) {
             throw new RuntimeException("Login de usuário já existente!");
         }
 
         Usuario u = new Usuario();
         u.setLogin(login);
-        u.setPassword(senha);
+        // aqui fazemos o encode da senha
+        u.setPassword(passwordEncoder.encode(senha));
         u.setNivel(nivel);
         u.setStatus(status);
 
         usuarioRepository.save(u);
         return u;
     }
+
 
     public List<Usuario> listAll(){
         return usuarioRepository.findAll();
@@ -73,7 +76,7 @@ public class UsuarioService {
 
         u.setLogin(usuarioDto.getLogin());
         u.setStatus(usuarioDto.getStatus());
-        u.setPassword(usuarioDto.getPassword());
+        u.setPassword(passwordEncoder.encode(usuarioDto.getPassword()));
         u.setNivel(usuarioDto.getNivel());
 
         return usuarioRepository.save(u);
@@ -89,20 +92,24 @@ public class UsuarioService {
     }
 
     public String autenticarEGerarToken(String login, String senha) {
-        // usa sua query customizada
-        Usuario u = usuarioRepository.findByLoginAndSenha(login, senha);
+        // 1) Busca o usuário somente pelo login
+        Usuario u = usuarioRepository.findByLogin(login)
+                .orElseThrow(() -> new RuntimeException("Login ou senha inválidos"));
 
-        // se não encontrar, retorna null → tratamos como credenciais inválidas
-        if (u == null) {
+        // 2) Compara a senha em texto com a criptografada
+        if (!passwordEncoder.matches(senha, u.getPassword())) {
             throw new RuntimeException("Login ou senha inválidos");
         }
-        // checa status
+
+        // 3) Checa status
         if (u.getStatus() != StatusEnum.ATIVO) {
             throw new RuntimeException("Usuário inativo");
         }
-        // gera e retorna token
+
+        // 4) Gera e retorna token
         return tokenService.criarTokenParaUsuario(u.getId());
     }
+
 
     public ResponseEntity<Map<String, String>> verificaTokenUsuario(LoginRequestDto req){
         String token = autenticarEGerarToken(req.getLogin(), req.getSenha());

@@ -16,6 +16,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -46,13 +48,15 @@ public class LogProducaoService {
                 new RuntimeException("Parametro não encontrado!")
         );
 
-        Timestamp time = new Timestamp(System.currentTimeMillis());
+        LocalDate hoje = LocalDate.now();
+
+        String strHoje = hoje.format(DateTimeFormatter.ISO_LOCAL_DATE);
 
         LogProducao l = new LogProducao();
         l.setStatus(StatusEnum.ATIVO);
         l.setParametro(parametro);
         l.setUser(user);
-        l.setDataHora(String.valueOf(time));
+        l.setDataHora(strHoje);
         logProducaoRepository.save(l);
     }
 
