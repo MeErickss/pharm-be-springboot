@@ -1,8 +1,8 @@
 package com.example.pharm.model;
 
+import com.example.pharm.dto.ParametroDto;
 import com.example.pharm.model.enumeration.StatusEnum;
 import jakarta.persistence.*;
-import org.hibernate.engine.spi.Status;
 
 @Entity
 @Table(name = "log_producao")
@@ -21,10 +21,17 @@ public class LogProducao {
 
     @ManyToOne
     @JoinColumn(name = "parametro_id", foreignKey = @ForeignKey(
-            name = "fk_parametro_logAlarmes",
+            name = "fk_parametro_logProducao",
             foreignKeyDefinition = "FOREIGN KEY (parametro_id) REFERENCES parametro(id) ON DELETE CASCADE"
     ))
     private Parametro parametro;
+
+    @ManyToOne
+    @JoinColumn(name = "parametro_anterior", foreignKey = @ForeignKey(
+            name = "fk_parametroAnterior_logProducao",
+            foreignKeyDefinition = "FOREIGN KEY (parametro_id) REFERENCES parametro(id) ON DELETE CASCADE"
+    ))
+    private Parametro parametroAnterior;
 
     @Column(nullable = false)
     private String descricao;
@@ -37,13 +44,14 @@ public class LogProducao {
 
     public LogProducao() {} // Construtor padrão obrigatório para o JPA
 
-    public LogProducao(Long id, Usuario user, String descricao, String dataHora, StatusEnum status, Parametro parametro) {
+    public LogProducao(Long id, Usuario user, String descricao, String dataHora, StatusEnum status, Parametro parametro, Parametro parametroAnterior) {
         this.id = id;
         this.user = user;
         this.descricao = descricao;
         this.dataHora = dataHora;
         this.status = status;
         this.parametro = parametro;
+        this.parametroAnterior = parametroAnterior;
     }
 
     public Long getId() {
@@ -85,4 +93,12 @@ public class LogProducao {
     public Parametro getParametro() {return parametro;}
 
     public void setParametro(Parametro parametro) {this.parametro = parametro;}
+
+    public Parametro getParametroAnterior() {
+        return parametroAnterior;
+    }
+
+    public void setParametroAnterior(Parametro parametroAnterior) {
+        this.parametroAnterior = parametroAnterior;
+    }
 }

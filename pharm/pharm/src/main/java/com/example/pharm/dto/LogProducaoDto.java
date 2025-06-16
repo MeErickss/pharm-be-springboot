@@ -5,6 +5,7 @@ import com.example.pharm.model.Parametro;
 import com.example.pharm.model.Usuario;
 import com.example.pharm.model.enumeration.StatusEnum;
 
+
 public class LogProducaoDto {
 
     private Long id;

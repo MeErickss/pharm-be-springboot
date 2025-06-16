@@ -1,8 +1,8 @@
 package com.example.pharm.model;
 
+import com.example.pharm.dto.ParametroDto;
 import com.example.pharm.model.enumeration.StatusEnum;
 import jakarta.persistence.*;
-import org.hibernate.engine.spi.Status;
 
 @Entity
 @Table(name = "log_armazenamento")
@@ -26,6 +26,13 @@ public class LogArmazenamento {
     ))
     private Parametro parametro;
 
+    @ManyToOne
+    @JoinColumn(name = "parametro_anterior", foreignKey = @ForeignKey(
+            name = "fk_parametroAnterior_logAlarmes",
+            foreignKeyDefinition = "FOREIGN KEY (parametro_id) REFERENCES parametro(id) ON DELETE CASCADE"
+    ))
+    private Parametro parametroAnterior;
+
     @Column(nullable = false)
     private String descricao;
 
@@ -37,13 +44,14 @@ public class LogArmazenamento {
 
     public LogArmazenamento() {} // Construtor vazio obrigatório para o JPA
 
-    public LogArmazenamento(Long id, Usuario user, String descricao, String datahora, StatusEnum status, Parametro parametro) {
+    public LogArmazenamento(Long id, Usuario user, String descricao, String datahora, StatusEnum status, Parametro parametro, Parametro parametroAnterior) {
         this.id = id;
         this.user = user;
         this.descricao = descricao;
         this.datahora = datahora;
         this.status = status;
         this.parametro = parametro;
+        this.parametroAnterior = parametroAnterior;
     }
 
     public Long getId() {
@@ -89,4 +97,13 @@ public class LogArmazenamento {
     public Parametro getParametro() {return parametro;}
 
     public void setParametro(Parametro parametro) {this.parametro = parametro;}
+
+    public Parametro getParametroAnterior() {
+        return parametroAnterior;
+    }
+
+    public void setParametroAnterior(Parametro parametroAnterior) {
+        this.parametroAnterior = parametroAnterior;
+    }
+
 }

@@ -2,6 +2,7 @@ package com.example.pharm.service;
 
 import com.example.pharm.dto.LogArmazenamentoDto;
 import com.example.pharm.dto.LogProducaoDto;
+import com.example.pharm.dto.ParametroDto;
 import com.example.pharm.model.LogAlarme;
 import com.example.pharm.model.LogProducao;
 import com.example.pharm.model.Parametro;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -60,27 +62,39 @@ public class LogProducaoService {
         logProducaoRepository.save(l);
     }
 
-    public void insertLogProducao(String userLogin, Long parametroId){
-
-        Usuario user = usuarioRepository.findByLogin(userLogin).orElseThrow(()->
-                new RuntimeException("Usuario não encontrada!")
-        );
-
-        Parametro p = parametroRepository.findById(parametroId).orElseThrow(()->
-                new RuntimeException("Parametro não encontrado!")
-        );
-
-        Timestamp time = new Timestamp(System.currentTimeMillis());
 
 
-        LogProducao l = new LogProducao();
-        l.setStatus(StatusEnum.ATIVO);
-        l.setUser(user);
-        l.setDataHora(String.valueOf(time));
-        l.setParametro(p);
-        l.setDescricao("Log de produção :)");
-        logProducaoRepository.save(l);
-    }
+        public void insertLogProducao(String userLogin, Long parametroId) {
+            insertLogProducao(userLogin, parametroId, null);
+        }
+
+        public void insertLogProducao(
+                String userLogin,
+                Long parametroId,
+                Parametro parametroAnterior
+        ) {
+            Usuario user = usuarioRepository.findByLogin(userLogin)
+                    .orElseThrow(() -> new RuntimeException("Usuário não encontrado!"));
+            Parametro parametroAtual = parametroRepository.findById(parametroId)
+                    .orElseThrow(() -> new RuntimeException("Parâmetro não encontrado!"));
+
+            LogProducao l = new LogProducao();
+            l.setStatus(StatusEnum.ATIVO);
+            l.setUser(user);
+            l.setParametro(parametroAtual);
+            l.setDataHora(
+                    LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+            );
+            l.setDescricao("Log de produção");
+
+            // se vier um Parametro “anterior”, popula o campo
+            if (parametroAnterior != null) {
+                l.setParametroAnterior(parametroAnterior);
+            }
+
+            logProducaoRepository.save(l);
+        }
+
 
     public Page<LogProducao> listAll(Pageable pageable) {
         return logProducaoRepository.findAll(pageable);

@@ -1,6 +1,7 @@
 package com.example.pharm.service;
 
 import com.example.pharm.dto.LogArmazenamentoDto;
+import com.example.pharm.dto.ParametroDto;
 import com.example.pharm.model.*;
 import com.example.pharm.model.enumeration.StatusEnum;
 import com.example.pharm.repository.LogArmazenamentoRepository;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -34,28 +36,34 @@ public class LogArmazenamentoService {
     }
 
 
-    public LogArmazenamento insertLogArmazenamento(String userLogin, Long parametroId){
+    public LogArmazenamento insertLogArmazenamento(String userLogin, Long parametroId) {
+        return insertLogArmazenamento(userLogin, parametroId, null);
+    }
 
-        Usuario user = usuarioRepository.findByLogin(userLogin).orElseThrow(()->
-                new RuntimeException("Usuario não encontrado!")
-        );
-
-        Parametro parametro = parametroRepository.findById(parametroId).orElseThrow(()->
-                new RuntimeException("Usuario não encontrado!")
-        );
-
-        LocalDate hoje = LocalDate.now();
-
-        String strHoje = hoje.format(DateTimeFormatter.ISO_LOCAL_DATE);
+    public LogArmazenamento insertLogArmazenamento(
+            String userLogin,
+            Long parametroId,
+            Parametro parametroAnterior  // pode ser null
+    ) {
+        Usuario user = usuarioRepository.findByLogin(userLogin)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado!"));
+        Parametro parametroAtual = parametroRepository.findById(parametroId)
+                .orElseThrow(() -> new RuntimeException("Parâmetro não encontrado!"));
 
         LogArmazenamento l = new LogArmazenamento();
         l.setStatus(StatusEnum.ATIVO);
-        l.setParametro(parametro);
         l.setUser(user);
-        l.setDatahora(strHoje);
+        l.setParametro(parametroAtual);
+        l.setDatahora(
+                LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+        );
         l.setDescricao("Log de Armazenamento");
-        logArmazenamentoRepository.save(l);
-        return l;
+
+        if (parametroAnterior != null) {
+            l.setParametroAnterior(parametroAnterior);
+        }
+
+        return logArmazenamentoRepository.save(l);
     }
 
     public Page<LogArmazenamento> listAll(Pageable pageable) {
@@ -72,6 +80,7 @@ public class LogArmazenamentoService {
         LogArmazenamento l = logArmazenamentoRepository.findById(id).orElseThrow(()->
                 new RuntimeException("LogArmazenamento não encontrado")
         );
+
         return logArmazenamentoRepository.save(l);
     }
 

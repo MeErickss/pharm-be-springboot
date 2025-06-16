@@ -14,6 +14,9 @@ import com.example.pharm.service.LogProducaoService;
 import com.example.pharm.service.ParametroService;
 import com.example.pharm.service.TokenService;
 import com.example.pharm.service.TokenService;
+import lombok.extern.java.Log;
+import org.hibernate.envers.AuditReader;
+import org.hibernate.envers.AuditReaderFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -83,6 +86,26 @@ public class ParametroController {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping
+    public ResponseEntity<Void> atualizarParametro(
+            @RequestBody ParametroDto dto,
+            @RequestParam String userLogin
+    ) {
+        Parametro antes = parametroRepository.findById(dto.getId()).orElseThrow();
+
+        switch (dto.getFuncao()) {
+            case PRODUCAO ->
+                    logProducaoService.insertLogProducao(userLogin, dto.getId(), antes);
+            case ARMAZENAMENTO ->
+                    logArmazenamentoService.insertLogArmazenamento(userLogin, dto.getId(), antes);
+        }
+
+        // 3) Agora faz a atualização efetiva
+        parametroService.atualizarParametro(dto);
+
+        return ResponseEntity.noContent().build();
+    }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarParametro(@PathVariable Long id) {
@@ -90,14 +113,6 @@ public class ParametroController {
         return ResponseEntity.noContent().build(); // 204 No Content
     }
 
-    @PutMapping
-    public ResponseEntity<Parametro> autualizarParametro(@RequestBody ParametroDto parametroDto){
-        Parametro atualizado = parametroService.atualizarParametro(parametroDto);
-        return ResponseEntity.ok(atualizado);
-    }
 
 }
 
-//curl -X POST "http://localhost:8080/api/parametro" -H "Content-Type: application/json" --data "{\"valor\":50,\"vlmin\":10,\"vlmax\":100,\"statusenum\":\"ATIVO\",\"descricao\":\"Parâmetro de teste\",\"unidadeId\":1,\"funcaoenum\":\"PRODUCAO\",\"grandezaId\":2}"
-//curl -X DELETE http://localhost:8080/api/parametro/1
-//curl -X PUT http://localhost:8080/api/parametro/1 \ -H "Content-Type: application/json" \ -d '{"valor":60,"vlmin":15,"vlmax":110,"statusenum":"INATIVO","descricao":"Atualizado","unidadeId":1,"funcaoenum":"SOMA","grandezaId":2}'

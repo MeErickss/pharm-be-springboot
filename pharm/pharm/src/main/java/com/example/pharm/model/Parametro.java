@@ -2,13 +2,9 @@ package com.example.pharm.model;
 
 import com.example.pharm.model.enumeration.FuncaoEnum;
 import com.example.pharm.model.enumeration.StatusEnum;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import org.hibernate.engine.spi.Status;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "parametro")

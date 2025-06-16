@@ -4,6 +4,7 @@ import com.example.pharm.model.LogArmazenamento;
 import com.example.pharm.model.Usuario;
 import com.example.pharm.model.enumeration.StatusEnum;
 
+
 public class LogArmazenamentoDto {
 
     private Long id;
