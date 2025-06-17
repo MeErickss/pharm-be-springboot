@@ -34,12 +34,12 @@ public class Parametro {
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_grandeza", referencedColumnName = "id", nullable = false,
             foreignKey = @ForeignKey(name = "fk_parametro_grandeza"))
-    @JsonIgnoreProperties("parametros")    // permite serializar aqui
+    @JsonIgnoreProperties("parametros")
     private Grandeza grandeza;
 
     @ManyToOne(optional = false, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinColumn(name = "id_unidade", nullable = false)
-    @JsonIgnoreProperties("parametros")    // permite serializar aqui
+    @JsonIgnoreProperties("parametros")
     private Unidade unidade;
 
     public Parametro() {} // Construtor vazio
@@ -79,7 +79,12 @@ public class Parametro {
     public void setDescricao(String descricao) {this.descricao = descricao;}
 
     public Grandeza getGrandeza() {return grandeza;}
+
     public Integer getValor() {return valor;}
+
     public Integer getVlMax() {return vlMax;}
+
     public Integer getVlMin() {return vlMin;}
+
+    public void setId(Long id) {this.id = id;}
 }

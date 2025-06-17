@@ -1,6 +1,7 @@
 package com.example.pharm.model;
 
 import com.example.pharm.dto.ParametroDto;
+import com.example.pharm.dto.ParametroDtoConverter;
 import com.example.pharm.model.enumeration.StatusEnum;
 import jakarta.persistence.*;
 
@@ -26,12 +27,9 @@ public class LogProducao {
     ))
     private Parametro parametro;
 
-    @ManyToOne
-    @JoinColumn(name = "parametro_anterior", foreignKey = @ForeignKey(
-            name = "fk_parametroAnterior_logProducao",
-            foreignKeyDefinition = "FOREIGN KEY (parametro_id) REFERENCES parametro(id) ON DELETE CASCADE"
-    ))
-    private Parametro parametroAnterior;
+    @Convert(converter = ParametroDtoConverter.class)
+    @Column(name = "parametro_anterior", columnDefinition = "TEXT")
+    private ParametroDto parametroAnterior;
 
     @Column(nullable = false)
     private String descricao;
@@ -44,7 +42,7 @@ public class LogProducao {
 
     public LogProducao() {} // Construtor padrão obrigatório para o JPA
 
-    public LogProducao(Long id, Usuario user, String descricao, String dataHora, StatusEnum status, Parametro parametro, Parametro parametroAnterior) {
+    public LogProducao(Long id, Usuario user, String descricao, String dataHora, StatusEnum status, Parametro parametro, ParametroDto parametroAnterior) {
         this.id = id;
         this.user = user;
         this.descricao = descricao;
@@ -94,11 +92,7 @@ public class LogProducao {
 
     public void setParametro(Parametro parametro) {this.parametro = parametro;}
 
-    public Parametro getParametroAnterior() {
-        return parametroAnterior;
-    }
+    public ParametroDto getParametroAnterior() {return parametroAnterior;}
 
-    public void setParametroAnterior(Parametro parametroAnterior) {
-        this.parametroAnterior = parametroAnterior;
-    }
+    public void setParametroAnterior(ParametroDto parametroAnterior) {this.parametroAnterior = parametroAnterior;}
 }

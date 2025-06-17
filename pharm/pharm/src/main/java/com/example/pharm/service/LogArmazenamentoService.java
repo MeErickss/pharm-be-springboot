@@ -60,7 +60,8 @@ public class LogArmazenamentoService {
         l.setDescricao("Log de Armazenamento");
 
         if (parametroAnterior != null) {
-            l.setParametroAnterior(parametroAnterior);
+            ParametroDto snapshot = ParametroDto.fromEntity(parametroAnterior);
+            l.setParametroAnterior(snapshot);
         }
 
         return logArmazenamentoRepository.save(l);

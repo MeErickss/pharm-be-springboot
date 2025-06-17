@@ -1,9 +1,7 @@
 package com.example.pharm.service;
 
-import com.example.pharm.dto.LogArmazenamentoDto;
 import com.example.pharm.dto.LogProducaoDto;
 import com.example.pharm.dto.ParametroDto;
-import com.example.pharm.model.LogAlarme;
 import com.example.pharm.model.LogProducao;
 import com.example.pharm.model.Parametro;
 import com.example.pharm.model.Usuario;
@@ -15,12 +13,13 @@ import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 @Service
 @Transactional
@@ -28,6 +27,7 @@ public class LogProducaoService {
     private final LogProducaoRepository logProducaoRepository;
     private final UsuarioRepository usuarioRepository;
     private final ParametroRepository parametroRepository;
+    private static final Logger logger = LoggerFactory.getLogger(LogProducaoService.class);
 
     public LogProducaoService(LogProducaoRepository logProducaoRepository, UsuarioRepository usuarioRepository, ParametroRepository parametroRepository){
         this.logProducaoRepository = logProducaoRepository;
@@ -78,6 +78,13 @@ public class LogProducaoService {
             Parametro parametroAtual = parametroRepository.findById(parametroId)
                     .orElseThrow(() -> new RuntimeException("Parâmetro não encontrado!"));
 
+            if (parametroAnterior != null) {
+                logger.debug("parametroAnterior.id = {}, parametroAnterior.campoX = {}",
+                        parametroAnterior.getId(), parametroAnterior.getValor());
+            } else {
+                logger.info("insertLogProducao: parametroAnterior é null");
+            }
+
             LogProducao l = new LogProducao();
             l.setStatus(StatusEnum.ATIVO);
             l.setUser(user);
@@ -89,7 +96,8 @@ public class LogProducaoService {
 
             // se vier um Parametro “anterior”, popula o campo
             if (parametroAnterior != null) {
-                l.setParametroAnterior(parametroAnterior);
+                ParametroDto snapshot = ParametroDto.fromEntity(parametroAnterior);
+                l.setParametroAnterior(snapshot);
             }
 
             logProducaoRepository.save(l);
@@ -106,6 +114,7 @@ public class LogProducaoService {
     }
 
     public LogProducao atualizar(Long id, LogProducaoDto logProducaoDto){
+
         LogProducao l = logProducaoRepository.findById(id).orElseThrow(()->
                 new RuntimeException("LogProducao não encontrado")
         );

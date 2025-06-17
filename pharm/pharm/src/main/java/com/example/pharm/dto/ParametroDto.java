@@ -1,6 +1,7 @@
 package com.example.pharm.dto;
 
 
+import com.example.pharm.model.Parametro;
 import com.example.pharm.model.enumeration.FuncaoEnum;
 import com.example.pharm.model.enumeration.StatusEnum;
 import jakarta.persistence.GeneratedValue;
@@ -35,6 +36,21 @@ public class ParametroDto {
         this.id = id;
     }
 
+    public static ParametroDto fromEntity(Parametro p) {
+        if (p == null) return null;
+        ParametroDto dto = new ParametroDto();
+        dto.setId(p.getId());
+        dto.setValor(p.getValor());
+        dto.setVlmin(p.getVlMin());
+        dto.setVlmax(p.getVlMax());
+        dto.setStatusenum(p.getStatus());
+        dto.setDescricao(p.getDescricao());
+        dto.setUnidadeDesc(p.getUnidade() != null ? String.valueOf(p.getUnidade().getUnidade()) : null);
+        dto.setFuncao(p.getFuncao());
+        dto.setGrandezaDesc(p.getGrandeza() != null ? p.getGrandeza().getDescricao() : null);
+        return dto;
+    }
+
     // Getters e setters para todos os campos
 
     public Long getId() {return id;}
@@ -54,4 +70,5 @@ public class ParametroDto {
     public void setFuncao(FuncaoEnum funcao) { this.funcao = funcao; }
     public String getGrandezaDesc() { return grandezaDesc; }
     public void setGrandezaDesc(String grandezaDesc) { this.grandezaDesc = grandezaDesc; }
+    public void setId(Long id) {this.id = id;}
 }
