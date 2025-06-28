@@ -3,8 +3,9 @@ package com.example.pharm.model;
 import com.example.pharm.model.enumeration.StatusEnum;
 import com.example.pharm.model.enumeration.TipoElemento;
 import jakarta.persistence.*;
+import org.springframework.data.jpa.repository.Modifying;
 
-@Entity
+@Entity(name = "Farmacia")
 @Table(name="farmacia_planta")
 public class FarmaciaPlanta {
     @Id
@@ -24,6 +25,7 @@ public class FarmaciaPlanta {
     private TipoElemento tipo; // Enum: VALVULA, SENSOR, BOMBA, INDICADOR_VOLUME, etc.
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "status_enum", nullable = false)
     private StatusEnum statusEnum;
 
     public FarmaciaPlanta(){}

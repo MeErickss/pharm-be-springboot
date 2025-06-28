@@ -9,10 +9,7 @@ import com.example.pharm.model.enumeration.FuncaoEnum;
 import com.example.pharm.repository.LogArmazenamentoRepository;
 import com.example.pharm.repository.LogProducaoRepository;
 import com.example.pharm.repository.ParametroRepository;
-import com.example.pharm.service.LogArmazenamentoService;
-import com.example.pharm.service.LogProducaoService;
-import com.example.pharm.service.ParametroService;
-import com.example.pharm.service.TokenService;
+import com.example.pharm.service.*;
 import com.example.pharm.service.TokenService;
 import lombok.extern.java.Log;
 import org.hibernate.envers.AuditReader;
@@ -33,13 +30,15 @@ public class ParametroController {
     private final ParametroRepository parametroRepository;
     private final LogArmazenamentoService logArmazenamentoService;
     private final LogProducaoService logProducaoService;
+    private final EmailService emailService;
 
-    public ParametroController(ParametroService parametroService, TokenService tokenService, ParametroRepository parametroRepository, LogArmazenamentoService logArmazenamentoService,LogProducaoService logProducaoService){
+    public ParametroController(ParametroService parametroService, TokenService tokenService, ParametroRepository parametroRepository, LogArmazenamentoService logArmazenamentoService,LogProducaoService logProducaoService, EmailService emailService){
         this.parametroService = parametroService;
         this.tokenService = tokenService;
         this.parametroRepository = parametroRepository;
         this.logProducaoService = logProducaoService;
         this.logArmazenamentoService = logArmazenamentoService;
+        this.emailService = emailService;
     }
 
     @GetMapping
@@ -102,6 +101,12 @@ public class ParametroController {
 
         // 3) Agora faz a atualização efetiva
         parametroService.atualizarParametro(dto);
+
+        emailService.sendSimpleEmail(
+                userLogin,
+                "Parâmetro Atualizado",
+                "O parâmetro com ID " + dto.getId() + " foi atualizado com sucesso."
+        );
 
         return ResponseEntity.noContent().build();
     }

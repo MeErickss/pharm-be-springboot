@@ -95,105 +95,105 @@ public class DatabaseInitializationService implements ApplicationRunner {
                         "valvula1-1", // placeholder de endereço; ajuste conforme mapeamento real
                         "{\"x\":112,\"y\":277,\"w\":40,\"h\":40}",
                         TipoElemento.VALVULA,
-                        StatusEnum.ATIVO
+                        StatusEnum.DESLIGADO
                 );
                 farmaciaPlantaService.criarFarmaciaPlanta(
                         "valvula1-2",
                         "valvula1-2",
                         "{\"x\":27,\"y\":90,\"w\":40,\"h\":40}",
                         TipoElemento.VALVULA,
-                        StatusEnum.ATIVO
+                        StatusEnum.DESLIGADO
                 );
                 farmaciaPlantaService.criarFarmaciaPlanta(
                         "valvula1-3",
                         "valvula1-3",
                         "{\"x\":440,\"y\":173,\"w\":40,\"h\":40}",
                         TipoElemento.VALVULA,
-                        StatusEnum.ATIVO
+                        StatusEnum.DESLIGADO
                 );
                 farmaciaPlantaService.criarFarmaciaPlanta(
                         "valvula1-4",
                         "valvula1-4",
                         "{\"x\":394,\"y\":213,\"w\":40,\"h\":40}",
                         TipoElemento.VALVULA,
-                        StatusEnum.ATIVO
+                        StatusEnum.DESLIGADO
                 );
                 farmaciaPlantaService.criarFarmaciaPlanta(
                         "valvula1-5",
                         "valvula1-5",
                         "{\"x\":438,\"y\":324,\"w\":40,\"h\":40}",
                         TipoElemento.VALVULA,
-                        StatusEnum.ATIVO
+                        StatusEnum.DESLIGADO
                 );
                 farmaciaPlantaService.criarFarmaciaPlanta(
                         "valvula1-6",
                         "valvula1-6",
                         "{\"x\":502,\"y\":325,\"w\":40,\"h\":40}",
                         TipoElemento.VALVULA,
-                        StatusEnum.ATIVO
+                        StatusEnum.DESLIGADO
                 );
                 farmaciaPlantaService.criarFarmaciaPlanta(
                         "valvula2",
                         "valvula2",
                         "{\"x\":91,\"y\":305,\"w\":40,\"h\":40}",
                         TipoElemento.VALVULA,
-                        StatusEnum.ATIVO
+                        StatusEnum.DESLIGADO
                 );
                 farmaciaPlantaService.criarFarmaciaPlanta(
                         "sensor1",
                         "sensor1",
                         "{\"x\":312,\"y\":80,\"w\":50,\"h\":50}",
                         TipoElemento.SENSOR,
-                        StatusEnum.ATIVO
+                        StatusEnum.DESLIGADO
                 );
                 farmaciaPlantaService.criarFarmaciaPlanta(
                         "sensor2-1",
                         "sensor2-1",
                         "{\"x\":160,\"y\":142,\"w\":32,\"h\":40}",
                         TipoElemento.SENSOR,
-                        StatusEnum.ATIVO
+                        StatusEnum.DESLIGADO
                 );
                 farmaciaPlantaService.criarFarmaciaPlanta(
                         "sensor2-2",
                         "sensor2-2",
                         "{\"x\":160,\"y\":172,\"w\":32,\"h\":40}",
                         TipoElemento.SENSOR,
-                        StatusEnum.ATIVO
+                        StatusEnum.DESLIGADO
                 );
                 farmaciaPlantaService.criarFarmaciaPlanta(
                         "sensor2-3",
                         "sensor2-3",
                         "{\"x\":160,\"y\":207,\"w\":32,\"h\":40}",
                         TipoElemento.SENSOR,
-                        StatusEnum.ATIVO
+                        StatusEnum.DESLIGADO
                 );
                 farmaciaPlantaService.criarFarmaciaPlanta(
                         "bomba",
                         "bomba",
                         "{\"x\":280,\"y\":305,\"w\":80,\"h\":80}",
                         TipoElemento.BOMBA,
-                        StatusEnum.ATIVO
+                        StatusEnum.DESLIGADO
                 );
                 farmaciaPlantaService.criarFarmaciaPlanta(
                         "bomba-2",
                         "bomba-2",
                         "{\"x\":280,\"y\":305,\"w\":80,\"h\":80}",
                         TipoElemento.BOMBA,
-                        StatusEnum.ATIVO
+                        StatusEnum.DESLIGADO
                 );
                 farmaciaPlantaService.criarFarmaciaPlanta(
                         "Nivel_ta",
                         "Nivel_ta",
                         "{\"x\":220,\"y\":105,\"w\":70,\"h\":135}",
                         TipoElemento.INDICADOR_VOLUME,
-                        StatusEnum.ATIVO
+                        StatusEnum.DESLIGADO
                 );
                 farmaciaPlantaService.criarFarmaciaPlanta(
                         "Nivel_tm",
                         "Nivel_tm",
                         "{\"x\":106,\"y\":155,\"w\":50,\"h\":84}",
                         TipoElemento.INDICADOR_VOLUME,
-                        StatusEnum.ATIVO
+                        StatusEnum.DESLIGADO
                 );
 
                 System.out.println("FarmaciaPlanta inicializada com elementos padrão.");
@@ -207,63 +207,63 @@ public class DatabaseInitializationService implements ApplicationRunner {
                     "valvula1-1",                       // placeholder de endereço; ajuste se tiver outro mapeamento
                     "{\"x\":157,\"y\":54,\"w\":30,\"h\":30}", // posicaoNoLayout em JSON
                     TipoElemento.VALVULA,
-                    StatusEnum.ATIVO
+                    StatusEnum.DESLIGADO
             );
             distribuicaoPlantaService.criarDistribuicaoPlanta(
                     "valvula1-2",
                     "valvula1-2",
                     "{\"x\":222,\"y\":54,\"w\":30,\"h\":30}",
                     TipoElemento.VALVULA,
-                    StatusEnum.ATIVO
+                    StatusEnum.DESLIGADO
             );
             distribuicaoPlantaService.criarDistribuicaoPlanta(
                     "valvula1_c",
                     "valvula1_c",
                     "{\"x\":60,\"y\":167,\"w\":30,\"h\":30}",
                     TipoElemento.VALVULA,
-                    StatusEnum.ATIVO
+                    StatusEnum.DESLIGADO
             );
             distribuicaoPlantaService.criarDistribuicaoPlanta(
                     "valvula2-1",
                     "valvula2-1",
                     "{\"x\":126,\"y\":99,\"w\":30,\"h\":30}",
                     TipoElemento.VALVULA,
-                    StatusEnum.ATIVO
+                    StatusEnum.DESLIGADO
             );
             distribuicaoPlantaService.criarDistribuicaoPlanta(
                     "valvula2-2",
                     "valvula2-2",
                     "{\"x\":137,\"y\":259,\"w\":30,\"h\":30}",
                     TipoElemento.VALVULA,
-                    StatusEnum.ATIVO
+                    StatusEnum.DESLIGADO
             );
             distribuicaoPlantaService.criarDistribuicaoPlanta(
                     "valvula2-3",
                     "valvula2-3",
                     "{\"x\":270,\"y\":258,\"w\":30,\"h\":30}",
                     TipoElemento.VALVULA,
-                    StatusEnum.ATIVO
+                    StatusEnum.DESLIGADO
             );
             distribuicaoPlantaService.criarDistribuicaoPlanta(
                     "sensor1",
                     "sensor1",
                     "{\"x\":224,\"y\":90,\"w\":50,\"h\":50}",
                     TipoElemento.SENSOR,
-                    StatusEnum.ATIVO
+                    StatusEnum.DESLIGADO
             );
             distribuicaoPlantaService.criarDistribuicaoPlanta(
                     "bomba2-1",
                     "bomba2-1",
                     "{\"x\":375,\"y\":300,\"w\":65,\"h\":65}",
                     TipoElemento.BOMBA,
-                    StatusEnum.ATIVO
+                    StatusEnum.DESLIGADO
             );
             distribuicaoPlantaService.criarDistribuicaoPlanta(
                     "bomba2-2",
                     "bomba2-2",
                     "{\"x\":376,\"y\":220,\"w\":65,\"h\":65}",
                     TipoElemento.BOMBA,
-                    StatusEnum.ATIVO
+                    StatusEnum.DESLIGADO
             );
             System.out.println("DistribuicaoPlanta inicializada com elementos padrão.");
         }

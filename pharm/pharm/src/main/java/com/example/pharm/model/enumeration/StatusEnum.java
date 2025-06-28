@@ -6,5 +6,5 @@ public enum StatusEnum {
     BLOQUEADO,
     DESLIGADO,
     MANUTENCAO,
-    ESTRAGADO
+    ESTRAGADO,
 }
