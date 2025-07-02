@@ -5,6 +5,7 @@ import com.example.pharm.dto.LogProducaoDto;
 import com.example.pharm.model.DistribuicaoPlanta;
 import com.example.pharm.model.FarmaciaPlanta;
 import com.example.pharm.model.LogProducao;
+import com.example.pharm.model.enumeration.StatusEnum;
 import com.example.pharm.service.DistribuicaoPlantaService;
 import com.example.pharm.service.FarmaciaPlantaService;
 import com.example.pharm.service.TokenService;
@@ -48,4 +49,5 @@ public class FarmaciaPlantaController {
         FarmaciaPlanta atualizado = farmaciaPlantaService.atualizarFarmacia(farmaciaPlantaDto);
         return ResponseEntity.ok(atualizado);
     }
+
 }

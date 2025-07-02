@@ -65,4 +65,14 @@ public class FarmaciaPlantaService {
         f.setPosicaoNoLayout(dto.getPosicaoNoLayout());
         return farmaciaPlantaRepository.save(f);
     }
+
+    public FarmaciaPlanta atualizarStatusFarmacia(Long id, StatusEnum status){
+        FarmaciaPlanta f = farmaciaPlantaRepository.findById(id).orElseThrow(()->
+                new RuntimeException("Parametro não encontrado")
+        );
+
+
+        f.setStatus(status);
+        return farmaciaPlantaRepository.save(f);
+    }
 }
