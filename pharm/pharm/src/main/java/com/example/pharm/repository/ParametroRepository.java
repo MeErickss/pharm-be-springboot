@@ -2,8 +2,10 @@ package com.example.pharm.repository;
 
 import com.example.pharm.dto.ParametroOutDto;
 import com.example.pharm.model.Parametro;
+import com.example.pharm.model.enumeration.FormulaEnum;
 import com.example.pharm.model.enumeration.FuncaoEnum;
 import com.example.pharm.model.enumeration.StatusEnum;
+import org.hibernate.mapping.Formula;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,7 +21,7 @@ public interface ParametroRepository extends JpaRepository<Parametro, Long> {
 
     Optional<Parametro> findByDescricao(String descricao);
 
-    List<Parametro> findByFuncaoEnum(FuncaoEnum funcaoEnum);
+    Page<Parametro> findByFormulaEnum(FormulaEnum formulaEnum, Pageable pageable);
 
     List<Parametro> findByStatus(StatusEnum statusEnum);
 

@@ -32,6 +32,7 @@ public class Parametro {
     @Column(nullable = false)
     private FuncaoEnum funcaoEnum;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private FormulaEnum formulaEnum;
 

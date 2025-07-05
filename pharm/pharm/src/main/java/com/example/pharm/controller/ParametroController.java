@@ -3,6 +3,7 @@ package com.example.pharm.controller;
 import com.example.pharm.dto.ParametroDto;
 import com.example.pharm.dto.ParametroOutDto;
 import com.example.pharm.model.Parametro;
+import com.example.pharm.model.enumeration.FormulaEnum;
 import com.example.pharm.model.enumeration.FuncaoEnum;
 import com.example.pharm.repository.ParametroRepository;
 import com.example.pharm.service.*;
@@ -10,9 +11,14 @@ import com.example.pharm.service.TokenService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.tags.Param;
 
 
 import java.util.List;
@@ -59,6 +65,20 @@ public class ParametroController {
     public ResponseEntity<Parametro> buscarPorId(@PathVariable Long id) {
         Parametro findId = parametroService.listId(id);
         return ResponseEntity.ok(findId);
+    }
+
+    @GetMapping("/formula")
+    public ResponseEntity<Page<Parametro>> buscarPorFormula(
+            @CookieValue(name = "JWT", required = false) String token,
+            @RequestParam FormulaEnum formulaEnum,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id,asc") String[] sort
+    ) {
+        Sort.Direction dir = Sort.Direction.fromString(sort[1]);
+        PageRequest pageReq = PageRequest.of(page, size, dir, sort[0]);
+        Page<Parametro> result = parametroRepository.findByFormulaEnum(formulaEnum, pageReq);
+        return ResponseEntity.ok(result);
     }
 
     @PostMapping
