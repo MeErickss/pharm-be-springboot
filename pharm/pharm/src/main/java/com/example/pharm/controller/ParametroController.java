@@ -146,6 +146,13 @@ public class ParametroController {
                         "Depois: " + newValues
         );
 
+        switch (dto.getFuncao()) {
+            case PRODUCAO ->
+                    logProducaoService.insertLogProducao(userLogin, dto.getId(), antes, "Update Parâmetro Produção "+userLogin);
+            case ARMAZENAMENTO ->
+                    logArmazenamentoService.insertLogArmazenamento(userLogin, dto.getId(), antes, "Update Parâmetro Armazenamento "+userLogin);
+        }
+
         parametroService.atualizarParametro(dto);
         return ResponseEntity.noContent().build();
     }
