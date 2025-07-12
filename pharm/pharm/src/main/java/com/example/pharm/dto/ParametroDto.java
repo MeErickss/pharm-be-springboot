@@ -16,6 +16,7 @@ public class ParametroDto {
     private FuncaoEnum funcao;
     private String grandezaDesc;
     private FormulaEnum formulaEnum;
+    private String pontoControle;
 
     // Construtor vazio é essencial
     public ParametroDto() {}
@@ -24,7 +25,7 @@ public class ParametroDto {
     public ParametroDto(Long id, Integer valor, Integer vlmin, Integer vlmax,
                         StatusEnum statusenum, String descricao,
                         String unidadeDesc, FuncaoEnum funcao,
-                        FormulaEnum formulaEnum) {
+                        FormulaEnum formulaEnum, String pontoControle) {
         this.id = id;
         this.valor = valor;
         this.vlmin = vlmin;
@@ -35,6 +36,7 @@ public class ParametroDto {
         this.funcao = funcao;
         this.grandezaDesc = grandezaDesc;
         this.formulaEnum = formulaEnum;
+        this.pontoControle = pontoControle;
     }
 
     public static ParametroDto fromEntity(Parametro p) {
@@ -50,6 +52,7 @@ public class ParametroDto {
         dto.setFuncao(p.getFuncao());
         dto.setGrandezaDesc(p.getGrandeza() != null ? p.getGrandeza().getDescricao() : null);
         dto.setFormulaEnum(p.getFormulaEnum());
+        dto.setPontoControle(p.getPontoControle() != null ? p.getPontoControle().getPontoControle() : null);
         return dto;
     }
 
@@ -66,6 +69,7 @@ public class ParametroDto {
                 ", funcao=" + funcao +
                 ", grandezaDesc='" + grandezaDesc + '\'' +
                 ", formulaEnum=" + formulaEnum +
+                ", pontoControleId=" + pontoControle +
                 '}';
     }
 
@@ -90,4 +94,6 @@ public class ParametroDto {
     public void setGrandezaDesc(String grandezaDesc) { this.grandezaDesc = grandezaDesc; }
     public FormulaEnum getFormulaEnum() { return formulaEnum; }
     public void setFormulaEnum(FormulaEnum formulaEnum) { this.formulaEnum = formulaEnum; }
+    public String getPontoControle() {return pontoControle;}
+    public void setPontoControle(String pontoControle) {this.pontoControle = pontoControle;}
 }

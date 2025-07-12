@@ -28,6 +28,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
     private final LogArmazenamentoRepository logArmazenamentoRepository;
     private final DistribuicaoPlantaService distribuicaoPlantaService;
     private final FarmaciaPlantaService farmaciaPlantaService;
+    private final PontoControleService pontoControleService;
 
     public DatabaseInitializationService(UsuarioService userService,
                                          UnidadeService unidadeService,
@@ -37,7 +38,8 @@ public class DatabaseInitializationService implements ApplicationRunner {
                                          LogAlarmeRepostiory logAlarmeRepostiory,
                                          LogArmazenamentoRepository logArmazenamentoRepository,
                                          DistribuicaoPlantaService distribuicaoPlantaService,
-                                         FarmaciaPlantaService farmaciaPlantaService) {
+                                         FarmaciaPlantaService farmaciaPlantaService,
+                                         PontoControleService pontoControleService) {
         this.userService = userService;
         this.unidadeService = unidadeService;
         this.grandezaService = grandezaService;
@@ -47,6 +49,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
         this.logArmazenamentoRepository = logArmazenamentoRepository;
         this.distribuicaoPlantaService = distribuicaoPlantaService;
         this.farmaciaPlantaService = farmaciaPlantaService;
+        this.pontoControleService = pontoControleService;
     }
 
     @Override
@@ -65,26 +68,90 @@ public class DatabaseInitializationService implements ApplicationRunner {
 
         if (unidadeService.contarUnidades() == 0) {
             unidadeService.criarUnidades("SEGUNDO", "SEG", StatusEnum.ATIVO, 1L);
-            unidadeService.criarUnidades("HORA", "HR", StatusEnum.ATIVO,1L);
+            unidadeService.criarUnidades("HORA", "HR", StatusEnum.ATIVO, 1L);
             unidadeService.criarUnidades("PSI", "PSI", StatusEnum.ATIVO, 2L);
+        }
+        if (pontoControleService.contarPontosControle() == 0) {
+
+            pontoControleService.criarPontoControle(
+                    "TAG_ENDERECO_0",
+                    CLPTipoEnum.INTEGER,
+                    "0",
+                    (short) 1,
+                    OffsetEnum.OFFSET_1,
+                    "STATUS GERAL",
+                    StatusEnum.ATIVO, TipoUsoEnum.PARAMETRO
+            );
+
+            pontoControleService.criarPontoControle(
+                    "TAG_ENDERECO_1",
+                    CLPTipoEnum.INTEGER,
+                    "1",
+                    (short) 1,
+                    OffsetEnum.OFFSET_1,
+                    "VALVULA XV_101",
+                    StatusEnum.ATIVO, TipoUsoEnum.PARAMETRO
+            );
+
+            pontoControleService.criarPontoControle(
+                    "TAG_ENDERECO_2",
+                    CLPTipoEnum.INTEGER,
+                    "2",
+                    (short) 1,
+                    OffsetEnum.OFFSET_1,
+                    "VALVULA XV_102",
+                    StatusEnum.ATIVO, TipoUsoEnum.PARAMETRO
+            );
+
+            // … repita para os demais endereços 3, 4, …, 15 …
+            pontoControleService.criarPontoControle(
+                    "TAG_ENDERECO_15",
+                    CLPTipoEnum.INTEGER,
+                    "15",
+                    (short) 1,
+                    OffsetEnum.OFFSET_1,
+                    "TP PARA DRENAGEM DO TANQUE DE ADICAO [TQ-200]",
+                    StatusEnum.ATIVO, TipoUsoEnum.PARAMETRO
+            );
+
+            // e para os blocos seguintes (101, 102, …)
+            pontoControleService.criarPontoControle(
+                    "TAG_ENDERECO_101",
+                    CLPTipoEnum.INTEGER,
+                    "101",
+                    (short) 1,
+                    OffsetEnum.OFFSET_1,
+                    "VALVULA XV_301",
+                    StatusEnum.ATIVO, TipoUsoEnum.PARAMETRO
+            );
+
+            pontoControleService.criarPontoControle(
+                    "TAG_ENDERECO_102",
+                    CLPTipoEnum.INTEGER,
+                    "102",
+                    (short) 1,
+                    OffsetEnum.OFFSET_1,
+                    "VALVULA XV_302",
+                    StatusEnum.ATIVO, TipoUsoEnum.PARAMETRO
+            );
         }
 
         if (parametroService.contarParametros() == 0) {
             parametroService.criarParametro(
                     "TEMPO PARA DRENAGEM DO TANQUE DE MISTURA [TQ-100]",
-                    20, 10, 30, StatusEnum.ATIVO, 1L, 2L, FuncaoEnum.PRODUCAO, FormulaEnum.UM
+                    20, 10, 30, StatusEnum.ATIVO, 1L, 2L, FuncaoEnum.PRODUCAO, FormulaEnum.UM, 1L
             );
             parametroService.criarParametro(
                     "TEMPO PARA DRENAGEM DO TANQUE DE ADIÇÃO [TQ-200]",
-                    30, 15, 45, StatusEnum.ATIVO, 1L, 1L, FuncaoEnum.PRODUCAO, FormulaEnum.DOIS
+                    30, 15, 45, StatusEnum.ATIVO, 1L, 1L, FuncaoEnum.PRODUCAO, FormulaEnum.DOIS, 2L
             );
             parametroService.criarParametro(
                     "TEMPO PARA DRENAGEM DO TANQUE TQ-300",
-                    40, 5, 200, StatusEnum.ATIVO, 1L, 1L, FuncaoEnum.PRODUCAO, FormulaEnum.TRES
+                    40, 5, 200, StatusEnum.ATIVO, 1L, 1L, FuncaoEnum.PRODUCAO, FormulaEnum.TRES, 3L
             );
             parametroService.criarParametro(
                     "TEMPO PARA DRENAGEM DO TANQUE TQ-310",
-                    10, 5, 100, StatusEnum.ATIVO, 2L, 3L, FuncaoEnum.ARMAZENAMENTO, FormulaEnum.UM
+                    10, 5, 100, StatusEnum.ATIVO, 2L, 3L, FuncaoEnum.ARMAZENAMENTO, FormulaEnum.UM, 4L
             );
         }
 
@@ -215,143 +282,143 @@ public class DatabaseInitializationService implements ApplicationRunner {
             }
 
 
-        if (distribuicaoPlantaService.contarDistribuicao() == 0) {
-            // Suponha que você queira inserir os mesmos elementos do frontend:
-            distribuicaoPlantaService.criarDistribuicaoPlanta(
-                    "V1",
-                    "valvula1-1",
-                    "valvula1-1",                       // placeholder de endereço; ajuste se tiver outro mapeamento
-                    "{\"x\":157,\"y\":54,\"w\":30,\"h\":30}", // posicaoNoLayout em JSON
-                    TipoElemento.VALVULA,
-                    StatusEnum.DESLIGADO
-            );
-            distribuicaoPlantaService.criarDistribuicaoPlanta(
-                    "V2",
-                    "valvula1-2",
-                    "valvula1-2",
-                    "{\"x\":222,\"y\":54,\"w\":30,\"h\":30}",
-                    TipoElemento.VALVULA,
-                    StatusEnum.DESLIGADO
-            );
-            distribuicaoPlantaService.criarDistribuicaoPlanta(
-                    "V3",
-                    "valvula1_c",
-                    "valvula1_c",
-                    "{\"x\":60,\"y\":167,\"w\":30,\"h\":30}",
-                    TipoElemento.VALVULA,
-                    StatusEnum.DESLIGADO
-            );
-            distribuicaoPlantaService.criarDistribuicaoPlanta(
-                    "V4",
-                    "valvula2-1",
-                    "valvula2-1",
-                    "{\"x\":126,\"y\":99,\"w\":30,\"h\":30}",
-                    TipoElemento.VALVULA,
-                    StatusEnum.DESLIGADO
-            );
-            distribuicaoPlantaService.criarDistribuicaoPlanta(
-                    "V5",
-                    "valvula2-2",
-                    "valvula2-2",
-                    "{\"x\":137,\"y\":259,\"w\":30,\"h\":30}",
-                    TipoElemento.VALVULA,
-                    StatusEnum.DESLIGADO
-            );
-            distribuicaoPlantaService.criarDistribuicaoPlanta(
-                    "V6",
-                    "valvula2-3",
-                    "valvula2-3",
-                    "{\"x\":270,\"y\":258,\"w\":30,\"h\":30}",
-                    TipoElemento.VALVULA,
-                    StatusEnum.DESLIGADO
-            );
-            distribuicaoPlantaService.criarDistribuicaoPlanta(
-                    "S1",
-                    "sensor1",
-                    "sensor1",
-                    "{\"x\":224,\"y\":90,\"w\":50,\"h\":50}",
-                    TipoElemento.SENSOR,
-                    StatusEnum.DESLIGADO
-            );
-            distribuicaoPlantaService.criarDistribuicaoPlanta(
-                    "B1",
-                    "bomba2-1",
-                    "bomba2-1",
-                    "{\"x\":375,\"y\":300,\"w\":65,\"h\":65}",
-                    TipoElemento.BOMBA,
-                    StatusEnum.DESLIGADO
-            );
-            distribuicaoPlantaService.criarDistribuicaoPlanta(
-                    "B2",
-                    "bomba2-2",
-                    "bomba2-2",
-                    "{\"x\":376,\"y\":220,\"w\":65,\"h\":65}",
-                    TipoElemento.BOMBA,
-                    StatusEnum.DESLIGADO
-            );
-            System.out.println("DistribuicaoPlanta inicializada com elementos padrão.");
-        }
-
-        // -------- Inserir 100 Logs de Produção --------
-        if (logProducaoRepository.count() == 0) {
-            List<Usuario> usuarios = userService.listAll();
-            Random random = new Random();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
-            for (int i = 1; i <= 100; i++) {
-                LogProducao log = new LogProducao();
-                Usuario randomUser = usuarios.get(random.nextInt(usuarios.size()));
-                log.setUser(randomUser);
-                log.setDescricao("Log de evento nº " + i);
-                log.setDataHora(LocalDateTime.now()
-                        .minusDays(random.nextInt(30))
-                        .minusMinutes(random.nextInt(60))
-                        .format(formatter));
-                log.setStatus(StatusEnum.values()[random.nextInt(StatusEnum.values().length)]);
-                logProducaoRepository.save(log);
+            if (distribuicaoPlantaService.contarDistribuicao() == 0) {
+                // Suponha que você queira inserir os mesmos elementos do frontend:
+                distribuicaoPlantaService.criarDistribuicaoPlanta(
+                        "V1",
+                        "valvula1-1",
+                        "valvula1-1",                       // placeholder de endereço; ajuste se tiver outro mapeamento
+                        "{\"x\":157,\"y\":54,\"w\":30,\"h\":30}", // posicaoNoLayout em JSON
+                        TipoElemento.VALVULA,
+                        StatusEnum.DESLIGADO
+                );
+                distribuicaoPlantaService.criarDistribuicaoPlanta(
+                        "V2",
+                        "valvula1-2",
+                        "valvula1-2",
+                        "{\"x\":222,\"y\":54,\"w\":30,\"h\":30}",
+                        TipoElemento.VALVULA,
+                        StatusEnum.DESLIGADO
+                );
+                distribuicaoPlantaService.criarDistribuicaoPlanta(
+                        "V3",
+                        "valvula1_c",
+                        "valvula1_c",
+                        "{\"x\":60,\"y\":167,\"w\":30,\"h\":30}",
+                        TipoElemento.VALVULA,
+                        StatusEnum.DESLIGADO
+                );
+                distribuicaoPlantaService.criarDistribuicaoPlanta(
+                        "V4",
+                        "valvula2-1",
+                        "valvula2-1",
+                        "{\"x\":126,\"y\":99,\"w\":30,\"h\":30}",
+                        TipoElemento.VALVULA,
+                        StatusEnum.DESLIGADO
+                );
+                distribuicaoPlantaService.criarDistribuicaoPlanta(
+                        "V5",
+                        "valvula2-2",
+                        "valvula2-2",
+                        "{\"x\":137,\"y\":259,\"w\":30,\"h\":30}",
+                        TipoElemento.VALVULA,
+                        StatusEnum.DESLIGADO
+                );
+                distribuicaoPlantaService.criarDistribuicaoPlanta(
+                        "V6",
+                        "valvula2-3",
+                        "valvula2-3",
+                        "{\"x\":270,\"y\":258,\"w\":30,\"h\":30}",
+                        TipoElemento.VALVULA,
+                        StatusEnum.DESLIGADO
+                );
+                distribuicaoPlantaService.criarDistribuicaoPlanta(
+                        "S1",
+                        "sensor1",
+                        "sensor1",
+                        "{\"x\":224,\"y\":90,\"w\":50,\"h\":50}",
+                        TipoElemento.SENSOR,
+                        StatusEnum.DESLIGADO
+                );
+                distribuicaoPlantaService.criarDistribuicaoPlanta(
+                        "B1",
+                        "bomba2-1",
+                        "bomba2-1",
+                        "{\"x\":375,\"y\":300,\"w\":65,\"h\":65}",
+                        TipoElemento.BOMBA,
+                        StatusEnum.DESLIGADO
+                );
+                distribuicaoPlantaService.criarDistribuicaoPlanta(
+                        "B2",
+                        "bomba2-2",
+                        "bomba2-2",
+                        "{\"x\":376,\"y\":220,\"w\":65,\"h\":65}",
+                        TipoElemento.BOMBA,
+                        StatusEnum.DESLIGADO
+                );
+                System.out.println("DistribuicaoPlanta inicializada com elementos padrão.");
             }
-            System.out.println("100 registros de LogProducao inseridos.");
-        }
 
-        // -------- Inserir 100 Logs de Alarme --------
-        if (logAlarmeRepostiory.count() == 0) {
-            List<Usuario> usuarios = userService.listAll();
-            Random random = new Random();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            // -------- Inserir 100 Logs de Produção --------
+            if (logProducaoRepository.count() == 0) {
+                List<Usuario> usuarios = userService.listAll();
+                Random random = new Random();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-            for (int i = 1; i <= 100; i++) {
-                LogAlarme log = new LogAlarme();
-                Usuario randomUser = usuarios.get(random.nextInt(usuarios.size()));
-                log.setUser(randomUser);
-                log.setDescricao("Alarme crítico nº " + i);
-                log.setDataHora(LocalDateTime.now()
-                        .minusDays(random.nextInt(30))
-                        .minusHours(random.nextInt(24))
-                        .format(formatter));
-                log.setStatus(StatusEnum.values()[random.nextInt(StatusEnum.values().length)]);
-                logAlarmeRepostiory.save(log);
+                for (int i = 1; i <= 100; i++) {
+                    LogProducao log = new LogProducao();
+                    Usuario randomUser = usuarios.get(random.nextInt(usuarios.size()));
+                    log.setUser(randomUser);
+                    log.setDescricao("Log de evento nº " + i);
+                    log.setDataHora(LocalDateTime.now()
+                            .minusDays(random.nextInt(30))
+                            .minusMinutes(random.nextInt(60))
+                            .format(formatter));
+                    log.setStatus(StatusEnum.values()[random.nextInt(StatusEnum.values().length)]);
+                    logProducaoRepository.save(log);
+                }
+                System.out.println("100 registros de LogProducao inseridos.");
             }
-            System.out.println("100 registros de LogAlarme inseridos.");
-        }
-        // -------- Inserir 100 Logs de Armazenamento --------
-        if (logArmazenamentoRepository.count() == 0) {
-            List<Usuario> usuarios = userService.listAll();
-            Random random = new Random();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-            for (int i = 1; i <= 100; i++) {
-                LogArmazenamento log = new LogArmazenamento();
-                Usuario randomUser = usuarios.get(random.nextInt(usuarios.size()));
-                log.setUser(randomUser);
-                log.setDescricao("Evento de armazenamento nº " + i);
-                log.setDatahora(LocalDateTime.now()
-                        .minusDays(random.nextInt(30))
-                        .minusHours(random.nextInt(24))
-                        .format(formatter));
-                log.setStatus(StatusEnum.values()[random.nextInt(StatusEnum.values().length)]);
-                logArmazenamentoRepository.save(log);
+            // -------- Inserir 100 Logs de Alarme --------
+            if (logAlarmeRepostiory.count() == 0) {
+                List<Usuario> usuarios = userService.listAll();
+                Random random = new Random();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+                for (int i = 1; i <= 100; i++) {
+                    LogAlarme log = new LogAlarme();
+                    Usuario randomUser = usuarios.get(random.nextInt(usuarios.size()));
+                    log.setUser(randomUser);
+                    log.setDescricao("Alarme crítico nº " + i);
+                    log.setDataHora(LocalDateTime.now()
+                            .minusDays(random.nextInt(30))
+                            .minusHours(random.nextInt(24))
+                            .format(formatter));
+                    log.setStatus(StatusEnum.values()[random.nextInt(StatusEnum.values().length)]);
+                    logAlarmeRepostiory.save(log);
+                }
+                System.out.println("100 registros de LogAlarme inseridos.");
             }
-            System.out.println("100 registros de LogArmazenamento inseridos.");
+            // -------- Inserir 100 Logs de Armazenamento --------
+            if (logArmazenamentoRepository.count() == 0) {
+                List<Usuario> usuarios = userService.listAll();
+                Random random = new Random();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+                for (int i = 1; i <= 100; i++) {
+                    LogArmazenamento log = new LogArmazenamento();
+                    Usuario randomUser = usuarios.get(random.nextInt(usuarios.size()));
+                    log.setUser(randomUser);
+                    log.setDescricao("Evento de armazenamento nº " + i);
+                    log.setDatahora(LocalDateTime.now()
+                            .minusDays(random.nextInt(30))
+                            .minusHours(random.nextInt(24))
+                            .format(formatter));
+                    log.setStatus(StatusEnum.values()[random.nextInt(StatusEnum.values().length)]);
+                    logArmazenamentoRepository.save(log);
+                }
+                System.out.println("100 registros de LogArmazenamento inseridos.");
+            }
         }
     }
-}

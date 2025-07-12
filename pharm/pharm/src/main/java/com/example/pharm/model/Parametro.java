@@ -47,9 +47,17 @@ public class Parametro {
     @JsonIgnoreProperties("parametros")
     private Unidade unidade;
 
+    @OneToOne(optional = true, cascade = CascadeType.ALL)
+    @JoinColumn(
+            name = "ponto_controle_id",
+            referencedColumnName = "id",
+            foreignKey = @ForeignKey(name = "fk_parametro_pontocontrole")
+    )
+    private PontoControle pontoControle;
+
     public Parametro() {} // Construtor vazio
 
-    public Parametro(Long id, String descricao, Integer valor, Integer vlMin, Integer vlMax, StatusEnum status, Grandeza grandeza, Unidade unidade, FuncaoEnum funcaoEnum, FormulaEnum formulaEnum) {
+    public Parametro(Long id, String descricao, Integer valor, Integer vlMin, Integer vlMax, StatusEnum status, Grandeza grandeza, Unidade unidade, FuncaoEnum funcaoEnum, FormulaEnum formulaEnum, PontoControle pontoControle) {
         this.id = id;
         this.descricao = descricao;
         this.valor = valor;
@@ -60,42 +68,29 @@ public class Parametro {
         this.unidade = unidade;
         this.funcaoEnum = funcaoEnum;
         this.formulaEnum = formulaEnum;
+        this.pontoControle = pontoControle;
     }
 
     public Long getId() { return id; }
     public StatusEnum getStatus() { return status; }
+    public void setGrandeza(Grandeza grandeza) {this.grandeza = grandeza;}
+    public FuncaoEnum getFuncao() {return funcaoEnum;}
+    public Unidade getUnidade() { return unidade; }
+    public String getDescricao() {return descricao;}
+    public Grandeza getGrandeza() {return grandeza;}
+    public Integer getValor() {return valor;}
+    public Integer getVlMax() {return vlMax;}
+    public Integer getVlMin() {return vlMin;}
+    public FormulaEnum getFormulaEnum() {return formulaEnum;}
+    public PontoControle getPontoControle() {return pontoControle;}
 
+    public void setFormulaEnum(FormulaEnum formulaEnum) {this.formulaEnum = formulaEnum;}
     public void setValor(Integer valor) { this.valor = valor; }
     public void setVlMin(Integer vlMin) { this.vlMin = vlMin; }
     public void setVlMax(Integer vlMax) { this.vlMax = vlMax; }
     public void setStatus(StatusEnum status) { this.status = status; }
-
     public void setFuncao(FuncaoEnum funcaoEnum) {this.funcaoEnum = funcaoEnum;}
-
-    public FuncaoEnum getFuncao() {return funcaoEnum;}
-
-    public void setGrandeza(Grandeza grandeza) {this.grandeza = grandeza;}
-
-    public Unidade getUnidade() { return unidade; }
-
     public void setUnidade(Unidade unidade) {this.unidade = unidade;}
-
-    public String getDescricao() {return descricao;}
-
     public void setDescricao(String descricao) {this.descricao = descricao;}
-
-    public Grandeza getGrandeza() {return grandeza;}
-
-    public Integer getValor() {return valor;}
-
-    public Integer getVlMax() {return vlMax;}
-
-    public Integer getVlMin() {return vlMin;}
-
-    public void setId(Long id) {this.id = id;}
-
-    public FormulaEnum getFormulaEnum() {return formulaEnum;}
-
-    public void setFormulaEnum(FormulaEnum formulaEnum) {this.formulaEnum = formulaEnum;}
-
+    public void setPontoControle(PontoControle pontoControle) {this.pontoControle = pontoControle;}
 }

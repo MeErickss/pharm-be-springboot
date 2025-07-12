@@ -36,11 +36,14 @@ public interface ParametroRepository extends JpaRepository<Parametro, Long> {
         p.status,
         u.descricao,
         g.descricao,
-        p.formulaEnum
+        p.formulaEnum,
+        pc.pontoControle
+        
       )
       FROM Parametro p
       JOIN p.unidade u
       JOIN p.grandeza g
+      JOIN p.pontoControle pc
       WHERE p.funcaoEnum = :funcao
     """)
     List<ParametroOutDto> findAllOut(@Param("funcao") FuncaoEnum funcaoEnum);

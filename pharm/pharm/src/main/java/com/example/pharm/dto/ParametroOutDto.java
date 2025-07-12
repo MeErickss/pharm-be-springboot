@@ -14,6 +14,7 @@ public class ParametroOutDto {
     private String unidade;
     private String grandeza;
     private FormulaEnum formulaEnum;
+    private String pontoControle;
 
     public ParametroOutDto(
             Long id,
@@ -24,7 +25,8 @@ public class ParametroOutDto {
             StatusEnum status,
             String unidade,
             String grandeza,
-            FormulaEnum formulaEnum
+            FormulaEnum formulaEnum,
+            String pontoControle
     ) {
         this.id = id;
         this.descricao = descricao;
@@ -35,6 +37,7 @@ public class ParametroOutDto {
         this.unidade = unidade;
         this.grandeza = grandeza;
         this.formulaEnum = formulaEnum;
+        this.pontoControle = pontoControle;
     }
 
     // getters
@@ -47,4 +50,5 @@ public class ParametroOutDto {
     public String getUnidade()        { return unidade; }
     public String getGrandeza()       { return grandeza; }
     public FormulaEnum getFormula() {return formulaEnum;}
+    public String getPontoControle() {return pontoControle;}
 }
