@@ -40,7 +40,7 @@ public class LogProducao {
     @Column(nullable = false)
     private StatusEnum status;
 
-    public LogProducao() {} // Construtor padrão obrigatório para o JPA
+    public LogProducao() {}
 
     public LogProducao(Long id, Usuario user, String descricao, String dataHora, StatusEnum status, Parametro parametro, ParametroDto parametroAnterior) {
         this.id = id;

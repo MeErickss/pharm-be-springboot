@@ -34,7 +34,7 @@ public class LogArmazenamentoController {
     public ResponseEntity<Page<LogArmazenamento>> listAll(
             @CookieValue(name = "JWT", required = false) String token,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) { // Alterado para ler do cookie
+            @RequestParam(defaultValue = "10") int size) {
 
         if (token == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

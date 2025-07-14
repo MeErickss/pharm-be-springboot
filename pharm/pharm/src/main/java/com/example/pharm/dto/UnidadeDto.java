@@ -10,10 +10,8 @@ public class UnidadeDto {
     private StatusEnum status;
     private String grandeza;
 
-    // Construtor vazio obrigatório
     public UnidadeDto() {}
 
-    // Construtor completo para uso interno
     public UnidadeDto(Long id, String unidade, String abreviacao,
                       StatusEnum status, String grandeza) {
         this.id = id;

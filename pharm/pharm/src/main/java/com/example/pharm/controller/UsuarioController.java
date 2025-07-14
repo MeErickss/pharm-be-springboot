@@ -21,15 +21,15 @@ import java.util.stream.Collectors;
 @CrossOrigin(
         origins = "http://localhost:5173",
         allowCredentials = "true",
-        allowedHeaders = "*",   // libera Content-Type, Authorization, etc
-        methods = {            // inclui OPTIONS para o preflight
+        allowedHeaders = "*",
+        methods = {
                 RequestMethod.GET,
                 RequestMethod.POST,
                 RequestMethod.PUT,
                 RequestMethod.DELETE,
                 RequestMethod.OPTIONS
         },
-        maxAge = 3600          // cache do preflight em segundos
+        maxAge = 3600
 )
 public class UsuarioController {
 
@@ -43,13 +43,10 @@ public class UsuarioController {
         this.objectMapper = objectMapper;
     }
 
-    // 1. End-point de login - gera o token
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequestDto req) {
         return usuarioService.verificaTokenUsuario(req);
     }
-
-    // 3. CRUD de usuário
     @GetMapping
     public ResponseEntity<List<Usuario>> listAllUsuarios() {
         return ResponseEntity.ok(usuarioService.listAll());
@@ -71,18 +68,14 @@ public class UsuarioController {
             @RequestBody UsuarioDto dto,
             @RequestParam String userLogin
     ) throws JsonProcessingException {
-        // 1) busca a entidade antiga e converte em DTO
         Usuario antes = usuarioService.findByLogin(dto.getLogin());
         UsuarioDto oldDto = UsuarioDto.fromEntity(antes);
 
-        // 2) cria os JsonNodes
         JsonNode oldNode = objectMapper.valueToTree(oldDto);
         JsonNode newNode = objectMapper.valueToTree(dto);
 
-        // 3) detecta campos alterados
         List<String> camposAlterados = usuarioService.detectarAlteracoes(oldDto, dto);
 
-        // 4) monta strings “campo=valor” para antes e depois
         String oldValues = camposAlterados.stream()
                 .map(f -> f + "=" + nodeAsText(oldNode, f))
                 .collect(Collectors.joining(", "));
@@ -93,10 +86,8 @@ public class UsuarioController {
                 ? "nenhum campo alterado"
                 : String.join(", ", camposAlterados);
 
-        // 5) executa atualização
         Usuario atualizado = usuarioService.atualizarUsuario(dto);
 
-        // 6) envia e‑mail informando as mudanças
         emailService.sendSimpleEmail(
                 "panicogamer64@gmail.com",
                 "Health Safe Farmacia - Usuário Atualizado",
@@ -109,7 +100,6 @@ public class UsuarioController {
         return ResponseEntity.ok(atualizado);
     }
 
-    // método auxiliar para extrair texto de JsonNode a partir do nome do campo
     private String nodeAsText(JsonNode node, String fieldName) {
         JsonNode f = node.get(fieldName);
         return (f == null || f.isNull()) ? "null" : f.asText();

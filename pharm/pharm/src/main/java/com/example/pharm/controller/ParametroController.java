@@ -133,9 +133,7 @@ public class ParametroController {
                 ? "nenhum campo alterado"
                 : String.join(", ", camposAlterados);
 
-        // ... seu insertLogProducao / insertLogArmazenamento aqui ...
 
-        // 4) envia e‑mail usando as strings já prontas
         emailService.sendSimpleEmail(
                 "panicogamer64@gmail.com",
                 "Heatlh Safe Farmacia",
@@ -157,7 +155,6 @@ public class ParametroController {
         return ResponseEntity.noContent().build();
     }
 
-    // método auxiliar para extrair texto de JsonNode usando fieldName
     private String nodeAsText(JsonNode node, String fieldName) {
         JsonNode f = node.get(fieldName);
         return f == null || f.isNull() ? "null" : f.asText();

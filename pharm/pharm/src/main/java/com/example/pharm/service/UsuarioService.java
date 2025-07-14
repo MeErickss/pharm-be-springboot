@@ -55,7 +55,6 @@ public class UsuarioService {
 
         Usuario u = new Usuario();
         u.setLogin(login);
-        // aqui fazemos o encode da senha
         u.setPassword(passwordEncoder.encode(senha));
         u.setNivel(nivel);
         u.setStatus(status);
@@ -97,28 +96,24 @@ public class UsuarioService {
     }
 
     public String autenticarEGerarToken(String login, String senha) {
-        // 1) Busca o usuário somente pelo login
         Usuario u = usuarioRepository.findByLogin(login)
                 .orElseThrow(() -> new RuntimeException("Login ou senha inválidos"));
 
-        // 2) Compara a senha em texto com a criptografada
         if (!passwordEncoder.matches(senha, u.getPassword())) {
             throw new RuntimeException("Login ou senha inválidos");
         }
 
-        // 3) Checa status
         if (u.getStatus() != StatusEnum.ATIVO) {
             throw new RuntimeException("Usuário inativo");
         }
 
-        // 4) Gera e retorna token
         return tokenService.criarTokenParaUsuario(u.getId());
     }
 
 
     public ResponseEntity<Map<String, String>> verificaTokenUsuario(LoginRequestDto req){
         String token = autenticarEGerarToken(req.getLogin(), req.getSenha());
-        Usuario usuario = findByLogin(req.getLogin()); // Novo método para buscar usuário
+        Usuario usuario = findByLogin(req.getLogin());
 
         ResponseCookie cookie = ResponseCookie.from("JWT", token)
                 .httpOnly(true)

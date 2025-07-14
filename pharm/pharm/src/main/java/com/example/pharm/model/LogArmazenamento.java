@@ -40,7 +40,7 @@ public class LogArmazenamento {
     @Column(nullable = false)
     private StatusEnum status;
 
-    public LogArmazenamento() {} // Construtor vazio obrigatório para o JPA
+    public LogArmazenamento() {}
 
     public LogArmazenamento(Long id, Usuario user, String descricao, String datahora, StatusEnum status, Parametro parametro, ParametroDto parametroAnterior) {
         this.id = id;

@@ -26,7 +26,6 @@ public class Usuario {
         @Column(nullable = false)
         private StatusEnum status;
 
-        // Construtores
         public Usuario() {}
 
         public Usuario(Long id, String login, String senha, StatusEnum status, NivelEnum nivel) {

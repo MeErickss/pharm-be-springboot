@@ -53,7 +53,7 @@ public class GrandezaController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarGrandeza(@PathVariable Long id){
         grandezaService.deletar(id);
-        return ResponseEntity.noContent().build(); // 204 No Content
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping

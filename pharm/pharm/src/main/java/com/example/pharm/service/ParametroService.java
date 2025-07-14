@@ -41,9 +41,6 @@ public class ParametroService {
         return parametroRepository.count();
     }
 
-    /**
-     * Cria um novo Parametro, com pontoControle opcional.
-     */
     public void criarParametro(String descricao,
                                Integer valor,
                                Integer vlMin,
@@ -72,14 +69,30 @@ public class ParametroService {
         p.setFormulaEnum(formulaEnum);
         p.setStatus(status);
 
-        // seta PontoControle somente se fornecido
         if (pontoControleId != null) {
             PontoControle pc = pontoControleRepository.findById(pontoControleId)
                     .orElseThrow(() -> new RuntimeException("PontoControle não encontrado!"));
             p.setPontoControle(pc);
+            pc.setStatus(StatusEnum.ATIVO);
         }
 
         parametroRepository.save(p);
+    }
+
+    public void criarParametro(String descricao,
+                               Integer valor,
+                               Integer vlMin,
+                               Integer vlMax,
+                               StatusEnum status,
+                               Long grandezaId,
+                               Long unidadeId,
+                               FuncaoEnum funcaoEnum,
+                               FormulaEnum formulaEnum
+    ) {
+        // delega para o outro, passando null
+        criarParametro(descricao, valor, vlMin, vlMax, status,
+                grandezaId, unidadeId, funcaoEnum, formulaEnum,
+                null);
     }
 
     /**
@@ -90,13 +103,15 @@ public class ParametroService {
                 .findByDescricao(dto.getGrandezaDesc())
                 .orElseThrow(() -> new RuntimeException("Grandeza não encontrada"));
 
-        // Unidade opcional
-        Unidade unidade = null;
-        if (dto.getUnidadeDesc() != null) {
-            unidade = unidadeRepository.findByDescricao(dto.getUnidadeDesc());
-        }
+        Unidade unidade = unidadeRepository.findByDescricao(dto.getUnidadeDesc());
+
 
         Parametro p = new Parametro();
+        if(dto.getPontoControle() != null){
+            PontoControle pontoControle = pontoControleRepository.findByPontoControle(dto.getPontoControle());
+            p.setPontoControle(pontoControle);
+            pontoControle.setStatus(StatusEnum.ATIVO);
+        }
         p.setDescricao(dto.getDescricao());
         p.setValor(dto.getValor());
         p.setVlMin(dto.getVlmin());
@@ -106,12 +121,6 @@ public class ParametroService {
         p.setGrandeza(grandeza);
         p.setFormulaEnum(dto.getFormulaEnum());
         p.setUnidade(unidade);
-
-        // PontoControle opcional
-        if (dto.getPontoControle() != null) {
-            PontoControle pc = pontoControleRepository.findByPontoControle(dto.getPontoControle());
-            p.setPontoControle(pc);
-        }
 
         return parametroRepository.save(p);
     }
@@ -136,12 +145,8 @@ public class ParametroService {
                 .findByDescricao(dto.getGrandezaDesc())
                 .orElseThrow(() -> new RuntimeException("Grandeza não encontrada"));
 
-        // Unidade opcional
-        Unidade unidade = null;
-        if (dto.getUnidadeDesc() != null) {
-            unidade = unidadeRepository.findByDescricao(dto.getUnidadeDesc());
-        }
-
+        Unidade unidade = unidadeRepository.findByDescricao(dto.getUnidadeDesc());
+        // atualiza atributos básicos
         p.setStatus(dto.getStatusenum());
         p.setFuncao(dto.getFuncao());
         p.setValor(dto.getValor());
@@ -152,14 +157,28 @@ public class ParametroService {
         p.setGrandeza(grandeza);
         p.setFormulaEnum(dto.getFormulaEnum());
 
-        // atualização de PontoControle opcional
         if (dto.getPontoControle() != null) {
-            PontoControle pc = pontoControleRepository.findByPontoControle(dto.getPontoControle());
-            p.setPontoControle(pc);
+            PontoControle novoPc = pontoControleRepository
+                    .findByPontoControle(dto.getPontoControle());
+
+            parametroRepository
+                    .findByPontoControle(novoPc)
+                    .ifPresent(existingParam -> {
+                        if (!existingParam.getId().equals(p.getId())) {
+                            existingParam.setPontoControle(null);
+                            parametroRepository.save(existingParam);
+                        }
+                    });
+
+            p.setPontoControle(novoPc);
+            novoPc.setStatus(StatusEnum.ATIVO);
+        } else {
+            p.setPontoControle(null);
         }
 
         return parametroRepository.save(p);
     }
+
 
     public String deletar(Long id) {
         try {

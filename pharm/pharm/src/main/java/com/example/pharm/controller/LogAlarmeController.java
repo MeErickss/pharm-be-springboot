@@ -71,7 +71,7 @@ public class LogAlarmeController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarLogAlarme(@PathVariable Long id){
         logAlarmeService.deletar(id);
-        return ResponseEntity.noContent().build(); // 204 No Content
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}")

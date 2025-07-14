@@ -15,28 +15,38 @@ public class DistribuicaoPlanta {
     private String nome;
 
     @Column(nullable = false, unique = true)
-    private String nomePadronizado; // ex: "VALVULA_V1", "BOMBA_B3", "SENSOR_TEMP_01"
+    private String nomePadronizado;
 
     @Column(nullable = false)
     private String endereco;
 
     @Column(nullable = false)
-    private String posicaoNoLayout; // opcional: ex: "X:120,Y:300" ou ID do SVG
+    private String posicaoNoLayout;
 
     @Enumerated(EnumType.STRING)
-    private TipoElemento tipo; // Enum: VALVULA, SENSOR, BOMBA, INDICADOR_VOLUME, etc.
+    private TipoElemento tipo;
 
     @Enumerated(EnumType.STRING)
     private StatusEnum statusEnum;
 
+    @OneToOne(optional = true, cascade = CascadeType.ALL)
+    @JoinColumn(
+            name = "ponto_controle_id",
+            referencedColumnName = "id",
+            foreignKey = @ForeignKey(name = "fk_parametro_pontocontrole"),
+            nullable = true
+    )
+    private PontoControle pontoControle;
+
     public DistribuicaoPlanta(){}
 
-    public DistribuicaoPlanta (Long id, String nomePadronizado, String endereco, TipoElemento tipo, StatusEnum statusEnum){
+    public DistribuicaoPlanta (Long id, String nomePadronizado, String endereco, TipoElemento tipo, StatusEnum statusEnum, PontoControle pontoControle){
         this.id = id;
         this.nomePadronizado = nomePadronizado;
         this.endereco = endereco;
         this. tipo = tipo;
         this.statusEnum = statusEnum;
+        this.pontoControle = pontoControle;
     }
 
     public Long getId() {return id;}
@@ -47,6 +57,7 @@ public class DistribuicaoPlanta {
     public TipoElemento getTipo() {return tipo;}
     public StatusEnum getStatusEnum() {return statusEnum;}
     public String getNome() {return nome;}
+    public PontoControle getPontoControle() {return pontoControle;}
 
     public void setEndereco(String endereco) {this.endereco = endereco;}
     public void setNomePadronizado(String nomePadronizado) {this.nomePadronizado = nomePadronizado;}
@@ -55,4 +66,5 @@ public class DistribuicaoPlanta {
     public void setNome(String nome) {this.nome = nome;}
     public void setStatusEnum(StatusEnum statusEnum) {this.statusEnum = statusEnum;}
     public void setTipo(TipoElemento tipo) {this.tipo = tipo;}
+    public void setPontoControle(PontoControle pontoControle) {this.pontoControle = pontoControle;}
 }

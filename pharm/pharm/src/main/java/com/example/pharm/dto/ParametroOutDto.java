@@ -40,7 +40,6 @@ public class ParametroOutDto {
         this.pontoControle = pontoControle;
     }
 
-    // getters
     public Long getId()               { return id; }
     public String getDescricao()      { return descricao; }
     public Integer getValor()         { return valor; }

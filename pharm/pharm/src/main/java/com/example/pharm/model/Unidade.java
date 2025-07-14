@@ -35,7 +35,7 @@ public class Unidade {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_grandeza", nullable = false)
-    @JsonBackReference  // evita loop na serialização
+    @JsonBackReference
     private Grandeza grandeza;
 
     public Unidade() {}

@@ -51,11 +51,12 @@ public class Parametro {
     @JoinColumn(
             name = "ponto_controle_id",
             referencedColumnName = "id",
-            foreignKey = @ForeignKey(name = "fk_parametro_pontocontrole")
+            foreignKey = @ForeignKey(name = "fk_parametro_pontocontrole"),
+            nullable = true
     )
     private PontoControle pontoControle;
 
-    public Parametro() {} // Construtor vazio
+    public Parametro() {}
 
     public Parametro(Long id, String descricao, Integer valor, Integer vlMin, Integer vlMax, StatusEnum status, Grandeza grandeza, Unidade unidade, FuncaoEnum funcaoEnum, FormulaEnum formulaEnum, PontoControle pontoControle) {
         this.id = id;

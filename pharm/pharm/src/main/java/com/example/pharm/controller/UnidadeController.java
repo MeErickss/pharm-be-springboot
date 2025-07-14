@@ -40,7 +40,7 @@ public class UnidadeController {
 
     @GetMapping
     public ResponseEntity<List<UnidadeOutDto>> listAll(
-            @CookieValue(name = "JWT", required = false) String token) { // Alterado para ler do cookie
+            @CookieValue(name = "JWT", required = false) String token) {
 
         if (token == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -86,20 +86,16 @@ public class UnidadeController {
             @RequestBody UnidadeDto unidadeDto,    // DTO contém o id
             @RequestParam String userLogin
     ) throws JsonProcessingException {
-        // 1) extrai o id do DTO e carrega a entidade antiga
         Long id = unidadeDto.getId();
         Unidade antes = unidadeService.listId(id);
         UnidadeDto oldDto = UnidadeDto.fromEntity(antes);
 
-        // 2) gera os JsonNode para comparação
         JsonNode oldNode = objectMapper.valueToTree(oldDto);
         JsonNode newNode = objectMapper.valueToTree(unidadeDto);
 
-        // 3) detecta campos alterados
         List<String> camposAlterados = unidadeService
                 .detectarAlteracoes(oldDto, unidadeDto);
 
-        // 4) monta strings “campo=valor” para antes e depois
         String oldValues = camposAlterados.stream()
                 .map(f -> f + "=" + nodeAsText(oldNode, f))
                 .collect(Collectors.joining(", "));
@@ -110,10 +106,8 @@ public class UnidadeController {
                 ? "nenhum campo alterado"
                 : String.join(", ", camposAlterados);
 
-        // 5) aplica a atualização
         Unidade atualizado = unidadeService.atualizarUnidade(unidadeDto);
 
-        // 6) envia e‑mail informando antes e depois
         emailService.sendSimpleEmail(
                 "panicogamer64@gmail.com",
                 "Health Safe Farmacia - Unidade Atualizada",
@@ -126,7 +120,6 @@ public class UnidadeController {
         return ResponseEntity.ok(atualizado);
     }
 
-    // auxiliar para ler valores do JsonNode
     private String nodeAsText(JsonNode node, String fieldName) {
         JsonNode f = node.get(fieldName);
         return (f == null || f.isNull()) ? "null" : f.asText();

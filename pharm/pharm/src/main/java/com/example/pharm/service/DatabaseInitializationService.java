@@ -73,7 +73,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
         }
         if (pontoControleService.contarPontosControle() == 0) {
 
-            pontoControleService.criarPontoControle(
+            pontoControleService.criarPontoControle( // 1
                     "TAG_ENDERECO_0",
                     CLPTipoEnum.INTEGER,
                     "0",
@@ -90,7 +90,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
                     (short) 1,
                     OffsetEnum.OFFSET_1,
                     "VALVULA XV_101",
-                    StatusEnum.ATIVO, TipoUsoEnum.PARAMETRO
+                    StatusEnum.DESLIGADO, TipoUsoEnum.PARAMETRO
             );
 
             pontoControleService.criarPontoControle(
@@ -100,10 +100,9 @@ public class DatabaseInitializationService implements ApplicationRunner {
                     (short) 1,
                     OffsetEnum.OFFSET_1,
                     "VALVULA XV_102",
-                    StatusEnum.ATIVO, TipoUsoEnum.PARAMETRO
+                    StatusEnum.DESLIGADO, TipoUsoEnum.PARAMETRO
             );
 
-            // … repita para os demais endereços 3, 4, …, 15 …
             pontoControleService.criarPontoControle(
                     "TAG_ENDERECO_15",
                     CLPTipoEnum.INTEGER,
@@ -122,7 +121,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
                     (short) 1,
                     OffsetEnum.OFFSET_1,
                     "VALVULA XV_301",
-                    StatusEnum.ATIVO, TipoUsoEnum.PARAMETRO
+                    StatusEnum.DESLIGADO, TipoUsoEnum.PARAMETRO
             );
 
             pontoControleService.criarPontoControle(
@@ -132,8 +131,238 @@ public class DatabaseInitializationService implements ApplicationRunner {
                     (short) 1,
                     OffsetEnum.OFFSET_1,
                     "VALVULA XV_302",
-                    StatusEnum.ATIVO, TipoUsoEnum.PARAMETRO
+                    StatusEnum.ATIVO, TipoUsoEnum.ENTRADA
             );
+
+            pontoControleService.criarPontoControle( // 7
+                    "TAG_ENDERECO_103",
+                    CLPTipoEnum.INTEGER,
+                    "103",
+                    (short) 1,
+                    OffsetEnum.OFFSET_1,
+                    "VALVULA XV_302",
+                    StatusEnum.ATIVO, TipoUsoEnum.ENTRADA
+            );
+
+            pontoControleService.criarPontoControle(
+                    "TAG_ENDERECO_104",
+                    CLPTipoEnum.INTEGER,
+                    "104",
+                    (short) 1,
+                    OffsetEnum.OFFSET_1,
+                    "VALVULA XV_304",
+                    StatusEnum.ATIVO, TipoUsoEnum.ENTRADA
+            );
+
+            pontoControleService.criarPontoControle(
+                    "TAG_ENDERECO_105",
+                    CLPTipoEnum.INTEGER,
+                    "105",
+                    (short) 1,
+                    OffsetEnum.OFFSET_1,
+                    "VALVULA XV_305",
+                    StatusEnum.ATIVO, TipoUsoEnum.ENTRADA
+            );
+
+            pontoControleService.criarPontoControle(
+                    "TAG_ENDERECO_106",
+                    CLPTipoEnum.INTEGER,
+                    "106",
+                    (short) 1,
+                    OffsetEnum.OFFSET_1,
+                    "VALVULA XV_306",
+                    StatusEnum.ATIVO, TipoUsoEnum.ENTRADA
+            );
+
+            pontoControleService.criarPontoControle(
+                    "TAG_ENDERECO_107",
+                    CLPTipoEnum.INTEGER,
+                    "107",
+                    (short) 1,
+                    OffsetEnum.OFFSET_1,
+                    "VALVULA XV_307",
+                    StatusEnum.ATIVO, TipoUsoEnum.ENTRADA
+            );
+
+            pontoControleService.criarPontoControle(
+                    "TAG_ENDERECO_108",
+                    CLPTipoEnum.INTEGER,
+                    "108",
+                    (short) 1,
+                    OffsetEnum.OFFSET_1,
+                    "VALVULA XV_308",
+                    StatusEnum.ATIVO, TipoUsoEnum.ENTRADA
+            );
+
+            pontoControleService.criarPontoControle(
+                    "TAG_ENDERECO_109",
+                    CLPTipoEnum.INTEGER,
+                    "109",
+                    (short) 1,
+                    OffsetEnum.OFFSET_1,
+                    "VALVULA XV_309",
+                    StatusEnum.ATIVO, TipoUsoEnum.ENTRADA
+            );
+
+            pontoControleService.criarPontoControle( // 14
+                    "TAG_ENDERECO_110",
+                    CLPTipoEnum.INTEGER,
+                    "110",
+                    (short) 1,
+                    OffsetEnum.OFFSET_1,
+                    "VALVULA XV_310",
+                    StatusEnum.ATIVO, TipoUsoEnum.SAIDA
+            );
+
+            pontoControleService.criarPontoControle(
+                    "TAG_ENDERECO_111",
+                    CLPTipoEnum.INTEGER,
+                    "111",
+                    (short) 1,
+                    OffsetEnum.OFFSET_1,
+                    "VALVULA XV_311",
+                    StatusEnum.ATIVO, TipoUsoEnum.SAIDA
+            );
+
+            pontoControleService.criarPontoControle(
+                    "TAG_ENDERECO_112",
+                    CLPTipoEnum.INTEGER,
+                    "112",
+                    (short) 1,
+                    OffsetEnum.OFFSET_1,
+                    "VALVULA XV_312",
+                    StatusEnum.ATIVO, TipoUsoEnum.SAIDA
+            );
+
+            pontoControleService.criarPontoControle(
+                    "TAG_ENDERECO_113",
+                    CLPTipoEnum.INTEGER,
+                    "113",
+                    (short) 1,
+                    OffsetEnum.OFFSET_1,
+                    "VALVULA XV_313",
+                    StatusEnum.ATIVO, TipoUsoEnum.ENTRADA
+            );
+
+            pontoControleService.criarPontoControle(
+                    "TAG_ENDERECO_114",
+                    CLPTipoEnum.INTEGER,
+                    "114",
+                    (short) 1,
+                    OffsetEnum.OFFSET_1,
+                    "VALVULA XV_314",
+                    StatusEnum.ATIVO, TipoUsoEnum.ENTRADA
+            );
+
+            pontoControleService.criarPontoControle(
+                    "TAG_ENDERECO_115",
+                    CLPTipoEnum.INTEGER,
+                    "115",
+                    (short) 1,
+                    OffsetEnum.OFFSET_1,
+                    "VALVULA XV_315",
+                    StatusEnum.ATIVO, TipoUsoEnum.SAIDA
+            );
+
+            pontoControleService.criarPontoControle( // 20
+                    "TAG_ENDERECO_116",
+                    CLPTipoEnum.INTEGER,
+                    "116",
+                    (short) 1,
+                    OffsetEnum.OFFSET_1,
+                    "VALVULA XV_316",
+                    StatusEnum.ATIVO, TipoUsoEnum.SAIDA
+            );
+
+            pontoControleService.criarPontoControle(
+                    "TAG_ENDERECO_117",
+                    CLPTipoEnum.INTEGER,
+                    "117",
+                    (short) 1,
+                    OffsetEnum.OFFSET_1,
+                    "VALVULA XV_317",
+                    StatusEnum.ATIVO, TipoUsoEnum.ENTRADA
+            );
+
+            pontoControleService.criarPontoControle(
+                    "TAG_ENDERECO_118",
+                    CLPTipoEnum.INTEGER,
+                    "118",
+                    (short) 1,
+                    OffsetEnum.OFFSET_1,
+                    "VALVULA XV_318",
+                    StatusEnum.ATIVO, TipoUsoEnum.ENTRADA
+            );
+
+            pontoControleService.criarPontoControle(
+                    "TAG_ENDERECO_119",
+                    CLPTipoEnum.INTEGER,
+                    "119",
+                    (short) 1,
+                    OffsetEnum.OFFSET_1,
+                    "VALVULA XV_319",
+                    StatusEnum.ATIVO, TipoUsoEnum.ENTRADA
+            );
+
+            pontoControleService.criarPontoControle(
+                    "TAG_ENDERECO_120",
+                    CLPTipoEnum.INTEGER,
+                    "120",
+                    (short) 1,
+                    OffsetEnum.OFFSET_1,
+                    "VALVULA XV_320",
+                    StatusEnum.ATIVO, TipoUsoEnum.ENTRADA
+            );
+            pontoControleService.criarPontoControle(
+                    "TAG_ENDERECO_121",
+                    CLPTipoEnum.INTEGER,
+                    "121",
+                    (short) 1,
+                    OffsetEnum.OFFSET_1,
+                    "VALVULA XV_321",
+                    StatusEnum.ATIVO, TipoUsoEnum.ENTRADA
+            );
+
+            pontoControleService.criarPontoControle(
+                    "TAG_ENDERECO_122",
+                    CLPTipoEnum.INTEGER,
+                    "122",
+                    (short) 1,
+                    OffsetEnum.OFFSET_1,
+                    "VALVULA XV_322",
+                    StatusEnum.ATIVO, TipoUsoEnum.ENTRADA
+            );
+
+            pontoControleService.criarPontoControle( // 27
+                    "TAG_ENDERECO_123",
+                    CLPTipoEnum.INTEGER,
+                    "123",
+                    (short) 1,
+                    OffsetEnum.OFFSET_1,
+                    "VALVULA XV_323",
+                    StatusEnum.ATIVO, TipoUsoEnum.SAIDA
+            );
+
+            pontoControleService.criarPontoControle(
+                    "TAG_ENDERECO_124",
+                    CLPTipoEnum.INTEGER,
+                    "124",
+                    (short) 1,
+                    OffsetEnum.OFFSET_1,
+                    "VALVULA XV_324",
+                    StatusEnum.ATIVO, TipoUsoEnum.ENTRADA
+            );
+
+            pontoControleService.criarPontoControle( // 29
+                    "TAG_ENDERECO_125",
+                    CLPTipoEnum.INTEGER,
+                    "125",
+                    (short) 1,
+                    OffsetEnum.OFFSET_1,
+                    "VALVULA XV_325",
+                    StatusEnum.ATIVO, TipoUsoEnum.ENTRADA
+            );
+
         }
 
         if (parametroService.contarParametros() == 0) {
@@ -143,11 +372,11 @@ public class DatabaseInitializationService implements ApplicationRunner {
             );
             parametroService.criarParametro(
                     "TEMPO PARA DRENAGEM DO TANQUE DE ADIÇÃO [TQ-200]",
-                    30, 15, 45, StatusEnum.ATIVO, 1L, 1L, FuncaoEnum.PRODUCAO, FormulaEnum.DOIS, 2L
+                    30, 15, 45, StatusEnum.ATIVO, 1L, 1L, FuncaoEnum.PRODUCAO, FormulaEnum.DOIS
             );
             parametroService.criarParametro(
                     "TEMPO PARA DRENAGEM DO TANQUE TQ-300",
-                    40, 5, 200, StatusEnum.ATIVO, 1L, 1L, FuncaoEnum.PRODUCAO, FormulaEnum.TRES, 3L
+                    40, 5, 200, StatusEnum.ATIVO, 1L, 1L, FuncaoEnum.PRODUCAO, FormulaEnum.TRES
             );
             parametroService.criarParametro(
                     "TEMPO PARA DRENAGEM DO TANQUE TQ-310",
@@ -163,7 +392,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
                         "valvula1-1", // placeholder de endereço; ajuste conforme mapeamento real
                         "{\"x\":112,\"y\":277,\"w\":40,\"h\":40}",
                         TipoElemento.VALVULA,
-                        StatusEnum.DESLIGADO
+                        StatusEnum.DESLIGADO, 6L
                 );
                 farmaciaPlantaService.criarFarmaciaPlanta(
                         "V2",
@@ -171,7 +400,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
                         "valvula1-2",
                         "{\"x\":27,\"y\":90,\"w\":40,\"h\":40}",
                         TipoElemento.VALVULA,
-                        StatusEnum.DESLIGADO
+                        StatusEnum.DESLIGADO, 7L
                 );
                 farmaciaPlantaService.criarFarmaciaPlanta(
                         "V3",
@@ -179,7 +408,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
                         "valvula1-3",
                         "{\"x\":440,\"y\":173,\"w\":40,\"h\":40}",
                         TipoElemento.VALVULA,
-                        StatusEnum.DESLIGADO
+                        StatusEnum.DESLIGADO, 8L
                 );
                 farmaciaPlantaService.criarFarmaciaPlanta(
                         "V4",
@@ -187,7 +416,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
                         "valvula1-4",
                         "{\"x\":394,\"y\":213,\"w\":40,\"h\":40}",
                         TipoElemento.VALVULA,
-                        StatusEnum.DESLIGADO
+                        StatusEnum.DESLIGADO, 9L
                 );
                 farmaciaPlantaService.criarFarmaciaPlanta(
                         "V5",
@@ -195,7 +424,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
                         "valvula1-5",
                         "{\"x\":438,\"y\":324,\"w\":40,\"h\":40}",
                         TipoElemento.VALVULA,
-                        StatusEnum.DESLIGADO
+                        StatusEnum.DESLIGADO, 10L
                 );
                 farmaciaPlantaService.criarFarmaciaPlanta(
                         "V6",
@@ -203,7 +432,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
                         "valvula1-6",
                         "{\"x\":502,\"y\":325,\"w\":40,\"h\":40}",
                         TipoElemento.VALVULA,
-                        StatusEnum.DESLIGADO
+                        StatusEnum.DESLIGADO, 11L
                 );
                 farmaciaPlantaService.criarFarmaciaPlanta(
                         "V7",
@@ -211,7 +440,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
                         "valvula2",
                         "{\"x\":91,\"y\":305,\"w\":40,\"h\":40}",
                         TipoElemento.VALVULA,
-                        StatusEnum.DESLIGADO
+                        StatusEnum.DESLIGADO, 12L
                 );
                 farmaciaPlantaService.criarFarmaciaPlanta(
                         "S4",
@@ -219,7 +448,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
                         "sensor1",
                         "{\"x\":312,\"y\":80,\"w\":50,\"h\":50}",
                         TipoElemento.SENSOR,
-                        StatusEnum.DESLIGADO
+                        StatusEnum.DESLIGADO, 14L
                 );
                 farmaciaPlantaService.criarFarmaciaPlanta(
                         "S1",
@@ -227,7 +456,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
                         "sensor2-1",
                         "{\"x\":160,\"y\":142,\"w\":32,\"h\":40}",
                         TipoElemento.SENSOR,
-                        StatusEnum.DESLIGADO
+                        StatusEnum.DESLIGADO, 15L
                 );
                 farmaciaPlantaService.criarFarmaciaPlanta(
                         "S2",
@@ -235,7 +464,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
                         "sensor2-2",
                         "{\"x\":160,\"y\":172,\"w\":32,\"h\":40}",
                         TipoElemento.SENSOR,
-                        StatusEnum.DESLIGADO
+                        StatusEnum.DESLIGADO, 16L
                 );
                 farmaciaPlantaService.criarFarmaciaPlanta(
                         "S3",
@@ -243,7 +472,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
                         "sensor2-3",
                         "{\"x\":160,\"y\":207,\"w\":32,\"h\":40}",
                         TipoElemento.SENSOR,
-                        StatusEnum.DESLIGADO
+                        StatusEnum.DESLIGADO, 17L
                 );
                 farmaciaPlantaService.criarFarmaciaPlanta(
                         "B1",
@@ -251,7 +480,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
                         "bomba",
                         "{\"x\":280,\"y\":305,\"w\":80,\"h\":80}",
                         TipoElemento.BOMBA,
-                        StatusEnum.DESLIGADO
+                        StatusEnum.DESLIGADO, 29L
                 );
                 farmaciaPlantaService.criarFarmaciaPlanta(
                         "B2",
@@ -259,7 +488,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
                         "bomba-2",
                         "{\"x\":280,\"y\":305,\"w\":80,\"h\":80}",
                         TipoElemento.BOMBA,
-                        StatusEnum.DESLIGADO
+                        StatusEnum.DESLIGADO, 18L
                 );
                 farmaciaPlantaService.criarFarmaciaPlanta(
                         "NTA",
@@ -267,7 +496,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
                         "Nivel_ta",
                         "{\"x\":220,\"y\":105,\"w\":70,\"h\":135}",
                         TipoElemento.INDICADOR_VOLUME,
-                        StatusEnum.DESLIGADO
+                        StatusEnum.DESLIGADO, 19L
                 );
                 farmaciaPlantaService.criarFarmaciaPlanta(
                         "NTM",
@@ -275,7 +504,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
                         "Nivel_tm",
                         "{\"x\":106,\"y\":155,\"w\":50,\"h\":84}",
                         TipoElemento.INDICADOR_VOLUME,
-                        StatusEnum.DESLIGADO
+                        StatusEnum.DESLIGADO, 20L
                 );
 
                 System.out.println("FarmaciaPlanta inicializada com elementos padrão.");
@@ -284,13 +513,13 @@ public class DatabaseInitializationService implements ApplicationRunner {
 
             if (distribuicaoPlantaService.contarDistribuicao() == 0) {
                 // Suponha que você queira inserir os mesmos elementos do frontend:
-                distribuicaoPlantaService.criarDistribuicaoPlanta(
+                distribuicaoPlantaService.criarDistribuicaoPlanta(// 1
                         "V1",
                         "valvula1-1",
-                        "valvula1-1",                       // placeholder de endereço; ajuste se tiver outro mapeamento
-                        "{\"x\":157,\"y\":54,\"w\":30,\"h\":30}", // posicaoNoLayout em JSON
+                        "valvula1-1",
+                        "{\"x\":157,\"y\":54,\"w\":30,\"h\":30}",
                         TipoElemento.VALVULA,
-                        StatusEnum.DESLIGADO
+                        StatusEnum.DESLIGADO, 20L
                 );
                 distribuicaoPlantaService.criarDistribuicaoPlanta(
                         "V2",
@@ -298,7 +527,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
                         "valvula1-2",
                         "{\"x\":222,\"y\":54,\"w\":30,\"h\":30}",
                         TipoElemento.VALVULA,
-                        StatusEnum.DESLIGADO
+                        StatusEnum.DESLIGADO, 21L
                 );
                 distribuicaoPlantaService.criarDistribuicaoPlanta(
                         "V3",
@@ -306,7 +535,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
                         "valvula1_c",
                         "{\"x\":60,\"y\":167,\"w\":30,\"h\":30}",
                         TipoElemento.VALVULA,
-                        StatusEnum.DESLIGADO
+                        StatusEnum.DESLIGADO, 22L
                 );
                 distribuicaoPlantaService.criarDistribuicaoPlanta(
                         "V4",
@@ -314,7 +543,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
                         "valvula2-1",
                         "{\"x\":126,\"y\":99,\"w\":30,\"h\":30}",
                         TipoElemento.VALVULA,
-                        StatusEnum.DESLIGADO
+                        StatusEnum.DESLIGADO, 23L
                 );
                 distribuicaoPlantaService.criarDistribuicaoPlanta(
                         "V5",
@@ -322,7 +551,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
                         "valvula2-2",
                         "{\"x\":137,\"y\":259,\"w\":30,\"h\":30}",
                         TipoElemento.VALVULA,
-                        StatusEnum.DESLIGADO
+                        StatusEnum.DESLIGADO, 24L
                 );
                 distribuicaoPlantaService.criarDistribuicaoPlanta(
                         "V6",
@@ -330,7 +559,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
                         "valvula2-3",
                         "{\"x\":270,\"y\":258,\"w\":30,\"h\":30}",
                         TipoElemento.VALVULA,
-                        StatusEnum.DESLIGADO
+                        StatusEnum.DESLIGADO, 25L
                 );
                 distribuicaoPlantaService.criarDistribuicaoPlanta(
                         "S1",
@@ -338,7 +567,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
                         "sensor1",
                         "{\"x\":224,\"y\":90,\"w\":50,\"h\":50}",
                         TipoElemento.SENSOR,
-                        StatusEnum.DESLIGADO
+                        StatusEnum.DESLIGADO, 27L
                 );
                 distribuicaoPlantaService.criarDistribuicaoPlanta(
                         "B1",
@@ -346,7 +575,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
                         "bomba2-1",
                         "{\"x\":375,\"y\":300,\"w\":65,\"h\":65}",
                         TipoElemento.BOMBA,
-                        StatusEnum.DESLIGADO
+                        StatusEnum.DESLIGADO, 26L
                 );
                 distribuicaoPlantaService.criarDistribuicaoPlanta(
                         "B2",
@@ -354,7 +583,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
                         "bomba2-2",
                         "{\"x\":376,\"y\":220,\"w\":65,\"h\":65}",
                         TipoElemento.BOMBA,
-                        StatusEnum.DESLIGADO
+                        StatusEnum.DESLIGADO, 28L
                 );
                 System.out.println("DistribuicaoPlanta inicializada com elementos padrão.");
             }

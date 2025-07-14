@@ -21,7 +21,7 @@ public class Grandeza {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)  // Corrigido de @Colunm
+    @Column(nullable = false)
     private String descricao;
 
     @Column(nullable = false)
@@ -36,7 +36,7 @@ public class Grandeza {
     @OneToMany(mappedBy = "grandeza", cascade = CascadeType.REMOVE)
     private List<Parametro> parametro = new ArrayList<>();
 
-    public Grandeza() {} // Construtor vazio obrigatório para o JPA
+    public Grandeza() {}
 
     public Grandeza(Long id, String descricao, StatusEnum status) {
         this.id = id;

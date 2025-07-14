@@ -24,7 +24,7 @@ public class FuncaoController {
 
     @GetMapping
     public ResponseEntity<List<FuncaoEnum>> listAll(
-            @CookieValue(name = "JWT", required = false) String token) { // Alterado para ler do cookie
+            @CookieValue(name = "JWT", required = false) String token) {
 
         if (token == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

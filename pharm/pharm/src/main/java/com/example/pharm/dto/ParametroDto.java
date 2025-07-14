@@ -18,10 +18,8 @@ public class ParametroDto {
     private FormulaEnum formulaEnum;
     private String pontoControle;
 
-    // Construtor vazio é essencial
     public ParametroDto() {}
 
-    // Construtor completo
     public ParametroDto(Long id, Integer valor, Integer vlmin, Integer vlmax,
                         StatusEnum statusenum, String descricao,
                         String unidadeDesc, FuncaoEnum funcao,
@@ -73,7 +71,6 @@ public class ParametroDto {
                 '}';
     }
 
-    // Getters e setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public Integer getValor() { return valor; }

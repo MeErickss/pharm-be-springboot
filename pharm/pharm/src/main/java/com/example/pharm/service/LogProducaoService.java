@@ -94,7 +94,6 @@ public class LogProducaoService {
             );
             l.setDescricao(descicao);
 
-            // se vier um Parametro “anterior”, popula o campo
             if (parametroAnterior != null) {
                 ParametroDto snapshot = ParametroDto.fromEntity(parametroAnterior);
                 l.setParametroAnterior(snapshot);

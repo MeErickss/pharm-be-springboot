@@ -2,6 +2,7 @@ package com.example.pharm.repository;
 
 import com.example.pharm.dto.ParametroOutDto;
 import com.example.pharm.model.Parametro;
+import com.example.pharm.model.PontoControle;
 import com.example.pharm.model.enumeration.FormulaEnum;
 import com.example.pharm.model.enumeration.FuncaoEnum;
 import com.example.pharm.model.enumeration.StatusEnum;
@@ -25,7 +26,8 @@ public interface ParametroRepository extends JpaRepository<Parametro, Long> {
 
     List<Parametro> findByStatus(StatusEnum statusEnum);
 
-    // dentro de ParametroRepository
+    Optional<Parametro> findByPontoControle(PontoControle pontoControle);
+
     @Query("""
       SELECT new com.example.pharm.dto.ParametroOutDto(
         p.id,
@@ -43,7 +45,7 @@ public interface ParametroRepository extends JpaRepository<Parametro, Long> {
       FROM Parametro p
       JOIN p.unidade u
       JOIN p.grandeza g
-      JOIN p.pontoControle pc
+      LEFT JOIN p.pontoControle pc
       WHERE p.funcaoEnum = :funcao
     """)
     List<ParametroOutDto> findAllOut(@Param("funcao") FuncaoEnum funcaoEnum);

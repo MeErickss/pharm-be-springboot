@@ -12,10 +12,8 @@ public class UsuarioDto {
     private StatusEnum status;
     private NivelEnum nivel;
 
-    // Construtor vazio obrigatório
     public UsuarioDto() {}
 
-    // Construtor completo para uso interno
     public UsuarioDto(Long id, String login, String password, StatusEnum status, NivelEnum nivel) {
         this.id = id;
         this.login = login;
@@ -40,7 +38,6 @@ public class UsuarioDto {
         return dto;
     }
 
-    // getters e setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public String getLogin() { return login; }

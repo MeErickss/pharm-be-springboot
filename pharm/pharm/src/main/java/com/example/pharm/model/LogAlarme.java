@@ -28,7 +28,7 @@ public class LogAlarme {
     @Column(nullable = false)
     private StatusEnum status;
 
-    public LogAlarme() {} // Construtor vazio obrigatório para o JPA
+    public LogAlarme() {}
 
     public LogAlarme(Long id, Usuario user, String descricao, String dataHora, StatusEnum status) {
         this.id = id;
