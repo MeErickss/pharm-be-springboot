@@ -141,11 +141,17 @@ public class ParametroService {
         Parametro p = parametroRepository.findById(dto.getId())
                 .orElseThrow(() -> new RuntimeException("Parametro não encontrado"));
 
+        if (p.getPontoControle() != null && dto.getPontoControle() != null){
+            p.getPontoControle().setStatus(StatusEnum.DESLIGADO);
+        }
+
         Grandeza grandeza = grandezaRepository
                 .findByDescricao(dto.getGrandezaDesc())
                 .orElseThrow(() -> new RuntimeException("Grandeza não encontrada"));
 
         Unidade unidade = unidadeRepository.findByDescricao(dto.getUnidadeDesc());
+
+
         // atualiza atributos básicos
         p.setStatus(dto.getStatusenum());
         p.setFuncao(dto.getFuncao());

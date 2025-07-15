@@ -47,6 +47,24 @@ public class PontoControleService {
         pontoControleRepository.save(pc);
     }
 
+    public void insertPontoControle(PontoControleDto dto) {
+        if (pontoControleRepository.existsByPontoControle(dto.getPontoConteole())) {
+            throw new RuntimeException("Login de usuário já existente!");
+        }
+
+        PontoControle pc = new PontoControle();
+        pc.setPontoControle(dto.getPontoConteole());
+        pc.setDescricao(dto.getDescricao());
+        pc.setClpTipo(dto.getClpTipo());
+        pc.setOffset(dto.getOffset());
+        pc.setStatus(dto.getStatus());
+        pc.setTamanho(dto.getTamanho());
+        pc.setEnderecoCLP(dto.getEnderecoCLP());
+        pc.setTipoUso(dto.getTipoUso());
+
+        pontoControleRepository.save(pc);
+    }
+
 
     public List<PontoControle> listAll(){
         return pontoControleRepository.findAll();
@@ -63,7 +81,7 @@ public class PontoControleService {
                 new RuntimeException("Usuario não encontrado")
         );
 
-        pc.setPontoControle(dto.getPontoConrtole());
+        pc.setPontoControle(dto.getPontoConteole());
         pc.setDescricao(dto.getDescricao());
         pc.setClpTipo(dto.getClpTipo());
         pc.setOffset(dto.getOffset());

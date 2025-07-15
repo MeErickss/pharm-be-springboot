@@ -2,6 +2,7 @@ package com.example.pharm.controller;
 
 
 import com.example.pharm.dto.LogProducaoDto;
+import com.example.pharm.dto.ParametroDto;
 import com.example.pharm.dto.PontoControleDto;
 import com.example.pharm.model.*;
 import com.example.pharm.service.LogProducaoService;
@@ -54,10 +55,29 @@ public class PontoControleController {
         return ResponseEntity.noContent().build(); // 204 No Content
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<PontoControle> autualizarPontoControle(@PathVariable Long id,
-                                                             @RequestBody PontoControleDto dto){
+    @PutMapping
+    public ResponseEntity<PontoControle> autualizarPontoControle(@RequestBody PontoControleDto dto,
+                                                             @RequestParam String userLogin){
         PontoControle atualizado = pontoControleService.atualizarPontoControle(dto);
         return ResponseEntity.ok(atualizado);
+    }
+
+    @PostMapping
+    public ResponseEntity<Void> inserirPontoControle(
+            @RequestBody PontoControleDto dto,
+            @CookieValue(name = "JWT", required = false) String token) {
+
+        if (token == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        Long userIdToken = tokenService.validarToken(token);
+        if (userIdToken == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        pontoControleService.insertPontoControle(dto);
+
+
+        return ResponseEntity.noContent().build();
     }
 }

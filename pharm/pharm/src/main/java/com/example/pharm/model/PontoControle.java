@@ -13,13 +13,13 @@ public class PontoControle {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String pontoControle;
 
     @Column(nullable = false)
     private CLPTipoEnum clpTipo;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String enderecoCLP;
 
     @Column(nullable = false)

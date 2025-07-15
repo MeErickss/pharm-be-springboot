@@ -7,7 +7,7 @@ import com.example.pharm.model.enumeration.TipoUsoEnum;
 
 public class PontoControleDto {
     private Long id;
-    private String pontoConrtole;
+    private String pontoControle;
     private CLPTipoEnum clpTipo;
     private String enderecoCLP;
     private Short tamanho;
@@ -18,9 +18,9 @@ public class PontoControleDto {
 
     public PontoControleDto(){}
 
-    public PontoControleDto(Long id, String pontoConrtole, CLPTipoEnum clpTipo, String enderecoCLP, Short tamanho, OffsetEnum offset, String descricao, StatusEnum status, TipoUsoEnum tipoUso){
+    public PontoControleDto(Long id, String pontoControle, CLPTipoEnum clpTipo, String enderecoCLP, Short tamanho, OffsetEnum offset, String descricao, StatusEnum status, TipoUsoEnum tipoUso){
         this.id = id;
-        this.pontoConrtole = pontoConrtole;
+        this.pontoControle = pontoControle;
         this.clpTipo = clpTipo;
         this.enderecoCLP = enderecoCLP;
         this.tamanho = tamanho;
@@ -37,11 +37,11 @@ public class PontoControleDto {
     public String getEnderecoCLP() {return enderecoCLP;}
     public String getDescricao() {return descricao;}
     public Long getId() {return id;}
-    public String getPontoConrtole() {return pontoConrtole;}
+    public String getPontoConteole() {return pontoControle;}
     public TipoUsoEnum getTipoUso() {return tipoUso;}
 
     public void setEnderecoCLP(String enderecoCLP) {this.enderecoCLP = enderecoCLP;}
-    public void setPontoConrtole(String pontoConrtole) {this.pontoConrtole = pontoConrtole;}
+    public void setPontoControle(String pontoControle) {this.pontoControle = pontoControle;}
     public void setDescricao(String descricao) {this.descricao = descricao;}
     public void setOffset(OffsetEnum offset) {this.offset = offset;}
     public void setClpTipo(CLPTipoEnum clpTipo) {this.clpTipo = clpTipo;}
