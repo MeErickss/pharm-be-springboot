@@ -8,6 +8,11 @@ import org.springframework.stereotype.Service;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketAddress;
+
 @Service
 public class EmailService {
 
@@ -25,6 +30,16 @@ public class EmailService {
         message.setSubject(subject);
         message.setText(text);
         mailSender.send(message);
+    }
+
+    public boolean isInternetAvailable() {
+        try (Socket socket = new Socket()) {
+            SocketAddress addr = new InetSocketAddress("8.8.8.8", 53);
+            socket.connect(addr, 1500);
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
     }
 
     /**

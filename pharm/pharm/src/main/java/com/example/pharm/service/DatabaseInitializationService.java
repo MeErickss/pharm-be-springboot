@@ -363,6 +363,16 @@ public class DatabaseInitializationService implements ApplicationRunner {
                     StatusEnum.ATIVO, TipoUsoEnum.ENTRADA
             );
 
+            pontoControleService.criarPontoControle( // 30
+                    "TAG_ENDERECO_126",
+                    CLPTipoEnum.INTEGER,
+                    "126",
+                    (short) 1,
+                    OffsetEnum.OFFSET_1,
+                    "VALVULA XV_325",
+                    StatusEnum.ATIVO, TipoUsoEnum.ENTRADA
+            );
+
         }
 
         if (parametroService.contarParametros() == 0) {
@@ -483,14 +493,6 @@ public class DatabaseInitializationService implements ApplicationRunner {
                         StatusEnum.DESLIGADO, 29L
                 );
                 farmaciaPlantaService.criarFarmaciaPlanta(
-                        "B2",
-                        "bomba-2",
-                        "bomba-2",
-                        "{\"x\":280,\"y\":305,\"w\":80,\"h\":80}",
-                        TipoElemento.BOMBA,
-                        StatusEnum.DESLIGADO, 18L
-                );
-                farmaciaPlantaService.criarFarmaciaPlanta(
                         "NTA",
                         "Nivel_ta",
                         "Nivel_ta",
@@ -505,6 +507,15 @@ public class DatabaseInitializationService implements ApplicationRunner {
                         "{\"x\":106,\"y\":155,\"w\":50,\"h\":84}",
                         TipoElemento.INDICADOR_VOLUME,
                         StatusEnum.DESLIGADO, 20L
+                );
+
+                farmaciaPlantaService.criarFarmaciaPlanta(
+                        "PBA",
+                        "Pressao_ba",
+                        "Pressao_ba",
+                        "{\"x\":320,\"y\":222,\"w\":60,\"h\":80}",
+                        TipoElemento.INDICADOR_VOLUME,
+                        StatusEnum.DESLIGADO, 30L
                 );
 
                 System.out.println("FarmaciaPlanta inicializada com elementos padrão.");

@@ -17,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.tags.Param;
 
@@ -133,16 +134,22 @@ public class ParametroController {
                 ? "nenhum campo alterado"
                 : String.join(", ", camposAlterados);
 
-
-        emailService.sendSimpleEmail(
-                "panicogamer64@gmail.com",
-                "Heatlh Safe Farmacia",
-                "O parâmetro: " + dto.getDescricao() +
-                        " foi atualizado com sucesso.\n" +
-                        "Campos alterados: " + alteracoes + "\n" +
-                        "Antes: " + oldValues + "\n" +
-                        "Depois: " + newValues
-        );
+        if (emailService.isInternetAvailable()) {
+            try {
+                emailService.sendSimpleEmail(
+                        "panicogamer64@gmail.com",
+                        "HealthSafe Farmacia",
+                        "O parâmetro: " + dto.getDescricao() + " foi atualizado com sucesso.\n" +
+                                "Campos alterados: " + alteracoes + "\n" +
+                                "Antes: " + oldValues + "\n" +
+                                "Depois: " + newValues
+                );
+            } catch (MailException mex) {
+                System.out.println("Não foi possível enviar o e‑mail de notificação" + mex);
+            }
+        } else {
+            System.out.println("Usuário sem conexão: pulando envio de e‑mail");
+        }
 
         switch (dto.getFuncao()) {
             case PRODUCAO ->
