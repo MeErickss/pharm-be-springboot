@@ -80,7 +80,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
                     (short) 1,
                     OffsetEnum.OFFSET_1,
                     "STATUS GERAL",
-                    StatusEnum.ATIVO, TipoUsoEnum.PARAMETRO
+                    StatusEnum.ALOCADO, TipoUsoEnum.PARAMETRO
             );
 
             pontoControleService.criarPontoControle(
@@ -90,7 +90,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
                     (short) 1,
                     OffsetEnum.OFFSET_1,
                     "VALVULA XV_101",
-                    StatusEnum.DESLIGADO, TipoUsoEnum.PARAMETRO
+                    StatusEnum.DESALOCADO, TipoUsoEnum.PARAMETRO
             );
 
             pontoControleService.criarPontoControle(
@@ -100,7 +100,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
                     (short) 1,
                     OffsetEnum.OFFSET_1,
                     "VALVULA XV_102",
-                    StatusEnum.DESLIGADO, TipoUsoEnum.PARAMETRO
+                    StatusEnum.DESALOCADO, TipoUsoEnum.PARAMETRO
             );
 
             pontoControleService.criarPontoControle(
@@ -110,7 +110,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
                     (short) 1,
                     OffsetEnum.OFFSET_1,
                     "TP PARA DRENAGEM DO TANQUE DE ADICAO [TQ-200]",
-                    StatusEnum.ATIVO, TipoUsoEnum.PARAMETRO
+                    StatusEnum.ALOCADO, TipoUsoEnum.PARAMETRO
             );
 
             // e para os blocos seguintes (101, 102, …)
@@ -121,7 +121,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
                     (short) 1,
                     OffsetEnum.OFFSET_1,
                     "VALVULA XV_301",
-                    StatusEnum.DESLIGADO, TipoUsoEnum.PARAMETRO
+                    StatusEnum.DESALOCADO, TipoUsoEnum.PARAMETRO
             );
 
             pontoControleService.criarPontoControle(
@@ -131,7 +131,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
                     (short) 1,
                     OffsetEnum.OFFSET_1,
                     "VALVULA XV_302",
-                    StatusEnum.ATIVO, TipoUsoEnum.ENTRADA
+                    StatusEnum.ALOCADO, TipoUsoEnum.ENTRADA
             );
 
             pontoControleService.criarPontoControle( // 7
@@ -141,7 +141,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
                     (short) 1,
                     OffsetEnum.OFFSET_1,
                     "VALVULA XV_302",
-                    StatusEnum.ATIVO, TipoUsoEnum.ENTRADA
+                    StatusEnum.ALOCADO, TipoUsoEnum.ENTRADA
             );
 
             pontoControleService.criarPontoControle(
@@ -151,7 +151,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
                     (short) 1,
                     OffsetEnum.OFFSET_1,
                     "VALVULA XV_304",
-                    StatusEnum.ATIVO, TipoUsoEnum.ENTRADA
+                    StatusEnum.ALOCADO, TipoUsoEnum.ENTRADA
             );
 
             pontoControleService.criarPontoControle(
@@ -161,7 +161,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
                     (short) 1,
                     OffsetEnum.OFFSET_1,
                     "VALVULA XV_305",
-                    StatusEnum.ATIVO, TipoUsoEnum.ENTRADA
+                    StatusEnum.ALOCADO, TipoUsoEnum.ENTRADA
             );
 
             pontoControleService.criarPontoControle(
@@ -171,7 +171,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
                     (short) 1,
                     OffsetEnum.OFFSET_1,
                     "VALVULA XV_306",
-                    StatusEnum.ATIVO, TipoUsoEnum.ENTRADA
+                    StatusEnum.ALOCADO, TipoUsoEnum.ENTRADA
             );
 
             pontoControleService.criarPontoControle(
@@ -181,7 +181,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
                     (short) 1,
                     OffsetEnum.OFFSET_1,
                     "VALVULA XV_307",
-                    StatusEnum.ATIVO, TipoUsoEnum.ENTRADA
+                    StatusEnum.ALOCADO, TipoUsoEnum.ENTRADA
             );
 
             pontoControleService.criarPontoControle(
@@ -191,7 +191,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
                     (short) 1,
                     OffsetEnum.OFFSET_1,
                     "VALVULA XV_308",
-                    StatusEnum.ATIVO, TipoUsoEnum.ENTRADA
+                    StatusEnum.ALOCADO, TipoUsoEnum.ENTRADA
             );
 
             pontoControleService.criarPontoControle(
@@ -201,7 +201,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
                     (short) 1,
                     OffsetEnum.OFFSET_1,
                     "VALVULA XV_309",
-                    StatusEnum.ATIVO, TipoUsoEnum.ENTRADA
+                    StatusEnum.ALOCADO, TipoUsoEnum.ENTRADA
             );
 
             pontoControleService.criarPontoControle( // 14
@@ -211,7 +211,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
                     (short) 1,
                     OffsetEnum.OFFSET_1,
                     "VALVULA XV_310",
-                    StatusEnum.ATIVO, TipoUsoEnum.SAIDA
+                    StatusEnum.ALOCADO, TipoUsoEnum.SAIDA
             );
 
             pontoControleService.criarPontoControle(
@@ -221,7 +221,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
                     (short) 1,
                     OffsetEnum.OFFSET_1,
                     "VALVULA XV_311",
-                    StatusEnum.ATIVO, TipoUsoEnum.SAIDA
+                    StatusEnum.ALOCADO, TipoUsoEnum.SAIDA
             );
 
             pontoControleService.criarPontoControle(
@@ -231,7 +231,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
                     (short) 1,
                     OffsetEnum.OFFSET_1,
                     "VALVULA XV_312",
-                    StatusEnum.ATIVO, TipoUsoEnum.SAIDA
+                    StatusEnum.ALOCADO, TipoUsoEnum.SAIDA
             );
 
             pontoControleService.criarPontoControle(
@@ -241,7 +241,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
                     (short) 1,
                     OffsetEnum.OFFSET_1,
                     "VALVULA XV_313",
-                    StatusEnum.ATIVO, TipoUsoEnum.ENTRADA
+                    StatusEnum.ALOCADO, TipoUsoEnum.ENTRADA
             );
 
             pontoControleService.criarPontoControle(
@@ -251,7 +251,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
                     (short) 1,
                     OffsetEnum.OFFSET_1,
                     "VALVULA XV_314",
-                    StatusEnum.ATIVO, TipoUsoEnum.ENTRADA
+                    StatusEnum.ALOCADO, TipoUsoEnum.ENTRADA
             );
 
             pontoControleService.criarPontoControle(
@@ -261,7 +261,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
                     (short) 1,
                     OffsetEnum.OFFSET_1,
                     "VALVULA XV_315",
-                    StatusEnum.ATIVO, TipoUsoEnum.SAIDA
+                    StatusEnum.ALOCADO, TipoUsoEnum.SAIDA
             );
 
             pontoControleService.criarPontoControle( // 20
@@ -271,7 +271,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
                     (short) 1,
                     OffsetEnum.OFFSET_1,
                     "VALVULA XV_316",
-                    StatusEnum.ATIVO, TipoUsoEnum.SAIDA
+                    StatusEnum.ALOCADO, TipoUsoEnum.SAIDA
             );
 
             pontoControleService.criarPontoControle(
@@ -281,7 +281,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
                     (short) 1,
                     OffsetEnum.OFFSET_1,
                     "VALVULA XV_317",
-                    StatusEnum.ATIVO, TipoUsoEnum.ENTRADA
+                    StatusEnum.ALOCADO, TipoUsoEnum.ENTRADA
             );
 
             pontoControleService.criarPontoControle(
@@ -291,7 +291,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
                     (short) 1,
                     OffsetEnum.OFFSET_1,
                     "VALVULA XV_318",
-                    StatusEnum.ATIVO, TipoUsoEnum.ENTRADA
+                    StatusEnum.ALOCADO, TipoUsoEnum.ENTRADA
             );
 
             pontoControleService.criarPontoControle(
@@ -301,7 +301,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
                     (short) 1,
                     OffsetEnum.OFFSET_1,
                     "VALVULA XV_319",
-                    StatusEnum.ATIVO, TipoUsoEnum.ENTRADA
+                    StatusEnum.ALOCADO, TipoUsoEnum.ENTRADA
             );
 
             pontoControleService.criarPontoControle(
@@ -311,7 +311,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
                     (short) 1,
                     OffsetEnum.OFFSET_1,
                     "VALVULA XV_320",
-                    StatusEnum.ATIVO, TipoUsoEnum.ENTRADA
+                    StatusEnum.ALOCADO, TipoUsoEnum.ENTRADA
             );
             pontoControleService.criarPontoControle(
                     "TAG_ENDERECO_121",
@@ -320,7 +320,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
                     (short) 1,
                     OffsetEnum.OFFSET_1,
                     "VALVULA XV_321",
-                    StatusEnum.ATIVO, TipoUsoEnum.ENTRADA
+                    StatusEnum.ALOCADO, TipoUsoEnum.ENTRADA
             );
 
             pontoControleService.criarPontoControle(
@@ -330,7 +330,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
                     (short) 1,
                     OffsetEnum.OFFSET_1,
                     "VALVULA XV_322",
-                    StatusEnum.ATIVO, TipoUsoEnum.ENTRADA
+                    StatusEnum.ALOCADO, TipoUsoEnum.ENTRADA
             );
 
             pontoControleService.criarPontoControle( // 27
@@ -340,7 +340,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
                     (short) 1,
                     OffsetEnum.OFFSET_1,
                     "VALVULA XV_323",
-                    StatusEnum.ATIVO, TipoUsoEnum.SAIDA
+                    StatusEnum.ALOCADO, TipoUsoEnum.SAIDA
             );
 
             pontoControleService.criarPontoControle(
@@ -350,7 +350,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
                     (short) 1,
                     OffsetEnum.OFFSET_1,
                     "VALVULA XV_324",
-                    StatusEnum.ATIVO, TipoUsoEnum.ENTRADA
+                    StatusEnum.ALOCADO, TipoUsoEnum.ENTRADA
             );
 
             pontoControleService.criarPontoControle( // 29
@@ -360,7 +360,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
                     (short) 1,
                     OffsetEnum.OFFSET_1,
                     "VALVULA XV_325",
-                    StatusEnum.ATIVO, TipoUsoEnum.ENTRADA
+                    StatusEnum.ALOCADO, TipoUsoEnum.ENTRADA
             );
 
             pontoControleService.criarPontoControle( // 30
@@ -370,7 +370,7 @@ public class DatabaseInitializationService implements ApplicationRunner {
                     (short) 1,
                     OffsetEnum.OFFSET_1,
                     "VALVULA XV_325",
-                    StatusEnum.ATIVO, TipoUsoEnum.ENTRADA
+                    StatusEnum.ALOCADO, TipoUsoEnum.ENTRADA
             );
 
         }

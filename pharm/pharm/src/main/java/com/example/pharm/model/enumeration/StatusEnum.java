@@ -7,4 +7,6 @@ public enum StatusEnum {
     DESLIGADO,
     MANUTENCAO,
     ESTRAGADO,
+    ALOCADO,
+    DESALOCADO,
 }

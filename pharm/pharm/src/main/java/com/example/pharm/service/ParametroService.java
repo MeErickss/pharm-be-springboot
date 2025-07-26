@@ -50,7 +50,7 @@ public class ParametroService {
                                Long unidadeId,
                                FuncaoEnum funcaoEnum,
                                FormulaEnum formulaEnum,
-                               Long pontoControleId // pode ser null
+                               Long pontoControleId
     ) {
         Grandeza g = grandezaRepository.findById(grandezaId)
                 .orElseThrow(() -> new RuntimeException("Grandeza não encontrada!"));
@@ -73,7 +73,7 @@ public class ParametroService {
             PontoControle pc = pontoControleRepository.findById(pontoControleId)
                     .orElseThrow(() -> new RuntimeException("PontoControle não encontrado!"));
             p.setPontoControle(pc);
-            pc.setStatus(StatusEnum.ATIVO);
+            pc.setStatus(StatusEnum.ALOCADO);
         }
 
         parametroRepository.save(p);
@@ -110,7 +110,7 @@ public class ParametroService {
         if(dto.getPontoControle() != null){
             PontoControle pontoControle = pontoControleRepository.findByPontoControle(dto.getPontoControle());
             p.setPontoControle(pontoControle);
-            pontoControle.setStatus(StatusEnum.ATIVO);
+            pontoControle.setStatus(StatusEnum.ALOCADO);
         }
         p.setDescricao(dto.getDescricao());
         p.setValor(dto.getValor());
@@ -142,7 +142,7 @@ public class ParametroService {
                 .orElseThrow(() -> new RuntimeException("Parametro não encontrado"));
 
         if (p.getPontoControle() != null && dto.getPontoControle() != null){
-            p.getPontoControle().setStatus(StatusEnum.DESLIGADO);
+            p.getPontoControle().setStatus(StatusEnum.DESALOCADO);
         }
 
         Grandeza grandeza = grandezaRepository
@@ -177,8 +177,9 @@ public class ParametroService {
                     });
 
             p.setPontoControle(novoPc);
-            novoPc.setStatus(StatusEnum.ATIVO);
+            novoPc.setStatus(StatusEnum.ALOCADO);
         } else {
+            p.getPontoControle().setStatus(StatusEnum.DESALOCADO);
             p.setPontoControle(null);
         }
 
