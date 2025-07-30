@@ -123,10 +123,10 @@ public class ParametroController {
 
         // 2) Para cada campo, lê valor antigo e novo
         String oldValues = camposAlterados.stream()
-                .map(f -> f + "=" + nodeAsText(oldNode, f))
+                .map(f -> f + "=" + parametroService.nodeAsText(oldNode, f))
                 .collect(Collectors.joining(", "));
         String newValues = camposAlterados.stream()
-                .map(f -> f + "=" + nodeAsText(newNode, f))
+                .map(f -> f + "=" + parametroService.nodeAsText(newNode, f))
                 .collect(Collectors.joining(", "));
 
         // 3) Prepara texto de alterações
@@ -161,12 +161,6 @@ public class ParametroController {
         parametroService.atualizarParametro(dto);
         return ResponseEntity.noContent().build();
     }
-
-    private String nodeAsText(JsonNode node, String fieldName) {
-        JsonNode f = node.get(fieldName);
-        return f == null || f.isNull() ? "null" : f.asText();
-    }
-
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarParametro(@PathVariable Long id) {

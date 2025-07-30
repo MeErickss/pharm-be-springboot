@@ -97,10 +97,10 @@ public class UnidadeController {
                 .detectarAlteracoes(oldDto, unidadeDto);
 
         String oldValues = camposAlterados.stream()
-                .map(f -> f + "=" + nodeAsText(oldNode, f))
+                .map(f -> f + "=" + unidadeService.nodeAsText(oldNode, f))
                 .collect(Collectors.joining(", "));
         String newValues = camposAlterados.stream()
-                .map(f -> f + "=" + nodeAsText(newNode, f))
+                .map(f -> f + "=" + unidadeService.nodeAsText(newNode, f))
                 .collect(Collectors.joining(", "));
         String alteracoes = camposAlterados.isEmpty()
                 ? "nenhum campo alterado"
@@ -118,11 +118,6 @@ public class UnidadeController {
         );
 
         return ResponseEntity.ok(atualizado);
-    }
-
-    private String nodeAsText(JsonNode node, String fieldName) {
-        JsonNode f = node.get(fieldName);
-        return (f == null || f.isNull()) ? "null" : f.asText();
     }
 
 

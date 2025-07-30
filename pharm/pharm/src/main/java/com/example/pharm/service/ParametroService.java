@@ -196,6 +196,11 @@ public class ParametroService {
         }
     }
 
+    public String nodeAsText(JsonNode node, String fieldName) {
+        JsonNode f = node.get(fieldName);
+        return f == null || f.isNull() ? "null" : f.asText();
+    }
+
     public List<String> detectarAlteracoes(Object oldObj, Object newObj) {
         JsonNode oldNode = objectMapper.valueToTree(oldObj);
         JsonNode newNode = objectMapper.valueToTree(newObj);
