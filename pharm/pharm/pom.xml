@@ -20,11 +20,38 @@
 		<jakarta.persistence.version>3.1.0</jakarta.persistence.version>
 	</properties>
 
+	<repositories>
+		<repository>
+			<id>ias-releases</id>
+			<name>Infinite Automation Releases</name>
+			<url>https://maven.mangoautomation.net/repository/ias-release/</url>
+			<releases><enabled>true</enabled></releases>
+			<snapshots><enabled>false</enabled></snapshots>
+		</repository>
+		<repository>
+			<id>jitpack.io</id>
+			<name>JitPack</name>
+			<url>https://jitpack.io</url>
+		</repository>
+	</repositories>
+
 	<dependencies>
 		<!-- Spring Boot Starters -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.infiniteautomation</groupId>
+			<artifactId>modbus4j</artifactId>
+			<version>3.0.3</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
 		</dependency>
 
 		<dependency>
