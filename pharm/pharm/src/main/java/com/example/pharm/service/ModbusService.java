@@ -34,7 +34,6 @@ public class ModbusService {
         switch (type) {
             case "holding":
                 for (int i = 0; i < len; i++) {
-                    // registrador holding como unsigned 2-byte
                     BaseLocator<Number> locator =
                             BaseLocator.holdingRegister(slaveId, start + i, DataType.TWO_BYTE_INT_UNSIGNED);
                     Number val = master.getValue(locator);
