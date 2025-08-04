@@ -1,9 +1,9 @@
 package com.example.pharm.controller;
 
-import com.example.pharm.dto.ConnectRequestDto;
-import com.example.pharm.dto.ReadRequestDto;
-import com.example.pharm.dto.ReadResponseDto;
-import com.example.pharm.dto.WriteRequestDto;
+import com.example.pharm.dto.ModbusConectarDto;
+import com.example.pharm.dto.LerRequisicaoDto;
+import com.example.pharm.dto.LerRespostaDto;
+import com.example.pharm.dto.EscreverRequisicaoDto;
 import com.example.pharm.service.ModbusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +18,9 @@ public class ModbusController {
     private ModbusService modbusService;
 
     @PostMapping("/connect")
-    public ResponseEntity<?> connect(@RequestBody ConnectRequestDto req) {
+    public ResponseEntity<?> connect(@RequestBody ModbusConectarDto req) {
         try {
-            modbusService.connect(req.host, req.port, req.slaveId);
+            modbusService.connect(req.host, req.port);
             return ResponseEntity.ok().body("{\"ok\":true}");
         } catch (Exception e) {
             return ResponseEntity.status(500).body("{\"error\":\"" + e.getMessage() + "\"}");
@@ -28,10 +28,10 @@ public class ModbusController {
     }
 
     @PostMapping("/read")
-    public ResponseEntity<?> read(@RequestBody ReadRequestDto req) {
+    public ResponseEntity<?> read(@RequestBody LerRequisicaoDto req) {
         try {
             int[] data = modbusService.read(req.type, req.slaveId, req.address, req.length);
-            return ResponseEntity.ok().body(new ReadResponseDto(data));
+            return ResponseEntity.ok().body(new LerRespostaDto(data));
         } catch (IllegalArgumentException iae) {
             return ResponseEntity.badRequest().body("{\"error\":\"" + iae.getMessage() + "\"}");
         } catch (Exception e) {
@@ -40,7 +40,7 @@ public class ModbusController {
     }
 
     @PostMapping("/write")
-    public ResponseEntity<?> write(@RequestBody WriteRequestDto req) {
+    public ResponseEntity<?> write(@RequestBody EscreverRequisicaoDto req) {
         try {
             modbusService.write(req.type, req.slaveId, req.address, req.value);
             return ResponseEntity.ok().body("{\"ok\":true}");

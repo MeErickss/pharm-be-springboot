@@ -13,7 +13,7 @@ public class ModbusService {
     private ModbusMaster master;
     private boolean connected = false;
 
-    public synchronized void connect(String host, int port, int slaveId) throws ModbusInitException {
+    public synchronized void connect(String host, int port) throws ModbusInitException {
         if (connected) return;
         IpParameters params = new IpParameters();
         params.setHost(host);

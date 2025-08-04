@@ -1,6 +1,6 @@
 package com.example.pharm.dto;
 
-public class ReadRequestDto {
+public class LerRequisicaoDto {
     public String type;    // "holding", "input", "coil", "discrete"
     public int slaveId = 1;
     public int address;
